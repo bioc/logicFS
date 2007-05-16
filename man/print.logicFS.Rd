@@ -26,6 +26,6 @@
 \author{Holger Schwender, \email{holger.schwender@udo.edu}}
 
 \seealso{
-   \code{\link{logic.fs}}, \code{\link{logic.vim}}}
+   \code{\link{logic.fs}}, \code{\link{logic.vim}}
 }
 \keyword{print}
