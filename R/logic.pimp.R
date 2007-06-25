@@ -5,7 +5,7 @@ logic.pimp<-function(log.out){
 	n.lmodel<-length(lmodel)
 	list.primes<-vector("list",n.lmodel)
 	for(i in 1:n.lmodel)
-		list.primes[[i]]<-lapply(lmodel[[i]]$trees,getPImps)
+		list.primes[[i]]<-lapply(lmodel[[i]]$trees,getPImps,type=log.out$type)
 	list.primes
 }
 

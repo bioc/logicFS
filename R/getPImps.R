@@ -1,5 +1,5 @@
-getPImps<-function(ltree){
-	if(ltree$coef==0)
+getPImps<-function(ltree,type){
+	if(type==3 && ltree$coef==0)
 		return(NULL)
 	mat.truth<-generateTruthTab(ltree)
 	truth<-ifelse(ltree$coef>0 | is.na(ltree$coef),1,0)
