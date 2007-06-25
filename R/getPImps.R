@@ -1,4 +1,6 @@
 getPImps<-function(ltree){
+	if(ltree$coef==0)
+		return(NULL)
 	mat.truth<-generateTruthTab(ltree)
 	truth<-ifelse(ltree$coef>0 | is.na(ltree$coef),1,0)
 	ids.truth<-mat.truth[,"outcome"]==truth

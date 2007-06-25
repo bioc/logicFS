@@ -19,7 +19,7 @@
      the interactions of interests also be shown?}
   \item{coded}{should the coded variable names be displayed? Might be useful
       if the actual variable names are pretty long. The coded variable name of
-      the \emph{y}th variable is "Xy".}
+      the \eqn{y}-th variable is "Xy".}
   \item{...}{Ignored}
 }
 

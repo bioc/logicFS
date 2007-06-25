@@ -12,6 +12,8 @@
 \alias{predict.logregmodel}
 \alias{logic.vim2}
 \alias{vim.single2}
+\alias{vim.multiple.oneprime}
+\alias{check.listprimes}
 \title{Internal logicFS functions}
 \description{Internal logicFS functions.}
 \details{

@@ -29,6 +29,7 @@ logic.vim<-function(log.out,prob.case=.5,addInfo=FALSE){
 	}
 	else{
 		for(i in 1:B){
+			list.primes<-check.listprimes(list.primes,log.out$ntrees,B)
 			tmp.imp<-vim.multiple(list.primes[[i]],mat.eval,inbagg[[i]],
 				cl=cl,prob.case=prob.case)
 			mat.imp[i,names(tmp.imp)]<-tmp.imp
