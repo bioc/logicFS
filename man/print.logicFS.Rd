@@ -19,7 +19,7 @@
      the interactions of interests also be shown?}
   \item{coded}{should the coded variable names be displayed? Might be useful
       if the actual variable names are pretty long. The coded variable name of
-      the \eqn{y}-th variable is "Xy".}
+      the \eqn{i}-th variable is \code{Xi}}
   \item{...}{Ignored}
 }
 
@@ -28,4 +28,5 @@
 \seealso{
    \code{\link{logic.fs}}, \code{\link{logic.vim}}
 }
+
 \keyword{print}
