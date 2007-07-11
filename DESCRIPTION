@@ -1,7 +1,7 @@
 Package: logicFS
 Title: Identification of SNP Interactions
-Version: 1.7.2
-Date: 2007-06-25
+Version: 1.7.3
+Date: 2007-07-11
 Author: Holger Schwender
 Maintainer: Holger Schwender <holger.schwender@udo.edu>
 Depends: LogicReg
