@@ -1,12 +1,12 @@
 \name{print.logicFS}
 \alias{print.logicFS}
 
-\title{Print an logicFS object}
+\title{Print a logicFS object}
 \description{
   This functions prints an object of class \code{logicFS}.
 }
 \usage{
-\method{print}{logicFS}(x, topX = 5, show.prop = TRUE, coded = FALSE, ...)
+\method{print}{logicFS}(x, topX = 5, show.prop = TRUE, coded = FALSE, digits = 2, ...)
 }
 
 \arguments{
@@ -20,6 +20,7 @@
   \item{coded}{should the coded variable names be displayed? Might be useful
       if the actual variable names are pretty long. The coded variable name of
       the \eqn{j}-th variable is \code{Xj}}
+  \item{digits}{number of digits used in the output}
   \item{...}{Ignored}
 }
 
