@@ -1,36 +1,68 @@
-logic.bagging<-function(data,cl,B=100,ntrees=1,nleaves=8,glm.if.1tree=FALSE,
-		anneal.control=logreg.anneal.control(),oob=TRUE,prob.case=0.5,
-		importance=TRUE,rand=NULL){
+`logic.bagging` <-
+function(x,...) UseMethod("logic.bagging")
+
+
+`logic.bagging.formula` <-
+function(formula,data,...){
+	if(!is.data.frame(data))
+		stop("data must be a data frame.")
+	mf<-model.frame(formula,data=data)
+	y<-model.response(mf)
+	x<-model.matrix(formula,mf)[,-1,drop=FALSE]
+	logic.bagging(x,y,...)
+}
+
+
+`logic.bagging.default` <-
+function(x,y,B=100,ntrees=1,nleaves=8,glm.if.1tree=FALSE,
+		replace=TRUE,sub.frac=0.632,anneal.control=logreg.anneal.control(),
+		oob=TRUE,prob.case=0.5,importance=TRUE,addMatImp=FALSE,rand=NULL,...){
 	require(LogicReg) || stop("The package LogicReg is required.")
-	if(!is.matrix(data))
-		stop("'data' must be a matrix.")
-	if(is.null(colnames(data))){
-		colnames(data)<-paste("SNP",1:ncol(data),sep="")
-		warning("Since 'data' has no column names, generic ones are added.",
+	if(!is.matrix(x))
+		stop("x must be a matrix.")
+	if(any(is.na(x)))
+		stop("No missing values allowed.")
+	if(any(is.na(y)))
+		stop("No missing values allowed.")
+	if(any(!x%in%c(0,1)))
+		stop("Some of the entries of x are not 0 or 1.")
+	if(any(!y%in%c(0,1)))
+		stop("Some of the entries of y are not 0 or 1.")
+	if(is.null(colnames(x))){
+		colnames(x)<-paste("SNP",1:ncol(x),sep="")
+		warning("Since x has no column names, generic ones are added.",
 			call.=FALSE)
 	} 
-	if(!is.null(rand))
-		set.seed(rand)
-	n<-length(cl)
-	if(length(cl)!=nrow(data))
-		stop("length(cl)!=nrow(data)")
-	if(length(table(cl))!=2)
+	n<-length(y)
+	if(n!=nrow(x))
+		stop("The length of y must be equal to the number of rows of x.")
+	if(length(table(y))!=2)
 		stop("Currently only two-class analyses possible")
+	if(!replace){
+		if(sub.frac<0.1 | sub.frac>0.9)
+			stop("sub.frac must be between 0.1 and 0.9.")
+		n.sub<-ceiling(sub.frac*length(cl))
+		sampling<-paste("Subsampling (",100*sub.frac,"% of the observations)",sep="")
+	}
+	else
+		sampling<-"Bagging"
 	type<-ifelse(ntrees>1 | glm.if.1tree,3,1)
 	list.trees<-list.bagg<-vector("list",B)
+	if(!is.null(rand))
+		set.seed(rand)
 	for(i in 1:B){
-		bagg<-sample(n,n,replace=TRUE)
-		list.trees[[i]]<-logreg(resp=cl[bagg],bin=data[bagg,],type=type,select=1,
+		bagg<-if(replace) sample(n,n,replace=TRUE)  else sample(n,n.sub)
+		list.trees[[i]]<-logreg(resp=y[bagg],bin=x[bagg,],type=type,select=1,
 			ntrees=ntrees,nleaves=nleaves,anneal.control=anneal.control)$model
 		list.bagg[[i]]<-bagg
 	}
-	log.out<-list(logreg.model=list.trees,inbagg=list.bagg,data=data,type=type,
-		ntrees=ntrees,nleaves=nleaves,cl=cl,oob.error=NULL,vim=NULL)
+	log.out<-list(logreg.model=list.trees,inbagg=list.bagg,data=x,type=type,
+		ntrees=ntrees,nleaves=nleaves,cl=y,oob.error=NULL,vim=NULL,sampling=sampling)
 	class(log.out)<-"logicBagg"
 	if(oob)
 		log.out$oob.error<-logic.oob(log.out,prob.case=prob.case)
 	if(importance)
-		log.out$vim<-logic.vim(log.out,prob.case=prob.case)
+		log.out$vim<-vim.logicFS(log.out,prob.case=prob.case,addMatImp=addMatImp)
 	log.out
 }
 

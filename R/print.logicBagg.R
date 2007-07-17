@@ -1,6 +1,7 @@
 print.logicBagg<-function(x,...){
 	cat("Bagged Logic Regression\n\n")
 	cat("Number of Iterations: ",length(x$logreg.model),"\n")
+	cat("Sampling Method:",x$sampling,"\n")
 	cat("Logic Regression Type:",ifelse(x$type==1,"Classification",
 		"Logistic Regression"),"\n")
 	if(x$type==3)

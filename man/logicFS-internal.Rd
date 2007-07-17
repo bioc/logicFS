@@ -10,10 +10,12 @@
 \alias{vim.multiple}
 \alias{getNames}
 \alias{predict.logregmodel}
-\alias{logic.vim2}
-\alias{vim.single2}
 \alias{vim.multiple.oneprime}
 \alias{check.listprimes}
+\alias{check.mat.imp}
+\alias{compLarger}
+\alias{checkDataCl}
+
 \title{Internal logicFS functions}
 \description{Internal logicFS functions.}
 \details{

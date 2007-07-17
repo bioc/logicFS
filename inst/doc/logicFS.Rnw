@@ -112,14 +112,14 @@ and the number \texttt{B} of considered logic regression models to 20
 to speed up the computation. The feature selection is then performed by
 
 <<>>=
-log.out<-logic.fs(bin.snps, cl.logicfs, B=20, nleaves=10, rand=123, anneal.control=my.anneal)
+log.out<-logicFS(bin.snps, cl.logicfs, B=20, nleaves=10, rand=123, anneal.control=my.anneal)
 @
 
 where we allow that a maximum of \texttt{nleaves} $=10$ variables is in the
 logic regression models and set \texttt{rand} to 123 to make the results
 of this vignette reproducible.
 
-The output of \texttt{logic.fs} is given by
+The output of \texttt{logicFS} is given by
 
 <<>>=
 log.out

@@ -1,6 +1,0 @@
-logic.fs         Feature Selection with Logic Regression
-logic.bagging    Bagged Logic Regression
-logic.vim        Prime Implicants
-minDNF           Minimum Disjunctive Normal Form
-make.snp.dummy   SNPs to Dummy Variables
-

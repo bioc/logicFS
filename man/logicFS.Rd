@@ -1,21 +1,20 @@
-\name{logic.bagging}
-\alias{logic.bagging}
-\alias{logic.bagging.default}
-\alias{logic.bagging.formula}
-\alias{print.logicBagg}
-\title{Bagged Logic Regression}
+\name{logicFS}
+\alias{logicFS}
+\alias{logicFS.default}
+\alias{logicFS.formula}
+\alias{logic.fs}
+\title{Feature Selection with Logic Regression}
 \description{
-  A first basic Bagging version of logic regression. Currently only the 
-  classification and the logistic regression approach of \code{logreg} are available. 
+  Identification of interesting interactions between binary variables
+  using logic regression. Currently only the classification and the 
+  logistic regression approach of \code{logreg} are available. 
 }
 \usage{
-\method{logic.bagging}{formula}(formula, data, ...)
+\method{logicFS}{formula}(formula, data, ...)
 
-\method{logic.bagging}{default}(x, y, B = 100, ntrees = 1, nleaves = 8, 
-  glm.if.1tree = FALSE, replace = TRUE, sub.frac = 0.632,
-  anneal.control = logreg.anneal.control(), oob = TRUE, 
-  prob.case = 0.5, importance = TRUE, addMatImp = FALSE,
-  rand = NULL, ...)
+\method{logicFS}{default}(x, y, B = 100, ntrees = 1, nleaves = 8, glm.if.1tree = FALSE, 
+  replace = TRUE, sub.frac = 0.632, anneal.control = logreg.anneal.control(), 
+  prob.case = 0.5, addMatImp = TRUE, rand = NULL, ...)
 }
 
 \arguments{
@@ -33,8 +32,8 @@
      will be used. If \code{ntrees} is 1, then by default the classification
      approach of logic regression will be used (see \code{glm.if.1tree})}
   \item{nleaves}{a numeric value specifying the maximum number of leaves used
-     in all trees combined. See the help page of the function \code{logreg} of
-     the package \code{LogicReg} for details}
+     in all trees combined. For details, see the help page of the function \code{logreg} of
+     the package \code{LogicReg}}
   \item{glm.if.1tree}{if \code{ntrees} is 1 and \code{glm.if.1tree} is \code{TRUE}
      the logistic regression approach of logic regression is used instead of
      the classification approach. Ignored if \code{ntrees} is not 1}
@@ -47,13 +46,11 @@
      are used in each iteration to build a classification rule if \code{replace = FALSE}.
      Ignored if \code{replace = TRUE}}
   \item{anneal.control}{a list containing the parameters for simulated annealing.
-     See the help page of \code{logreg.anneal.control} in the \code{LogicReg} package}
-  \item{oob}{should the out-of-bag error rate be computed?}
+     See the help of the function \code{logreg.anneal.control} in the \code{LogicReg} package}
   \item{prob.case}{a numeric value between 0 and 1. If the outcome of the
-     logistic regression, i.e.\ the class probability, for an observation is
-     larger than \code{prob.case}, this observations will be classified as case 
+     logistic regression, i.e.\ the predicted probability, for an observation is
+     larger than \code{prob.case} this observations will be classified as case 
      (or 1)}
-  \item{importance}{should the measure of importance be computed?}
   \item{addMatImp}{should the matrix containing the improvements due to the prime implicants
      in each of the iterations be added to the output? (For each of the prime implicants,
      the importance is computed by the average over the \code{B} improvements.) Must be
@@ -63,17 +60,22 @@
   \item{rand}{numeric value. If specified, the random number generator will be
      set into a reproducible state}
   \item{...}{for the \code{formula} method, optional parameters to be passed to the low level function
-    \code{logic.bagging.default}. Otherwise, ignored}
+    \code{logicFS.default}. Otherwise, ignored}
 }
 
 \value{
-  \code{logic.bagging} returns an object of class \code{logicBagg} containing
-  \item{logreg.model}{a list containing the \code{B} logic regression models}
-  \item{inbagg}{a list specifying the \code{B} Bootstrap samples}
-  \item{vim}{an object of class \code{logicFS} (if \code{importance = TRUE})}
-  \item{oob.error}{the out-of-bag error (if \code{oob = TRUE})}
-  \item{...}{further parameters of the logic regression}
-  
+An object of class \code{logicFS} containing
+  \item{primes}{the prime implicants}
+  \item{vim}{the importance of the prime implicants}
+  \item{prop}{the proportion of logic regression models that contain the prime 
+     implicants}
+  \item{type}{the type of model (1: classification, 3: logistic regression)}
+  \item{param}{further parameters (if \code{addInfo = TRUE})}
+  \item{mat.imp}{the matrix containing the improvements if \code{addMatImp = TRUE},
+    otherwise, \code{NULL}}
+  \item{measure}{the name of the used importance measure}
+  \item{threshold}{NULL}
+  \item{mu}{NULL}
 }
 
 \references{
@@ -81,24 +83,22 @@
    \emph{Journal of Computational and Graphical Statistics}, 12, 475-511.
    
    Schwender, H., Ickstadt, K. (2007). Identification of SNP Interactions
-   Using Logic Regression. To appear in \emph{Biostatistics}.
+   Using Logic Regression. To appear in \emph{Biostatistics}
 }
    
 \author{Holger Schwender, \email{holger.schwender@udo.edu}}
 
 
-
 \seealso{
-   \code{\link{predict.logicBagg}}, \code{\link{plot.logicBagg}},
-   \code{\link{logic.fs}}
+   \code{\link{plot.logicFS}}, \code{\link{logic.bagging}}
 }
 
 
 \examples{\dontrun{
- # Load data.
+   # Load data.
    data(data.logicfs)
    
-   # For logic regression and hence logic.bagging, the variables must
+   # For logic regression and hence logic.fs, the variables must
    # be binary. data.logicfs, however, contains categorical data 
    # with realizations 1, 2 and 3. Such data can be transformed 
    # into binary data by
@@ -108,27 +108,24 @@
    # only a small number of iterations is used in simulated annealing.
    my.anneal<-logreg.anneal.control(start=2,end=-2,iter=10000)
    
-   # Bagged logic regression is then performed by
-   bagg.out<-logic.bagging(bin.snps,cl.logicfs,B=20,nleaves=10,
+   # Feature selection using logic regression is then done by
+   log.out<-logicFS(bin.snps,cl.logicfs,B=20,nleaves=10,
        rand=123,anneal.control=my.anneal)
    
-   # The output of logic.bagging can be printed
-   bagg.out
+   # The output of logic.fs can be printed
+   log.out
    
-   # By default, also the importances of the interactions are 
-   # computed
-   bagg.out$vim
+   # One can specify another number of interactions that should be
+   # printed, here, e.g., 15.
+   print(log.out,topX=15)
    
-   # and can be plotted.
-   plot(bagg.out)
+   # The variable importance can also be plotted.
+   plot(log.out)
    
-   # The original variable names are displayed in
-   plot(bagg.out,coded=FALSE)
-   
-   # New observations (here we assume that these observations are
-   # in data.logicfs) are assigned to one of the classes by
-   predict(bagg.out,data.logicfs)
+   # And the original variable names are displayed in
+   plot(log.out,coded=FALSE)
 }}
 
 \keyword{tree}
+\keyword{multivariate}
 \keyword{regression}
