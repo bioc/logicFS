@@ -90,7 +90,7 @@
 
 \seealso{
    \code{\link{predict.logicBagg}}, \code{\link{plot.logicBagg}},
-   \code{\link{logic.fs}}
+   \code{\link{logicFS}}
 }
 
 

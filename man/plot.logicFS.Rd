@@ -57,7 +57,7 @@
 \author{Holger Schwender, \email{holger.schwender@udo.edu}}
 
 \seealso{
-   \code{\link{logic.fs}}, \code{\link{logic.bagging}}
+   \code{\link{logicFS}}, \code{\link{logic.bagging}}
 }
 
 \keyword{hplot}

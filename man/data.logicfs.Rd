@@ -25,7 +25,7 @@ where SNP1 is in the first column of \code{data.logicfs}, SNP2 in the second, an
 }
 
 \seealso{
-   \code{\link{logic.bagging}}, \code{\link{logic.fs}}
+   \code{\link{logic.bagging}}, \code{\link{logicFS}}
 }
 
 \keyword{datasets}
