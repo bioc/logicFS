@@ -1,0 +1,19 @@
+export(getMatEval, logic.bagging, logic.oob, logic.pimp, logicFS, make.snp.dummy,
+	minDNF, prime.implicants, vim.chisq, vim.ebam, vim.logicFS, vim.norm, vim.perm)
+export(logic.fs, logic.vim)
+
+S3method(print, logicBagg)
+S3method(print, logicFS)
+S3method(predict, logregmodel)
+S3method(print, minDNF)
+S3method(print, primeImp)
+S3method(plot, logicFS)
+S3method(plot, logicBagg)
+S3method(predict, logicBagg)
+
+S3method(logic.bagging, default)
+S3method(logic.bagging, formula)
+S3method(logicFS, formula)
+S3method(logicFS, default)
+
+

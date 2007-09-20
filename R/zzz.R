@@ -1,5 +1,5 @@
-.First.lib <- function(libname, pkgname) {
-    	if(interactive() && .Platform$OS.type == "windows" && .Platform$GUI ==  "Rgui")
+.onAttach <- function(libname, pkgname) {
+    	if(.Platform$OS.type == "windows" && .Platform$GUI ==  "Rgui")
         	winMenuAddItem("Vignettes","logicFS","vignette('logicFS')")
 
 }
