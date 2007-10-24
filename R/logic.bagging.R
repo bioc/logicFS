@@ -29,7 +29,7 @@ function(x,y,B=100,ntrees=1,nleaves=8,glm.if.1tree=FALSE,
 	if(any(!y%in%c(0,1)))
 		stop("Some of the entries of y are not 0 or 1.")
 	if(is.null(colnames(x))){
-		colnames(x)<-paste("SNP",1:ncol(x),sep="")
+		colnames(x)<-paste("Var",1:ncol(x),sep="")
 		warning("Since x has no column names, generic ones are added.",
 			call.=FALSE)
 	} 
@@ -41,7 +41,7 @@ function(x,y,B=100,ntrees=1,nleaves=8,glm.if.1tree=FALSE,
 	if(!replace){
 		if(sub.frac<0.1 | sub.frac>0.9)
 			stop("sub.frac must be between 0.1 and 0.9.")
-		n.sub<-ceiling(sub.frac*length(cl))
+		n.sub<-ceiling(sub.frac*length(y))
 		sampling<-paste("Subsampling (",100*sub.frac,"% of the observations)",sep="")
 	}
 	else

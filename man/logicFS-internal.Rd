@@ -16,6 +16,28 @@
 \alias{compLarger}
 \alias{checkDataCl}
 
+\alias{checkNewTree}
+\alias{checkSet}
+\alias{compMatImpIndividual1}
+\alias{compMatImpIndividual3}
+\alias{compMatImpSet1}
+\alias{compMatImpSet3}
+\alias{correctPreds1}
+\alias{correctPredsPermute1}
+\alias{correctPredsPermute3}
+\alias{correctPredsRemove1}
+\alias{correctPredsRemove3}
+\alias{correctSetPermute1}
+\alias{correctSetPermute3}
+\alias{correctSetRemove1}
+\alias{correctSetRemove3}
+\alias{getKnots}
+\alias{getNewTree}
+\alias{getTree}
+\alias{getVarInTree}
+\alias{standardizeMatImp}
+
+
 \title{Internal logicFS functions}
 \description{Internal logicFS functions.}
 \details{
