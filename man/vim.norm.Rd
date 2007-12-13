@@ -5,8 +5,8 @@
 \title{Standardized and Permutation Based Importance Measure}
 
 \description{
-  Computes a standarized or a permutation based version of either the Single or
-  the Multiple Tree Measure.
+  Computes a standarized or a permutation based version of either the Single Tree Measure,
+  the Quantitative Response Measure, or the Multiple Tree Measure.
 }
 
 \usage{
@@ -64,7 +64,7 @@ An object of class \code{logicFS} containing
   \item{primes}{the prime implicants}
   \item{vim}{the respective importance of the prime implicants}
   \item{prop}{NULL}
-  \item{type}{the type of model (1: classification, 3: logistic regression)}
+  \item{type}{the type of model (1: classification, 2: linear regression, 3: logistic regression)}
   \item{param}{further parameters (if \code{addInfo = TRUE})}
   \item{mat.imp}{NULL}
   \item{measure}{the name of the used importance measure}

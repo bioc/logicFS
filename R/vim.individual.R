@@ -24,19 +24,15 @@ function(object,iter=NULL,prop=TRUE,standardize=FALSE,mu=0,addMatImp=FALSE,
 	}
 	else
 		prop<-NULL
-	if(!is.null(object$vim))
-		param<-object$vim$param
-	else
-		param<-NULL
 	measure<-paste(if(standardize) "Standardized\n", ifelse(is.null(iter),"Removing",
-		"Permutation"),"Based Invididual")
+		"Permutation"),"Based Individual")
 	if(standardize)
 		threshold<-qt(1-0.05/nrow(mat.improve),ncol(mat.improve)-1)
 	else
 		threshold<-mu<-NULL
 	if(!addMatImp)
 		mat.improve<-NULL
-	vim.out<-list(vim=vim,prop=prop,primes=varnames,type=object$type,param=param,
+	vim.out<-list(vim=vim,prop=prop,primes=varnames,type=object$type,param=NULL,
 		mat.imp=mat.improve,measure=measure,threshold=threshold,mu=mu,iter=iter)
 	class(vim.out)<-"logicFS"
 	vim.out

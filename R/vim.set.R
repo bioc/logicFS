@@ -16,10 +16,6 @@ function(object,set=NULL,iter=NULL,standardize=FALSE,mu=0,addMatImp=FALSE,prob.c
 	else
 		vim<-rowMeans(mat.improve)
 	names(vim)<-rownames(mat.improve)<-names(set)
-	if(!is.null(object$vim))
-		param<-object$vim$param
-	else
-		param<-NULL
 	measure<-paste(if(standardize) "Standardized\n", ifelse(is.null(iter),"Removing","Permutation"),
 		"Based Set")
 	if(standardize)
@@ -28,7 +24,7 @@ function(object,set=NULL,iter=NULL,standardize=FALSE,mu=0,addMatImp=FALSE,prob.c
 		threshold<-mu<-NULL
 	if(!addMatImp)
 		mat.improve<-NULL
-	vim.out<-list(vim=vim,prop=NULL,primes=names(set),type=object$type,param=param,mat.imp=mat.improve,
+	vim.out<-list(vim=vim,prop=NULL,primes=names(set),type=object$type,param=NULL,mat.imp=mat.improve,
 		measure=measure,threshold=threshold,mu=mu,iter=iter)
 	class(vim.out)<-"logicFS"
 	vim.out

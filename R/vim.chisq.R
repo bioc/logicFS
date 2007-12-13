@@ -1,6 +1,8 @@
 `vim.chisq` <-
 function(object,data=NULL,cl=NULL){
-	require(siggenes)
+	if(!object$type%in%c(1,3))
+		stop("Only available for the classification and the logistic regression case.")
+	require(siggenes,quietly=TRUE)
 	check.out<-checkDataCl(object,data=data,cl=cl)
 	vim<-check.out$vim
 	mat.eval<-getMatEval(check.out$data,vim$primes)

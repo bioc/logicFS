@@ -24,3 +24,9 @@ function(x,y,B=100,ntrees=1,nleaves=8,glm.if.1tree=FALSE,
 	vim.out
 }
 
+logicFS.logicBagg<-function(object,prob.case=0.5,addMatImp=TRUE)
+	vim.logicFS(object,prob.case=prob.case,addInfo=TRUE,addMatImp=addMatImp)
+
+
+
+

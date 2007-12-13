@@ -24,7 +24,7 @@ predict.logicBagg<-function(object,newData,prob.case=.5,type=c("class","prob"),.
 	for(i in 1:B)
 		mat.pred[,i]<-predict(trees[[i]],newData,object$type)
 	pred<-rowMeans(mat.pred)
-	if(type=="prob")
+	if(object$type==2 | type=="prob")
 		return(pred)
 	pred<-as.numeric(pred>prob.case)	
 	if(any(pred==prob.case))

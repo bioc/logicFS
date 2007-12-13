@@ -36,7 +36,8 @@
 \alias{getTree}
 \alias{getVarInTree}
 \alias{standardizeMatImp}
-
+\alias{vim.lm}
+\alias{vim.lm.oneprime}
 
 \title{Internal logicFS functions}
 \description{Internal logicFS functions.}

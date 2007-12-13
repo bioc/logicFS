@@ -25,9 +25,9 @@
   contains the prime implicant table.
 }
 
-\details{
-  \code{minDNF} is a fast implementation of the Quine-McCluskey algorithm using matrix
-  algebra. A Tech. Report on this implementation will follow soon.
+\references{
+   Schwender, H. (2007).  Minimization of Boolean Expressions Using Matrix Algebra. 
+   Technical Report, SFB 475, Department of Statistics, University of Dortmund.
 }
 
 \author{Holger Schwender, \email{holger.schwender@udo.edu}}

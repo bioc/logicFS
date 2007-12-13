@@ -3,10 +3,10 @@ print.logicFS<-function(x,topX=5,show.prop=TRUE,coded=FALSE,digits=2,...){
 	if(!is.null(param)){
 		cat("Selection of Interactions Using Logic Regression\n\n")
 		cat("Number of Iterations: ",param$B,"\n")
-		cat("Sampling Method:",param$sampling,"\n")
-		cat("Logic Regression Type:",ifelse(x$type==1,"Classification",
+		cat("Sampling Method:      ",param$sampling,"\n")
+		cat("Logic Regression Type:",switch(x$type,"Classification","Linear Regression",
 			"Logistic Regression"),"\n")
-		if(x$type==3)
+		if(x$type%in%c(2,3))
 			cat("Number of Trees:      ",param$ntrees,"\n")
 		cat("Max. Number of Leaves:",param$nleaves,"\n\n")
 	}

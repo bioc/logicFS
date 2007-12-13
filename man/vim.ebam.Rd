@@ -4,7 +4,8 @@
 \title{EBAM Based Importance}
 \description{
   Determines the importance of interactions found by \code{logic.bagging} or \code{logicFS}
-  by an Empirical Bayes Analysis of Microarrays (EBAM).
+  by an Empirical Bayes Analysis of Microarrays (EBAM). Only available for the classification
+  and the logistic regression approach of logic regression.
 }
 \usage{
 vim.ebam(object, data = NULL, cl = NULL, nameEBAM = NULL, ...)

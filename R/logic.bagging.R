@@ -25,19 +25,33 @@ function(x,y,B=100,ntrees=1,nleaves=8,glm.if.1tree=FALSE,
 	if(any(is.na(y)))
 		stop("No missing values allowed.")
 	if(any(!x%in%c(0,1)))
-		stop("Some of the entries of x are not 0 or 1.")
-	if(any(!y%in%c(0,1)))
-		stop("Some of the entries of y are not 0 or 1.")
+		stop("Some of the values of the predictors are not 0 or 1.")
+	if(!is.numeric(y))
+		stop("The response is not numeric.")
+	le.uni<-length(unique(y))
+	n<-length(y)
+	if(le.uni<2)
+		stop("The response is constant.")
+	if(le.uni==2){
+		if(any(!y%in%c(0,1)))
+			stop("Some of the values of the response are not 0 or 1.")
+		type<-ifelse(ntrees>1 | glm.if.1tree,3,1)
+	}
+	else{
+		if(le.uni < min(10,n/2))
+			stop("The response seems to be neither binary nor continuous.")
+		type<-2
+		cat("NOTE: logicFS for quantitative responses is currently under development.\n",
+			"Therefore, some features might change in future versions.\n",
+			"And please notify me if you find any bug.\n\n")
+	}
 	if(is.null(colnames(x))){
 		colnames(x)<-paste("Var",1:ncol(x),sep="")
 		warning("Since x has no column names, generic ones are added.",
 			call.=FALSE)
 	} 
-	n<-length(y)
 	if(n!=nrow(x))
 		stop("The length of y must be equal to the number of rows of x.")
-	if(length(table(y))!=2)
-		stop("Currently only two-class analyses possible")
 	if(!replace){
 		if(sub.frac<0.1 | sub.frac>0.9)
 			stop("sub.frac must be between 0.1 and 0.9.")
@@ -46,7 +60,6 @@ function(x,y,B=100,ntrees=1,nleaves=8,glm.if.1tree=FALSE,
 	}
 	else
 		sampling<-"Bagging"
-	type<-ifelse(ntrees>1 | glm.if.1tree,3,1)
 	list.trees<-list.bagg<-vector("list",B)
 	if(!is.null(rand))
 		set.seed(rand)

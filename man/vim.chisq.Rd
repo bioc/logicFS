@@ -4,12 +4,13 @@
 \title{ChiSquare Based Importance}
 \description{
   Determining the importance of interactions found by \code{logic.bagging} or \code{logicFS}
-  by Pearson's ChiSquare Statistic.
+  by Pearson's ChiSquare Statistic. Only available for the classification and the logistic
+  regression approach of logic regression
 }
 \usage{
 vim.chisq(object, data = NULL, cl = NULL)
 }
-%- maybe also 'usage' for other objects documented here.
+
 \arguments{
   \item{object}{either an object of class \code{logicFS} or the output of an application of 
      \code{logic.bagging} with \code{importance = TRUE}}
