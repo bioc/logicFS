@@ -10,7 +10,7 @@ print.logicFS<-function(x,topX=5,show.prop=TRUE,coded=FALSE,digits=2,...){
 			cat("Number of Trees:      ",param$ntrees,"\n")
 		cat("Max. Number of Leaves:",param$nleaves,"\n\n")
 	}
-	cat("Importance Measure:",gsub("\n","",x$measure),"\n")
+	cat("Importance Measure:",gsub("\n"," ",x$measure),"\n")
 	if(!is.null(x$mu))
 		cat("(Alternative Hypothesis: Importance is greater than ",x$mu,")\n",sep="")
 	cat("\n")
@@ -22,6 +22,8 @@ print.logicFS<-function(x,topX=5,show.prop=TRUE,coded=FALSE,digits=2,...){
 	out<-data.frame(Importance = vim,
 		Proportion = if(!is.null(x$prop)) x$prop[order(x$vim,decreasing=TRUE,na.last=NA)] else NA,
 		Expression = names.vim)
+	if(!is.null(x$name))
+		names(out)[3]<-x$name
 	rownames(out)<-1:nrow(out)
 	if(!show.prop | is.null(x$prop))
 		out<-out[,-2]

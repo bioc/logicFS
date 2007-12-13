@@ -44,10 +44,10 @@
     is computed}
   \item{addMatImp}{should the matrix containing the improvements due to each of the sets in each
     of the logic regression models be added to the output?}
-  \item{prob.case}{a numeric value between 0 and 1. If in \code{logic.bagging}
-     \code{ntrees} has been set to a value larger than 1, or \code{glm.if.1tree} has been
-     set to \code{TRUE}, then an observation will be classified as a case (or
-     more exactly, as 1), if the class probability of this observation is larger than \code{case}}
+  \item{prob.case}{a numeric value between 0 and 1. If the logistic regression approach of logic
+     regression has been used in \code{logic.bagging}, then an observation will be classified as a case (or
+     more exactly, as 1), if the class probability of this observation is larger than \code{prob.case}.
+     Otherwise, \code{prob.case} is ignored}
   \item{rand}{an integer for setting the random number generator in a reproducible case}
 }
 
@@ -56,7 +56,7 @@ An object of class \code{logicFS} containing
   \item{vim}{the importances of the sets of variables}
   \item{prop}{NULL}
   \item{primes}{the names of the sets of variables}
-  \item{type}{the type of model (1: classification, 3: logistic regression)}
+  \item{type}{the type of model (1: classification, 2:linear regression, 3: logistic regression)}
   \item{param}{further parameters (if \code{addInfo = TRUE} in the previous call of \code{logic.bagging}), 
     or \code{NULL} (otherwise)}
   \item{mat.imp}{either a matrix containing the improvements due to the sets of variables for each of the models 

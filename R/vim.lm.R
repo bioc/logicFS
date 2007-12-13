@@ -35,7 +35,7 @@ vim.lm.oneprime<-function(oneprime,cl,oob,prob.case=0.5){
 	rss.null<-mean((beta0-cl[oob])^2)
 	dat<-data.frame(cl=cl,x=oneprime)
 	lm.out<-lm(cl~.,data=dat[-oob,])
-	preds<-predict(glm.out,dat[oob,])
+	preds<-predict(lm.out,dat[oob,])
 	rss.prime<-mean((preds-cl[oob])^2)
 	rss.null-rss.prime
 }

@@ -38,6 +38,10 @@
 \alias{standardizeMatImp}
 \alias{vim.lm}
 \alias{vim.lm.oneprime}
+\alias{correctPredsPermute2}
+\alias{correctPredsRemove2}
+\alias{correctSetPermute2}
+\alias{correctSetRemove2}
 
 \title{Internal logicFS functions}
 \description{Internal logicFS functions.}
