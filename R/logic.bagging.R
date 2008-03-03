@@ -3,13 +3,13 @@ function(x,...) UseMethod("logic.bagging")
 
 
 `logic.bagging.formula` <-
-function(formula,data,...){
-	if(!is.data.frame(data))
-		stop("data must be a data frame.")
-	mf<-model.frame(formula,data=data)
-	y<-model.response(mf)
-	x<-model.matrix(formula,mf)[,-1,drop=FALSE]
-	logic.bagging(x,y,...)
+function(formula,data,recdom=TRUE,...){
+	xy<-getXy(formula,data,recdom=recdom)
+	if(is.factor(xy$y))
+		stop("Method for categorical response currently not implemented.")
+	out<-logic.bagging(xy$x,xy$y,...)
+	out$facInfo<-xy$facInfo
+	out
 }
 
 

@@ -11,7 +11,7 @@
   logistic regression approach of \code{logreg} are available. 
 }
 \usage{
-\method{logicFS}{formula}(formula, data, ...)
+\method{logicFS}{formula}(formula, data, recdom = TRUE, ...)
 
 \method{logicFS}{default}(x, y, B = 100, ntrees = 1, nleaves = 8, glm.if.1tree = FALSE, 
   replace = TRUE, sub.frac = 0.632, anneal.control = logreg.anneal.control(), 
@@ -22,11 +22,24 @@
   \item{formula}{an object of class \code{formula} describing the model that should be
      fitted}
   \item{data}{a data frame containing the variables in the model. Each column of \code{data}
-     must correspond to a binary variable (coded by 0 and 1) except for the column comprising
+     must correspond to a binary variable (coded by 0 and 1) or a factor (for details, see
+     \code{recdom}) except for the column comprising
      the response, and each row to an observation. The response must be either binary (coded by
      0 and 1) or continuous. If continuous, a linear model is fitted in each of the \code{B} iterations of
      \code{logic.bagging}. Otherwise, depending on \code{ntrees} (and \code{glm.if.1tree})
      the classification or the logistic regression approach of logic regression is used}
+  \item{recdom}{a logical value or vector of length \code{ncol(data)} comprising whether a SNP should
+     be transformed into two binary dummy variables coding for a recessive and a dominant effect.
+     If \code{TRUE} (logical value), then all factors (variables) with three levels will be coded by two dummy
+     variables as described in \code{\link{make.snp.dummy}}. Each level of each of the other factors 
+     (also factors specifying a SNP that shows only two genotypes) is coded by one indicator variable. 
+     If \code{FALSE} (logical value),
+     each level of each factor is coded by an indicator variable. If \code{recdom} is a logical vector,
+     all factors corresponding to an entry in \code{recdom} that is \code{TRUE} are assumed to be SNPs
+     and transformed into the two binary variables described above. Each variable that corresponds
+     to an entry of \code{recdom} that is \code{TRUE} (no matter whether \code{recdom} is a vector or a value)
+     must be coded by the integers 1 (coding for the homozygous reference genotype), 2 (heterozygous), 
+     and 3 (homozygous variant)}
   \item{x}{a matrix consisting of 0's and 1's. Each column must correspond
      to a binary variable and each row to an observation}
   \item{y}{a numeric vector that either contains the class labels (coded by 0 and 1)

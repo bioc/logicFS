@@ -3,13 +3,11 @@ function(x,...) UseMethod("logicFS")
 
 
 `logicFS.formula` <-
-function(formula,data,...){
-	if(!is.data.frame(data))
-		stop("data must be a data frame.")
-	mf<-model.frame(formula,data=data)
-	y<-model.response(mf)
-	x<-model.matrix(formula,mf)[,-1,drop=FALSE]
-	logicFS(x,y,...)
+function(formula,data,recdom=TRUE,...){
+	xy<-getXy(formula,data,recdom=recdom)
+	if(is.factor(xy$y))
+		stop("Method for categorical response currently not implemented.")
+	logicFS(xy$x,xy$y,...)
 }
 
 

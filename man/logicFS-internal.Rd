@@ -43,6 +43,14 @@
 \alias{correctSetPermute2}
 \alias{correctSetRemove2}
 
+\alias{contr.none}
+\alias{contr.snps}
+\alias{getXy}
+\alias{getXyPred}
+\alias{getY}
+\alias{makeContrastList}
+\alias{modelMat}
+
 \title{Internal logicFS functions}
 \description{Internal logicFS functions.}
 \details{

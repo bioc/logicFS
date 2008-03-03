@@ -3,18 +3,23 @@ predict.logicBagg<-function(object,newData,prob.case=.5,type=c("class","prob"),.
 		stop("prob.case must be between 0 and 1.")
 	if(missing(newData))
 		newData<-object$data
-	else{
-		newData<-as.matrix(newData)
+	else{	
 		if(any(is.na(newData)))
 			stop("No missing values allowed.")
+		colOld<-colnames(object$data)
+		if(!is.null(object$facInfo))
+			newData<-getXyPred(newData,object$facInfo,colOld)
+		else{
+			colNew<-colnames(newData)
+			if(length(colOld)!=length(colNew) || any(colOld!=colNew))
+				stop("newData must contain the same variables in the same order as\n",
+					"the data matrix in logic.bagging (without the response if the\n",
+					"formula method has been used).")
+		}
+		newData<-as.matrix(newData)
 		if(any(!newData%in%c(0,1)))
 			stop("newData must only contain binary variables coded by 0 and 1.")
-		colOld<-colnames(object$data)
-		colNew<-colnames(newData)
-		if(length(colOld)!=length(colNew) || any(colOld!=colNew))
-			stop("newData must contain the same variables in the same order as\n",
-				"the data matrix in logic.bagging (without the response if the formula\n",
-				"method has been used).")
+
 	}
 	trees<-object$logreg.model
 	n.new<-nrow(newData)

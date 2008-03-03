@@ -29,6 +29,10 @@
   }  
 }
 
+\note{
+  See the \code{R} package \code{scrime} for more general functions for recoding SNPs.
+}
+
 \author{Holger Schwender, \email{holger.schwender@udo.edu}}
 
 
