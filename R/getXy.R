@@ -20,8 +20,7 @@ function(formula,data,recdom=TRUE,onlyBin=TRUE){
 	else{
 		cn<-colnames(data)
 		x<-modelMat(formula,mf,cn,isFac,recdom=recdom)
-		idsY<-which(cn==colnames(mf)[1])
-		facInfo<-list(formula=formula,cn=cn[-idsY],recdom=recdom)
+		facInfo<-list(formula=attr(mf,"terms"),cn=cn,recdom=recdom)
 	}
 	return(list(x=x,y=y,facInfo=facInfo))
 }

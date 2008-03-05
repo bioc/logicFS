@@ -4,9 +4,13 @@ function(formula,mf,cn,isFac,recdom=TRUE){
 		stop("recdom must be logical.",call.=FALSE)
 	if(!length(recdom)%in%c(1,length(cn)))
 		stop("recdom must be either of length 1 or ncol(data).",call.=FALSE)
-	nlev<-sapply(mf[-1], function(x) length(levels(x)))
-	cnmf<-colnames(mf)[-1]
-	isFac<-isFac[-1]
+	nlev<-sapply(mf, function(x) length(levels(x)))
+	cnmf<-colnames(mf)
+	if(length(formula)==3){
+		nlev<-nlev[-1]
+		cnmf<-cnmf[-1]
+		isFac<-isFac[-1]
+	}
 	if(any(nlev>9))
 		stop("Maximum number of levels a variable is allowed to have is 9.",call.=FALSE)
 	if(length(recdom)==1)
