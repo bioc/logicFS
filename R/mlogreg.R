@@ -23,6 +23,8 @@ function(x,y,ntrees=1,nleaves=8,anneal.control=logreg.anneal.control(),
 		stop("All variables in x must be binary with values 0 and 1.")
 	if(any(is.na(y)))
 		stop("No missing values allowed.")
+	if(length(y)!=nrow(x))
+		stop("The length of y must be equal to the number of rows of x.")
 	tab<-table(y)
 	if(length(tab)>9)
 		stop("y has more than 9 levels.")
