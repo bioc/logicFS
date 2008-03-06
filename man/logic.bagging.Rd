@@ -23,7 +23,7 @@
   \item{formula}{an object of class \code{formula} describing the model that should be
      fitted}
   \item{data}{a data frame containing the variables in the model. Each column of \code{data}
-     must correspond to a binary variable (coded by 0 and 1) or a factor (for details, see
+     must correspond to a binary variable (coded by 0 and 1) or a factor (for details on factors, see
      \code{recdom}) except for the column comprising
      the response, and each row to an observation. The response must be either binary (coded by
      0 and 1) or continuous. If continuous, a linear model is fitted in each of the \code{B} iterations of
@@ -107,7 +107,7 @@
    \emph{Journal of Computational and Graphical Statistics}, 12, 475-511.
    
    Schwender, H., Ickstadt, K. (2007). Identification of SNP Interactions
-   Using Logic Regression. \emph{Biostatistics}, doi:10.1093/biostatistics/kxm024
+   Using Logic Regression. \emph{Biostatistics}, 9(1), 187-198.
 }
    
 \author{Holger Schwender, \email{holger.schwender@udo.edu}}

@@ -11,7 +11,6 @@ function(object,set,iter=NULL,prob.case=0.5,rand=NA){
 	mat.improve<-matrix(0,n.set,B)
 	tmp.fun<-paste("correctSet",ifelse(is.null(iter),"Remove","Permute"),object$type,sep="")
 	FUN<-match.fun(tmp.fun)
-	print(tmp.fun)
 	if(!is.null(iter) && !is.na(rand))
 		set.seed(rand)
 	for(i in 1:B){

@@ -5,7 +5,7 @@
 \description{
   Determining the importance of interactions found by \code{logic.bagging} or \code{logicFS}
   by Pearson's ChiSquare Statistic. Only available for the classification and the logistic
-  regression approach of logic regression
+  regression approach of logic regression.
 }
 \usage{
 vim.chisq(object, data = NULL, cl = NULL)

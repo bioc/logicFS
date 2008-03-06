@@ -69,8 +69,10 @@ An object of class \code{logicFS} containing
   \item{iter}{\code{iter}}
 }
 
-\references{Holger Schwender (2007).\ Measuring the Importances of Genotypes and Sets of Single Nucleotide
-  Polymorphisms.\ Technical Report, SFB 475, Department of Statistics, University of Dortmund.\ Appears soon.}
+\references{
+  Holger Schwender (2007).\ Measuring the Importances of Genotypes and Sets of Single Nucleotide
+  Polymorphisms.\ Technical Report, SFB 475, Department of Statistics, University of Dortmund.\ Appears soon.
+}
 
 \author{Holger Schwender, \email{holger.schwender@udo.edu}}
 

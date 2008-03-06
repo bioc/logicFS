@@ -108,7 +108,7 @@ An object of class \code{logicFS} containing
    \emph{Journal of Computational and Graphical Statistics}, 12, 475-511.
    
    Schwender, H., Ickstadt, K. (2007). Identification of SNP Interactions
-   Using Logic Regression. \emph{Biostatistics}, doi:10.1093/biostatistics/kxm024.
+   Using Logic Regression. \emph{Biostatistics}, 9(1), 187-198.
 }
    
 \author{Holger Schwender, \email{holger.schwender@udo.edu}}

@@ -11,12 +11,14 @@
 
 \arguments{
   \item{object}{an object of class \code{logicBagg}}
-  \item{newData}{a matrix containing new data. If omitted
+  \item{newData}{a matrix or data frame containing new data. If omitted
      \code{object\$data}, i.e.\ the original training data, are used. 
      Each row of \code{newData} must correspond
-     to a new observation. \code{newData} must have the same number
-     of columns as \code{object\$data}, and the order of the variables
-     must be the same in both matrices}
+     to a new observation. Each row of \code{newData} must contain the same
+     variable as the corresponding column of the data matrix used in \code{\link{logic.bagging}},
+     i.e.\ \code{x} if the default method of \code{\link{logic.bagging}} has been used, or
+     \code{data} \emph{without} the column containing the response if the \code{formula} method
+     has been used}
   \item{prob.case}{a numeric value between 0 and 1. A new observation will be
      classified as case (or more exactly, as 1) if the class probability, i.e.\
      the average of the predicted probabilities of the models (if the logistic

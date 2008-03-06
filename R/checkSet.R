@@ -9,8 +9,8 @@ function(set,m,cn){
 		stop("set must either be a vector or a list.",call.=FALSE)
 	if(is.list(set)){
 		tmp<-unlist(set)
-		if(!is.integer(tmp) & !is.character(tmp))
-			stop("The values in set must be either of type integer or character.",call.=FALSE)
+		if(!is.numeric(tmp) & !is.character(tmp))
+			stop("The values in set must be either numeric or character strings.",call.=FALSE)
 		tmp<-unique(tmp)
 		if(is.numeric(tmp) && any(!tmp%in%(1:m)))
 			stop("Some of the values in set do not specify a column of data.",call.=FALSE)
