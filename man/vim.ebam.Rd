@@ -64,6 +64,11 @@ An object of class \code{logicFS} containing
   \item{mu}{NULL}
 }
 
+\references{
+  Schwender, H. and Ickstadt, K. (2008). Empirical Bayes Analysis of 
+  Single Nucleotide Polymorphisms. \emph{BMC Bioinformatics}, 9:144.
+}
+
 \author{Holger Schwender, \email{holger.schwender@udo.edu}}
 
 \seealso{

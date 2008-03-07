@@ -1,5 +1,5 @@
 print.mlogreg <- function(x,digits=3,...){
-	models<-x$logreg.model
+	models<-x$model
 	levs<-levels(x$cl)
 	ntrees<-x$ntrees
 	nleaves<-x$nleaves

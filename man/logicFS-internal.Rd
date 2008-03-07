@@ -51,6 +51,11 @@
 \alias{makeContrastList}
 \alias{modelMat}
 
+\alias{mlogreg.factor}
+\alias{predictMLB}
+\alias{oobMLR}
+\alias{compMatProbMLR}
+
 \title{Internal logicFS functions}
 \description{Internal logicFS functions.}
 \details{

@@ -26,24 +26,38 @@ function(x,y,B=100,ntrees=1,nleaves=8,glm.if.1tree=FALSE,
 		stop("No missing values allowed.")
 	if(any(!x%in%c(0,1)))
 		stop("Some of the values of the predictors are not 0 or 1.")
-	if(!is.numeric(y))
-		stop("The response is not numeric.")
-	le.uni<-length(unique(y))
+	if(!is.numeric(y) & !is.factor(y))
+		stop("The response must be either numeric or a factor.")
 	n<-length(y)
-	if(le.uni<2)
-		stop("The response is constant.")
-	if(le.uni==2){
-		if(any(!y%in%c(0,1)))
-			stop("Some of the values of the response are not 0 or 1.")
-		type<-ifelse(ntrees>1 | glm.if.1tree,3,1)
+	le.uni<-length(unique(y))
+	if(is.factor(y)){
+		if(le.uni==2)
+			y<-as.numeric(y)-1
+		else{
+			FUN<-mlogreg
+			type<-9
+			if(importance){
+				importance<-FALSE
+				warning("Currently no importance measure available for a",
+					"multinomial logic regression.")
+			}
+		}
 	}
-	else{
-		if(le.uni < min(10,n/2))
-			stop("The response seems to be neither binary nor continuous.")
-		type<-2
-		cat("NOTE: logicFS for quantitative responses is currently under development.\n",
-			"Therefore, some features might change in future versions.\n",
-			"And please notify me if you find any bug.\n\n")
+	if(is.numeric(y)){
+		FUN<-logreg
+		if(le.uni<2)
+			stop("The response is constant.")
+		if(le.uni==2){
+			if(any(!y%in%c(0,1)))
+				stop("Some of the values of the response are not 0 or 1.")
+			type<-ifelse(ntrees>1 | glm.if.1tree,3,1)
+		}
+		else{
+			if(le.uni < min(10,n/2))
+				stop("The response seems to be neither binary nor continuous.\n",
+					"If the response is nominal, please use as.factor(y).")
+			type<-2
+		}
 	}
 	if(is.null(colnames(x))){
 		colnames(x)<-paste("Var",1:ncol(x),sep="")
@@ -65,7 +79,7 @@ function(x,y,B=100,ntrees=1,nleaves=8,glm.if.1tree=FALSE,
 		set.seed(rand)
 	for(i in 1:B){
 		bagg<-if(replace) sample(n,n,replace=TRUE)  else sample(n,n.sub)
-		list.trees[[i]]<-logreg(resp=y[bagg],bin=x[bagg,],type=type,select=1,
+		list.trees[[i]]<-FUN(y[bagg],x[bagg,],type=type,select=1,
 			ntrees=ntrees,nleaves=nleaves,anneal.control=anneal.control)$model
 		list.bagg[[i]]<-bagg
 	}

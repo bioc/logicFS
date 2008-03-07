@@ -19,14 +19,10 @@ function(object,newData,type=c("class","prob"),...){
 		if(any(!newData %in% c(0,1)))
 			stop("newData must only contain binary variables with values 0 and 1.")
 	}
-	models<-object$logreg.model
+	models<-object$model
 	levs<-levels(object$cl)
 	n.lev<-length(levs)
-	mat.prob<-matrix(0,nrow(newData),n.lev)
-	for(i in 2:n.lev)
-		mat.prob[,i]<-predict(models[[i-1]],newData,2)
-	mat.prob<-exp(mat.prob)
-	mat.prob<-mat.prob/rowSums(mat.prob)
+	mat.prob<-compMatProbMLR(models,newData,n.lev)
 	colnames(mat.prob)<-levs
 	rownames(mat.prob)<-if(is.null(rownames(newData))) 1:nrow(newData) else rownames(newData)
 	type<-match.arg(type)

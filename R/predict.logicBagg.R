@@ -22,10 +22,14 @@ predict.logicBagg<-function(object,newData,prob.case=.5,type=c("class","prob"),.
 
 	}
 	trees<-object$logreg.model
+	type<-match.arg(type)
+	if(object$type==9){
+		levs<-levels(object$cl)
+		return(predictMLB(trees,newData,levs,type=type))
+	}
 	n.new<-nrow(newData)
 	B<-length(trees)
 	mat.pred<-matrix(NA,n.new,B)
-	type<-match.arg(type)
 	for(i in 1:B)
 		mat.pred[,i]<-predict(trees[[i]],newData,object$type)
 	pred<-rowMeans(mat.pred)

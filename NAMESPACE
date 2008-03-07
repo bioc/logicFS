@@ -20,5 +20,6 @@ S3method(logicFS, formula)
 S3method(logicFS, default)
 S3method(mlogreg, default)
 S3method(mlogreg, formula)
+S3method(mlogreg, factor)
 
 

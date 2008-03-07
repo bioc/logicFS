@@ -10,6 +10,13 @@ function(formula,data,recdom=TRUE, ...){
 	out
 }
 
+mlogreg.factor<-function(x,y,type=NA,...){
+	if(is.na(type) || type!=9)
+		stop("The first argument, x, must be a matrix and the second, y, a vector ",
+			"of class labels.")
+	mlogreg(y,x,...)
+}
+
 
 `mlogreg.default` <-
 function(x,y,ntrees=1,nleaves=8,anneal.control=logreg.anneal.control(),
@@ -48,7 +55,7 @@ function(x,y,ntrees=1,nleaves=8,anneal.control=logreg.anneal.control(),
 			nleaves=nleaves,anneal.control=anneal.control)$model
 	}
 	names(list.logreg)<-levs[2:n.lev]
-	out<-list(logreg.model=list.logreg,data=x,cl=y,ntrees=ntrees,nleaves=nleaves)
+	out<-list(model=list.logreg,data=x,cl=y,ntrees=ntrees,nleaves=nleaves)
 	class(out)<-"mlogreg"
 	out
 }

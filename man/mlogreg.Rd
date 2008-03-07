@@ -58,7 +58,7 @@
 
 \value{
   An object of class \code{mlogreg} composed of
-  \item{logreg.model}{a list containing the logic regression models}
+  \item{model}{a list containing the logic regression models}
   \item{data}{a matrix containing the binary predictors}
   \item{cl}{a vector comprising the class labels}
   \item{ntrees}{a numeric value naming the maximum number of trees used in the logic regressions}

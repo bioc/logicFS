@@ -5,6 +5,8 @@ logic.oob<-function(log.out,prob.case=0.5){
 	trees<-log.out$logreg.model
 	inbagg<-log.out$inbagg
 	type<-log.out$type
+	if(type==9)
+		return(oobMLR(trees,data,inbagg,log.out$cl))
 	n.row<-nrow(data)
 	votes<-n.in<-pred<-numeric(n.row)
 	for(i in 1:length(trees)){
