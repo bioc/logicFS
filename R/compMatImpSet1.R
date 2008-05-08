@@ -18,6 +18,8 @@ function(object,set,iter=NULL,rand=NA){
 			mat.improve[,i]<-correctSetRemove1(tree,data[oob,],cl[oob],set,n.var,n.set)
 		else
 			mat.improve[,i]<-correctSetPermute1(tree,data[oob,],cl[oob],set,n.var,n.set,iter)
+		if(!useN)
+			mat.improve[,i]<-mat.improve[,i]/length(oob)
 	}
 	mat.improve
 }

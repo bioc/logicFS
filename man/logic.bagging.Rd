@@ -12,7 +12,7 @@
 \usage{
 \method{logic.bagging}{formula}(formula, data, recdom = TRUE, ...)
 
-\method{logic.bagging}{default}(x, y, B = 100, ntrees = 1, nleaves = 8, 
+\method{logic.bagging}{default}(x, y, B = 100, useN = TRUE, ntrees = 1, nleaves = 8, 
   glm.if.1tree = FALSE, replace = TRUE, sub.frac = 0.632,
   anneal.control = logreg.anneal.control(), oob = TRUE, 
   prob.case = 0.5, importance = TRUE, addMatImp = FALSE,
@@ -21,14 +21,14 @@
 
 \arguments{
   \item{formula}{an object of class \code{formula} describing the model that should be
-     fitted}
+     fitted.}
   \item{data}{a data frame containing the variables in the model. Each column of \code{data}
      must correspond to a binary variable (coded by 0 and 1) or a factor (for details on factors, see
      \code{recdom}) except for the column comprising
      the response, and each row to an observation. The response must be either binary (coded by
      0 and 1) or continuous. If continuous, a linear model is fitted in each of the \code{B} iterations of
      \code{logic.bagging}. Otherwise, depending on \code{ntrees} (and \code{glm.if.1tree})
-     the classification or the logistic regression approach of logic regression is used}
+     the classification or the logistic regression approach of logic regression is used.}
   \item{recdom}{a logical value or vector of length \code{ncol(data)} comprising whether a SNP should
      be transformed into two binary dummy variables coding for a recessive and a dominant effect.
      If \code{TRUE} (logical value), then all factors (variables) with three levels will be coded by two dummy
@@ -40,14 +40,17 @@
      and transformed into the two binary variables described above. Each variable that corresponds
      to an entry of \code{recdom} that is \code{TRUE} (no matter whether \code{recdom} is a vector or a value)
      must be coded by the integers 1 (coding for the homozygous reference genotype), 2 (heterozygous), 
-     and 3 (homozygous variant)}
+     and 3 (homozygous variant).}
   \item{x}{a matrix consisting of 0's and 1's. Each column must correspond
-     to a binary variable and each row to an observation}
+     to a binary variable and each row to an observation.}
   \item{y}{a numeric vector that either contains the class labels (coded by 0 and 1)
      of the observations if the classification or logistic regression approach of logic
      regression should be used, or the values of a continuous response if the linear
-     regression approach should be used}
-  \item{B}{an integer specifying the number of iterations}
+     regression approach should be used.}
+  \item{B}{an integer specifying the number of iterations.}
+  \item{useN}{logical specifying if the number of correctly classified out-of-bag observations should
+     be used in the computation of the importance measure. If \code{FALSE}, the proportion of
+     correctly classified oob observations is used instead. Ignored if \code{importance = FALSE}.}
   \item{ntrees}{an integer indicating how many trees should be used. 
   
      For a binary response: If \code{ntrees}
@@ -56,49 +59,49 @@
      approach of logic regression will be used (see \code{glm.if.1tree}.)
      
      For a continuous response: A linear regression model with \code{ntrees} trees
-     is fitted in each of the \code{B} iterations}
+     is fitted in each of the \code{B} iterations.}
   \item{nleaves}{a numeric value specifying the maximum number of leaves used
      in all trees combined. See the help page of the function \code{logreg} of
-     the package \code{LogicReg} for details}
+     the package \code{LogicReg} for details.}
   \item{glm.if.1tree}{if \code{ntrees} is 1 and \code{glm.if.1tree} is \code{TRUE}
      the logistic regression approach of logic regression is used instead of
-     the classification approach. Ignored if \code{ntrees} is not 1 or the response is not binary}
+     the classification approach. Ignored if \code{ntrees} is not 1 or the response is not binary.}
   \item{replace}{should sampling of the cases be done with replacement? If 
      \code{TRUE}, a Bootstrap sample of size \code{length(cl)} is drawn
      from the \code{length(cl)} observations in each of the \code{B} iterations. If
      \code{FALSE}, \code{ceiling(sub.frac * length(cl))} of the observations
-     are drawn without replacement in each iteration}
+     are drawn without replacement in each iteration.}
   \item{sub.frac}{a proportion specifying the fraction of the observations that
      are used in each iteration to build a classification rule if \code{replace = FALSE}.
-     Ignored if \code{replace = TRUE}}
+     Ignored if \code{replace = TRUE}.}
   \item{anneal.control}{a list containing the parameters for simulated annealing.
-     See the help page of \code{logreg.anneal.control} in the \code{LogicReg} package}
+     See the help page of \code{logreg.anneal.control} in the \code{LogicReg} package.}
   \item{oob}{should the out-of-bag error rate (classification and logistic regression)
     or the out-of-bag root mean square prediction error (linear regression), respectively, be computed?}
   \item{prob.case}{a numeric value between 0 and 1. If the outcome of the
      logistic regression, i.e.\ the class probability, for an observation is
      larger than \code{prob.case}, this observations will be classified as case 
-     (or 1)}
+     (or 1).}
   \item{importance}{should the measure of importance be computed?}
   \item{addMatImp}{should the matrix containing the improvements due to the prime implicants
      in each of the iterations be added to the output? (For each of the prime implicants,
      the importance is computed by the average over the \code{B} improvements.) Must be
      set to \code{TRUE}, if standardized importances should be computed using 
      \code{\link{vim.norm}}, or if permutation based importances should be computed 
-     using \code{\link{vim.perm}}} 
+     using \code{\link{vim.perm}}.} 
   \item{rand}{numeric value. If specified, the random number generator will be
-     set into a reproducible state}
+     set into a reproducible state.}
   \item{...}{for the \code{formula} method, optional parameters to be passed to the low level function
-    \code{logic.bagging.default}. Otherwise, ignored}
+    \code{logic.bagging.default}. Otherwise, ignored.}
 }
 
 \value{
   \code{logic.bagging} returns an object of class \code{logicBagg} containing
-  \item{logreg.model}{a list containing the \code{B} logic regression models}
-  \item{inbagg}{a list specifying the \code{B} Bootstrap samples}
-  \item{vim}{an object of class \code{logicFS} (if \code{importance = TRUE})}
-  \item{oob.error}{the out-of-bag error (if \code{oob = TRUE})}
-  \item{...}{further parameters of the logic regression}
+  \item{logreg.model}{a list containing the \code{B} logic regression models,}
+  \item{inbagg}{a list specifying the \code{B} Bootstrap samples,}
+  \item{vim}{an object of class \code{logicFS} (if \code{importance = TRUE}),}
+  \item{oob.error}{the out-of-bag error (if \code{oob = TRUE}),}
+  \item{...}{further parameters of the logic regression.}
   
 }
 

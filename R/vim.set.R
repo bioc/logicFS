@@ -1,5 +1,6 @@
 `vim.set` <-
-function(object,set=NULL,iter=NULL,standardize=FALSE,mu=0,addMatImp=FALSE,prob.case=0.5,rand=NA){
+function(object,set=NULL,useN=NULL,iter=NULL,standardize=FALSE,mu=0,addMatImp=FALSE,
+		prob.case=0.5,rand=NA){
 	if(!is(object,"logicBagg"))
 		stop("object must be an object of class logicBagg.")
 	if(!object$type%in%1:3)
@@ -7,10 +8,13 @@ function(object,set=NULL,iter=NULL,standardize=FALSE,mu=0,addMatImp=FALSE,prob.c
 	cn<-colnames(object$data)
 	n.var<-ncol(object$data)
 	set<-checkSet(set,n.var,cn)
+	if(is.null(useN))
+		useN<-object$useN
 	if(object$type==1)
-		mat.improve<-compMatImpSet1(object,set,iter=iter,rand=rand)
+		mat.improve<-compMatImpSet1(object,set,useN=useN,iter=iter,rand=rand)
 	else
-		mat.improve<-compMatImpSet3(object,set,iter=iter,prob.case=prob.case,rand=rand)
+		mat.improve<-compMatImpSet3(object,set,useN=useN,iter=iter,prob.case=prob.case,
+			rand=rand)
 	if(standardize)
 		vim<-standardizeMatImp(mat.improve,mu=mu)
 	else
@@ -25,7 +29,7 @@ function(object,set=NULL,iter=NULL,standardize=FALSE,mu=0,addMatImp=FALSE,prob.c
 	if(!addMatImp)
 		mat.improve<-NULL
 	vim.out<-list(vim=vim,prop=NULL,primes=names(set),type=object$type,param=NULL,mat.imp=mat.improve,
-		measure=measure,threshold=threshold,mu=mu,iter=iter,name="Set")
+		measure=measure,useN=useN,threshold=threshold,mu=mu,iter=iter,name="Set")
 	class(vim.out)<-"logicFS"
 	vim.out
 }

@@ -13,7 +13,7 @@ vim.chisq(object, data = NULL, cl = NULL)
 
 \arguments{
   \item{object}{either an object of class \code{logicFS} or the output of an application of 
-     \code{logic.bagging} with \code{importance = TRUE}}
+     \code{logic.bagging} with \code{importance = TRUE}.}
   \item{data}{a data frame or matrix consisting of 0's and 1's in which each column corresponds
      to one of the explanatory variables used in the original analysis with \code{logic.bagging} 
      or \code{logicFS}, and each row corresponds to an observation. Must be specified if
@@ -23,10 +23,10 @@ vim.chisq(object, data = NULL, cl = NULL)
      ChiSquare statistics. It is, however, highly recommended to use new \code{data} to test
      the interactions contained in \code{object}, as they have been found using the \code{data}
      stored in \code{object}, and it is very likely that most of them will show up as interesting
-     if they are tested on the same data set}
+     if they are tested on the same data set.}
   \item{cl}{a numeric vector of 0's and 1's specifying the class labels of the observations in \code{data}.
      Must be specified either if \code{object} is an object of class \code{logicFS}, or if \code{data}
-     is specified}
+     is specified.}
 }
 
 \details{
@@ -43,15 +43,15 @@ vim.chisq(object, data = NULL, cl = NULL)
 \value{
 An object of class \code{logicFS} containing
   \item{primes}{the prime implicants}
-  \item{vim}{the values of Pearson's ChiSquare statistic}
-  \item{prop}{NULL}
-  \item{type}{NULL}
+  \item{vim}{the values of Pearson's ChiSquare statistic,}
+  \item{prop}{NULL,}
+  \item{type}{NULL,}
   \item{param}{further parameters (if \code{object} is the output of \code{logicFS} or \code{vim.logicFS} 
-     with \code{addInfo = TRUE})}
-  \item{mat.imp}{NULL}
-  \item{measure}{"ChiSquare Based"}
-  \item{threshold}{the 1 - 0.05/m quantile of the ChiSquare distribution with one degree of freedom}
-  \item{mu}{NULL}
+     with \code{addInfo = TRUE}),}
+  \item{mat.imp}{NULL,}
+  \item{measure}{"ChiSquare Based",}
+  \item{threshold}{the 1 - 0.05/m quantile of the ChiSquare distribution with one degree of freedom,}
+  \item{mu}{NULL.}
 }
 
 \author{Holger Schwender, \email{holger.schwender@udo.edu}}

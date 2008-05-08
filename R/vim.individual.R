@@ -1,14 +1,16 @@
 `vim.individual` <-
-function(object,iter=NULL,prop=TRUE,standardize=FALSE,mu=0,addMatImp=FALSE,
+function(object,useN=NULL,iter=NULL,prop=TRUE,standardize=FALSE,mu=0,addMatImp=FALSE,
 		prob.case=0.5,rand=NA){
 	if(!is(object,"logicBagg"))
 		stop("object must be an object of class logicBagg.")
 	if(!object$type%in%1:3)
 		stop("Only available for classification and linear and logistic regression.")
+	if(is.null(useN))
+		useN<-object$useN
 	if(object$type==1)
-		mat.improve<-compMatImpIndividual1(object,iter=iter,rand=rand)
+		mat.improve<-compMatImpIndividual1(object,useN=useN,iter=iter,rand=rand)
 	else
-		mat.improve<-compMatImpIndividual3(object,iter=iter,prob.case=prob.case,
+		mat.improve<-compMatImpIndividual3(object,useN=useN,iter=iter,prob.case=prob.case,
 			rand=rand)
 	data<-object$data
 	varnames<-colnames(data)
@@ -33,7 +35,8 @@ function(object,iter=NULL,prop=TRUE,standardize=FALSE,mu=0,addMatImp=FALSE,
 	if(!addMatImp)
 		mat.improve<-NULL
 	vim.out<-list(vim=vim,prop=prop,primes=varnames,type=object$type,param=NULL,
-		mat.imp=mat.improve,measure=measure,threshold=threshold,mu=mu,iter=iter,name="Variable")
+		mat.imp=mat.improve,measure=measure,useN=useN,threshold=threshold,mu=mu,
+		iter=iter,name="Variable")
 	class(vim.out)<-"logicFS"
 	vim.out
 }

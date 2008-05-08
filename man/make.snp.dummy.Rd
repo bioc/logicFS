@@ -2,7 +2,7 @@
 \alias{make.snp.dummy}
 \title{SNPs to Dummy Variables}
 \description{
-  Transforms SNPs into binary dummy variables
+  Transforms SNPs into binary dummy variables.
 }
 \usage{
   make.snp.dummy(data)

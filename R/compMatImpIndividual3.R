@@ -1,5 +1,5 @@
 `compMatImpIndividual3` <-
-function(object,iter=NULL,prob.case=0.5,rand=NA){
+function(object,useN=FALSE,iter=NULL,prob.case=0.5,rand=NA){
 	inbagg<-object$inbagg
 	ltree<-object$logreg.model
 	data<-object$data
@@ -10,7 +10,6 @@ function(object,iter=NULL,prob.case=0.5,rand=NA){
 	mat.improve<-matrix(0,n.var,B)
 	tmp.fun<-paste("correctPreds",ifelse(is.null(iter),"Remove","Permute"),object$type,sep="")
 	FUN<-match.fun(tmp.fun)
-	print(tmp.fun)
 	if(!is.na(rand))
 		set.seed(rand)
 	for(i in 1:B){
@@ -22,6 +21,8 @@ function(object,iter=NULL,prob.case=0.5,rand=NA){
 		else
 			mat.improve[,i]<-FUN(ltree[[i]],data[oob,],cl[oob],
 				n.var,iter,prob.case=prob.case)
+		if(object$type==3 && !useN)
+			mat.improve[,i]<-mat.improve[,i]/length(oob)
 	}
 	mat.improve
 }

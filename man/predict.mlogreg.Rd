@@ -11,7 +11,7 @@
 
 \arguments{
   \item{object}{an object of class \code{mlogreg}, i.e.\ the output of the
-     function \code{mlogreg}}
+     function \code{mlogreg}.}
   \item{newData}{a matrix or data frame containing new data. If omitted
      \code{object\$data}, i.e.\ the original training data, are used. 
      Each row of \code{newData} must correspond
@@ -19,11 +19,11 @@
      variable as the corresponding column of the data matrix used in \code{\link{mlogreg}},
      i.e.\ \code{x} if the default method of \code{\link{mlogreg}} has been used, or
      \code{data} \emph{without} the column containing the response if the \code{formula} method
-     has been used}
+     has been used.}
   \item{type}{character vector indicating the type of output. If \code{"class"}, a
      vector containing the predicted classes of the observations will be returned. 
-     If \code{"prob"}, the class probabilities for each level and all observations are returned}
-  \item{...}{Ignored}
+     If \code{"prob"}, the class probabilities for each level and all observations are returned.}
+  \item{...}{Ignored.}
 }
 
 \value{

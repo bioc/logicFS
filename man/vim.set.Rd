@@ -7,12 +7,12 @@
 }
 
 \usage{
-  vim.set(object, set = NULL, iter = NULL, standardize = FALSE, 
+  vim.set(object, set = NULL, useN = NULL, iter = NULL, standardize = FALSE, 
      mu = 0, addMatImp = FALSE, prob.case = 0.5, rand = NA)
 }
 
 \arguments{
-  \item{object}{an object of class \code{logicBagg}, i.e.\ the output of \code{logic.bagging}}
+  \item{object}{an object of class \code{logicBagg}, i.e.\ the output of \code{logic.bagging}.}
   \item{set}{either a list or a character or numeric vector. 
   
     If \code{NULL} (default), then it
@@ -33,40 +33,44 @@
     each object must be either a character or a numeric vector specifying either the names of the variables 
     that belongs to the respective set or the columns of \code{data} that contains these variables.
     If \code{names(set)} is \code{NULL}, generic names will be employed as names for the sets. Otherwise,
-    \code{names(set)} are used}
+    \code{names(set)} are used.}
+  \item{useN}{logical specifying if the number of correctly classified out-of-bag observations should
+     be used in the computation of the importance measure. If \code{FALSE}, the proportion of
+     correctly classified oob observations is used instead. If \code{NULL} (default), then the
+     specification of \code{useN} in \code{object} is used.}
   \item{iter}{integer specifying the number of times the values of the variables in the respective set
     are permuted in the computation of the importance of this set. If \code{NULL} (default), the values
     of the variables are not permuted, but all variables belonging to the set are removed from the model}
   \item{standardize}{should a standardized version of the importance measure for a set of variables
-    be returned? For details, see \code{mu}}
+    be returned? For details, see \code{mu}.}
   \item{mu}{a non-negative numeric value. Ignored if \code{standardize = FALSE}. Otherwise, a t-statistic
     for testing the null hypothesis that the importance of the respective set is equal to \code{mu}
-    is computed}
+    is computed.}
   \item{addMatImp}{should the matrix containing the improvements due to each of the sets in each
     of the logic regression models be added to the output?}
   \item{prob.case}{a numeric value between 0 and 1. If the logistic regression approach of logic
      regression has been used in \code{logic.bagging}, then an observation will be classified as a case (or
      more exactly, as 1), if the class probability of this observation is larger than \code{prob.case}.
-     Otherwise, \code{prob.case} is ignored}
-  \item{rand}{an integer for setting the random number generator in a reproducible case}
+     Otherwise, \code{prob.case} is ignored.}
+  \item{rand}{an integer for setting the random number generator in a reproducible case.}
 }
 
 \value{
 An object of class \code{logicFS} containing
-  \item{vim}{the importances of the sets of variables}
-  \item{prop}{NULL}
-  \item{primes}{the names of the sets of variables}
-  \item{type}{the type of model (1: classification, 2:linear regression, 3: logistic regression)}
+  \item{vim}{the importances of the sets of variables,}
+  \item{prop}{NULL,}
+  \item{primes}{the names of the sets of variables,}
+  \item{type}{the type of model (1: classification, 2:linear regression, 3: logistic regression),}
   \item{param}{further parameters (if \code{addInfo = TRUE} in the previous call of \code{logic.bagging}), 
-    or \code{NULL} (otherwise)}
+    or \code{NULL} (otherwise),}
   \item{mat.imp}{either a matrix containing the improvements due to the sets of variables for each of the models 
-    (if \code{addMatImp = TRUE}), or \code{NULL} (if \code{addMatImp = FALSE})}
-  \item{measure}{the name of the used importance measure}
+    (if \code{addMatImp = TRUE}), or \code{NULL} (if \code{addMatImp = FALSE}),}
+  \item{measure}{the name of the used importance measure,}
   \item{threshold}{\code{NULL} if \code{standardize = FALSE}, otherwise the \eqn{1-0.05/m} quantile
      of the t-distribution with \eqn{B-1} degrees of freedom, where \eqn{m} is the number of sets and
-     \eqn{B} is the number of logic regression models composing \code{object}}
-  \item{mu}{\code{mu} (if \code{standardize = TRUE}), or \code{NULL} (otherwise)}
-  \item{iter}{\code{iter}}
+     \eqn{B} is the number of logic regression models composing \code{object},}
+  \item{mu}{\code{mu} (if \code{standardize = TRUE}), or \code{NULL} (otherwise),}
+  \item{iter}{\code{iter}.}
 }
 
 \references{

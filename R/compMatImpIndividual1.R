@@ -1,5 +1,5 @@
 `compMatImpIndividual1` <-
-function(object,iter=10,rand=NA){
+function(object,useN=FALSE,iter=10,rand=NA){
 	inbagg<-object$inbagg
 	ltree<-object$logreg.model
 	data<-object$data
@@ -15,6 +15,8 @@ function(object,iter=10,rand=NA){
 		tree<-ltree[[i]]$trees[[1]]
 		mat.improve[,i]<-correctPreds1(tree,data[oob,],cl[oob],n.var,
 			iter=iter)
+		if(!useN)
+			mat.improve[,i]<-mat.improve[,i]/length(oob)
 	}
 	mat.improve
 }

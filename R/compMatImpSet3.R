@@ -1,5 +1,5 @@
 `compMatImpSet3` <-
-function(object,set,iter=NULL,prob.case=0.5,rand=NA){
+function(object,set,useN=FALSE,iter=NULL,prob.case=0.5,rand=NA){
 	inbagg<-object$inbagg
 	ltree<-object$logreg.model
 	data<-object$data
@@ -22,6 +22,8 @@ function(object,set,iter=NULL,prob.case=0.5,rand=NA){
 		else
 			mat.improve[,i]<-FUN(ltree[[i]],data[oob,],cl[oob],
 				set, n.var,n.set,iter,prob.case=prob.case)
+		if(object$type==3 && !useN)
+			mat.improve[,i]<-mat.improve[,i]/length(oob)
 	}
 	mat.improve
 }

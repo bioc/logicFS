@@ -12,17 +12,17 @@ getMatEval(data, vec.primes, check = TRUE)
 
 \arguments{
   \item{data}{a data frame in which each row corrsponds to an observation,
-     and each column to a binary variable}
+     and each column to a binary variable.}
   \item{vec.primes}{a character vector naming the prime implicants that
      should be evaluated. Each of the variables composing these prime implicants must
-     be represented by one column of \code{data}}
+     be represented by one column of \code{data}.}
   \item{check}{ should some checks be done before the evaluation is performed? It is
-     highly recommended not to change the default \code{check = TRUE}}
+     highly recommended not to change the default \code{check = TRUE}.}
 }
 
 \value{
   a matrix in which each row corresponds to an observation (the same observations 
-  in the same order as in \code{data}, and each column to one of the prime implicants
+  in the same order as in \code{data}, and each column to one of the prime implicants.
 }
 
 \author{Holger Schwender, \email{holger.schwender@udo.edu}}

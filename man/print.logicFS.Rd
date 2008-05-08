@@ -10,18 +10,18 @@
 }
 
 \arguments{
-  \item{x}{an object of either class \code{logicFS}}
+  \item{x}{an object of either class \code{logicFS}.}
   \item{topX}{integer indicating how many interactions should be shown.
      Additionally to the \code{topX} most important interactions, any
      interaction having the same importance as the \code{topX} most
-     important one are also shown}
+     important one are also shown.}
   \item{show.prop}{should the proportions of models containing the interactions
      of interest also be shown?}
   \item{coded}{should the coded variable names be displayed? Might be useful
       if the actual variable names are pretty long. The coded variable name of
-      the \emph{j}-th variable is \code{Xj}}
-  \item{digits}{number of digits used in the output}
-  \item{\dots}{Ignored}
+      the \emph{j}-th variable is \code{Xj}.}
+  \item{digits}{number of digits used in the output.}
+  \item{\dots}{Ignored.}
 }
 
 \author{Holger Schwender, \email{holger.schwender@udo.edu}}

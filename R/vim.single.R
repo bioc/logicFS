@@ -1,4 +1,4 @@
-vim.single<-function(primes,mat.eval,cl){
+vim.single<-function(primes,mat.eval,cl,useN=TRUE){
 	n.col<-ncol(mat.eval)
 	mat.in<-matrix(0,n.col,n.col)
 	id.primes<-colnames(mat.eval)%in%primes
@@ -12,6 +12,8 @@ vim.single<-function(primes,mat.eval,cl){
 	preds<-rowSums(mat.eval[,id.primes,drop=FALSE])>0
 	n.corr<-sum(preds==cl)
 	vec.improve<-ifelse(id.primes,n.corr-vec.improve,vec.improve-n.corr)
+	if(!useN)
+		vec.improve<-vec.improve/length(cl)
 	names(vec.improve)<-colnames(mat.eval)
 	vec.improve
 }

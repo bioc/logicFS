@@ -1,4 +1,4 @@
-vim.logicFS<-function(log.out,prob.case=.5,addInfo=FALSE,addMatImp=TRUE){
+vim.logicFS<-function(log.out,useN=TRUE,prob.case=.5,addInfo=FALSE,addMatImp=TRUE){
 	type<-log.out$type
 	if(!type%in%c(1:3))
 		stop("Currently only available for classification and linear and logistic regression.")
@@ -29,7 +29,7 @@ vim.logicFS<-function(log.out,prob.case=.5,addInfo=FALSE,addMatImp=TRUE){
 		for(i in 1:B){
 			oob<-which(!(1:n.cl)%in%inbagg[[i]])
 			mat.imp[,i]<-vim.single(list.primes[[i]][[1]],mat.eval[oob,],
-				cl[oob])
+				cl[oob],useN=useN)
 		}
 	}
 	else{
@@ -38,6 +38,8 @@ vim.logicFS<-function(log.out,prob.case=.5,addInfo=FALSE,addMatImp=TRUE){
 		FUN<-match.fun(vim.fun)
 		for(i in 1:B){
 			tmp.imp<-FUN(list.primes[[i]],mat.eval,inbagg[[i]],cl=cl,prob.case=prob.case)
+			if(!useN)
+				tmp.imp<-tmp.imp/length(oob)
 			mat.imp[names(tmp.imp),i]<-tmp.imp
 		}
 	}
@@ -50,7 +52,7 @@ vim.logicFS<-function(log.out,prob.case=.5,addInfo=FALSE,addMatImp=TRUE){
 		mat.imp<-NULL
 	measure<-switch(type,"Single Tree","Quantitative Response","Multiple Tree")
 	vim.out<-list(vim=vim,prop=prop,primes=primes,type=type,param=param,mat.imp=mat.imp,
-		measure=measure,threshold=NULL,mu=NULL)
+		measure=measure,useN=useN,threshold=NULL,mu=NULL)
 	class(vim.out)<-"logicFS"
 	vim.out	
 }

@@ -12,7 +12,7 @@ logic.pimp(log.out)
 
 \arguments{
   \item{log.out}{an object of class \code{logicBagg}, i.e.\ the output
-     of \code{logic.bagging}}
+     of \code{logic.bagging}.}
 }
 
 \value{
