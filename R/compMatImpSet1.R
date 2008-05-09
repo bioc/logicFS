@@ -1,5 +1,5 @@
 `compMatImpSet1` <-
-function(object,set,iter=NULL,rand=NA){
+function(object,set,useN=FALSE,iter=NULL,rand=NA){
 	inbagg<-object$inbagg
 	ltree<-object$logreg.model
 	data<-object$data
