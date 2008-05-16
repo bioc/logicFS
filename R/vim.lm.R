@@ -1,12 +1,13 @@
-vim.lm<-function(mprimes,mat.eval,inbagg,cl,prob.case=0.5){
+vim.lm<-function(mprimes,mat.eval,inbagg,cl){
 	primes<-unique(unlist(mprimes))
 	n.trees<-length(mprimes)
 	n.primes<-length(primes)
 	oob<-which(!(1:nrow(mat.eval))%in%inbagg)
+	vec.out<-numeric(ncol(mat.eval))
+	names(vec.out)<-colnames(mat.eval)
 	if(n.primes==1){
-		improve<-vim.lm.oneprime(mat.eval[,primes],cl,oob,prob.case=prob.case)
-		names(improve)<-primes
-		return(improve)
+		vec.out[primes]<-vim.lm.oneprime(mat.eval[,primes],cl,oob)
+		return(vec.out)
 	}
 	mat.in<-cbind(1-diag(n.primes),1)
 	rownames(mat.in)<-primes		
@@ -25,12 +26,14 @@ vim.lm<-function(mprimes,mat.eval,inbagg,cl,prob.case=0.5){
 		vec.improve[i]<-mean((preds-cl[oob])^2)
 	}
 	vec.improve<-vec.improve-vec.improve[le.vec]
-	vec.improve<-vec.improve[-le.vec]
-	names(vec.improve)<-primes
-	vec.improve
+	#vec.improve<-vec.improve[-le.vec]
+	#names(vec.improve)<-primes
+	#vec.improve
+	vec.out[primes]<-vec.improve[-le.vec]
+	vec.out
 }
 
-vim.lm.oneprime<-function(oneprime,cl,oob,prob.case=0.5){
+vim.lm.oneprime<-function(oneprime,cl,oob){
 	beta0<-mean(cl[-oob])
 	rss.null<-mean((beta0-cl[oob])^2)
 	dat<-data.frame(cl=cl,x=oneprime)

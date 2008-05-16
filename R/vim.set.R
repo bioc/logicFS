@@ -8,8 +8,11 @@ function(object,set=NULL,useN=NULL,iter=NULL,standardize=FALSE,mu=0,addMatImp=FA
 	cn<-colnames(object$data)
 	n.var<-ncol(object$data)
 	set<-checkSet(set,n.var,cn)
-	if(is.null(useN))
-		useN<-object$useN
+	if(is.null(useN)){
+		useN<-object$vim$useN
+		if(is.null(useN))
+			stop("useN needs to be specified when importance = FALSE in logic.bagging.")
+	}
 	if(object$type==1)
 		mat.improve<-compMatImpSet1(object,set,useN=useN,iter=iter,rand=rand)
 	else

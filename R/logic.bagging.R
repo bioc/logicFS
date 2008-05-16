@@ -5,8 +5,6 @@ function(x,...) UseMethod("logic.bagging")
 `logic.bagging.formula` <-
 function(formula,data,recdom=TRUE,...){
 	xy<-getXy(formula,data,recdom=recdom)
-	if(is.factor(xy$y))
-		stop("Method for categorical response currently not implemented.")
 	out<-logic.bagging(xy$x,xy$y,...)
 	out$facInfo<-xy$facInfo
 	out
@@ -14,9 +12,9 @@ function(formula,data,recdom=TRUE,...){
 
 
 `logic.bagging.default` <-
-function(x,y,B=100,useN=TRUE,ntrees=1,nleaves=8,glm.if.1tree=FALSE,
-		replace=TRUE,sub.frac=0.632,anneal.control=logreg.anneal.control(),
-		oob=TRUE,prob.case=0.5,importance=TRUE,addMatImp=FALSE,rand=NULL,...){
+function(x,y,B=100,useN=TRUE,ntrees=1,nleaves=8,glm.if.1tree=FALSE,replace=TRUE,sub.frac=0.632,
+		anneal.control=logreg.anneal.control(),oob=TRUE,onlyRemove=FALSE,prob.case=0.5,
+		importance=TRUE,addMatImp=FALSE,rand=NULL,...){
 	require(LogicReg) || stop("The package LogicReg is required.")
 	if(!is.matrix(x))
 		stop("x must be a matrix.")
@@ -89,7 +87,8 @@ function(x,y,B=100,useN=TRUE,ntrees=1,nleaves=8,glm.if.1tree=FALSE,
 	if(oob)
 		log.out$oob.error<-logic.oob(log.out,prob.case=prob.case)
 	if(importance)
-		log.out$vim<-vim.logicFS(log.out,useN=useN,prob.case=prob.case,addMatImp=addMatImp)
+		log.out$vim<-vim.logicFS(log.out,useN=useN,onlyRemove=onlyRemove,
+			prob.case=prob.case,addMatImp=addMatImp)
 	log.out
 }
 

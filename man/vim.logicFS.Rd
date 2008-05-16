@@ -11,7 +11,8 @@
 }
 
 \usage{
-vim.logicFS(log.out, useN = TRUE, prob.case = 0.5, addInfo = FALSE, addMatImp = TRUE)
+vim.logicFS(log.out, useN = TRUE, onlyRemove = FALSE, prob.case = 0.5,
+   addInfo = FALSE, addMatImp = TRUE)
 }
 
 \arguments{
@@ -20,6 +21,12 @@ vim.logicFS(log.out, useN = TRUE, prob.case = 0.5, addInfo = FALSE, addMatImp = 
   \item{useN}{logical specifying if the number of correctly classified out-of-bag observations should
      be used in the computation of the importance measure. If \code{FALSE}, the proportion of
      correctly classified oob observations is used instead.}
+  \item{onlyRemove}{should in the single tree case the multiple tree measure be used? If \code{TRUE},
+     the prime implicants are only removed from the trees when determining the importance in the
+     single tree case. If \code{FALSE}, the original single tree measure is computed for each prime
+     implicant, i.e.\ a prime implicant is not only removed from the trees in which it is contained,
+     but also added to the trees that do not contain this interaction. Ignored in all other than the
+     classification case.}
   \item{prob.case}{a numeric value between 0 and 1. If the logistic regression approach
      of logic regression is used (i.e.\ if the response is binary, and in \code{logic.bagging}
      \code{ntrees} is set to a value larger than 1, or \code{glm.if.1tree} is

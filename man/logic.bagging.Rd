@@ -15,8 +15,8 @@
 \method{logic.bagging}{default}(x, y, B = 100, useN = TRUE, ntrees = 1, nleaves = 8, 
   glm.if.1tree = FALSE, replace = TRUE, sub.frac = 0.632,
   anneal.control = logreg.anneal.control(), oob = TRUE, 
-  prob.case = 0.5, importance = TRUE, addMatImp = FALSE,
-  rand = NULL, ...)
+  onlyRemove = FALSE, prob.case = 0.5, importance = TRUE,
+  addMatImp = FALSE, rand = NULL, ...)
 }
 
 \arguments{
@@ -78,6 +78,12 @@
      See the help page of \code{logreg.anneal.control} in the \code{LogicReg} package.}
   \item{oob}{should the out-of-bag error rate (classification and logistic regression)
     or the out-of-bag root mean square prediction error (linear regression), respectively, be computed?}
+  \item{onlyRemove}{should in the single tree case the multiple tree measure be used? If \code{TRUE},
+     the prime implicants are only removed from the trees when determining the importance in the
+     single tree case. If \code{FALSE}, the original single tree measure is computed for each prime
+     implicant, i.e.\ a prime implicant is not only removed from the trees in which it is contained,
+     but also added to the trees that do not contain this interaction. Ignored in all other than the
+     classification case.}
   \item{prob.case}{a numeric value between 0 and 1. If the outcome of the
      logistic regression, i.e.\ the class probability, for an observation is
      larger than \code{prob.case}, this observations will be classified as case 

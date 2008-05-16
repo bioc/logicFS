@@ -11,11 +11,11 @@
 \usage{
 \method{plot}{logicFS}(x, topX = 15, cex = 0.9, pch = 16, col = 1, show.prop = FALSE, 
    force.topX = FALSE, coded = TRUE, add.thres = TRUE, thres = NULL, 
-   include0 = TRUE, add.v0 = TRUE, v0.col = "grey50", ...)
+   include0 = TRUE, add.v0 = TRUE, v0.col = "grey50", main = NULL, ...)
 
 \method{plot}{logicBagg}(x, topX = 15, cex = 0.9, pch = 16, col = 1, show.prop = FALSE, 
    force.topX = FALSE, coded = TRUE, include0 = TRUE, add.v0 = TRUE,
-   v0.col = "grey50", ...)
+   v0.col = "grey50", main = NULL, ...)
 }
 
 \arguments{
@@ -51,6 +51,8 @@
      \code{include0 = FALSE} and all importances are larger than zero.}
   \item{v0.col}{the color of the vertical line at \eqn{x = 0}. See the help page of
      \code{par} for how colors can be specified.}
+  \item{main}{character string naming the title of the plot. If \code{NULL}, the name
+     of the importance measure is used.}
   \item{...}{Ignored.}
 }
 

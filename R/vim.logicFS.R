@@ -1,4 +1,5 @@
-vim.logicFS<-function(log.out,useN=TRUE,prob.case=.5,addInfo=FALSE,addMatImp=TRUE){
+vim.logicFS<-function(log.out,useN=TRUE,onlyRemove=FALSE,prob.case=.5,addInfo=FALSE,
+		addMatImp=TRUE){
 	type<-log.out$type
 	if(!type%in%c(1:3))
 		stop("Currently only available for classification and linear and logistic regression.")
@@ -26,23 +27,35 @@ vim.logicFS<-function(log.out,useN=TRUE,prob.case=.5,addInfo=FALSE,addMatImp=TRU
 	mat.imp<-matrix(0,length(vec.primes),B)
 	rownames(mat.imp)<-colnames(mat.eval)
 	if(type==1){
-		for(i in 1:B){
-			oob<-which(!(1:n.cl)%in%inbagg[[i]])
-			mat.imp[,i]<-vim.single(list.primes[[i]][[1]],mat.eval[oob,],
-				cl[oob],useN=useN)
-		}
-	}
-	else{
-		list.primes<-check.listprimes(list.primes,log.out$ntrees,B)
-		vim.fun<-ifelse(type==2,"vim.lm","vim.multiple")
+		vim.fun<-ifelse(onlyRemove,"vim.singleRemove","vim.singleBoth")
 		FUN<-match.fun(vim.fun)
 		for(i in 1:B){
-			tmp.imp<-FUN(list.primes[[i]],mat.eval,inbagg[[i]],cl=cl,prob.case=prob.case)
-			if(!useN)
-				tmp.imp<-tmp.imp/length(oob)
-			mat.imp[names(tmp.imp),i]<-tmp.imp
+			oob<-which(!(1:n.cl)%in%inbagg[[i]])
+			mat.imp[,i]<-FUN(list.primes[[i]][[1]],mat.eval[oob,],cl[oob],useN=useN)
 		}
 	}
+	if(type==2){
+		list.primes<-check.listprimes(list.primes,log.out$ntrees,B)
+		for(i in 1:B)
+			mat.imp[,i]<-vim.lm(list.primes[[i]],mat.eval,inbagg[[i]],cl=cl)
+	}
+	if(type==3){
+		list.primes<-check.listprimes(list.primes,log.out$ntrees,B)
+		for(i in 1:B)
+			mat.imp[,i]<-vim.multiple(list.primes[[i]],mat.eval,inbagg[[i]],cl=cl,
+				prob.case=prob.case,useN=useN)
+	}
+	#else{
+	#	list.primes<-check.listprimes(list.primes,log.out$ntrees,B)
+	#	vim.fun<-ifelse(type==2,"vim.lm","vim.multiple")
+	#	FUN<-match.fun(vim.fun)
+	#	for(i in 1:B){
+	#		tmp.imp<-FUN(list.primes[[i]],mat.eval,inbagg[[i]],cl=cl,prob.case=prob.case)
+	#		if(!useN)
+	#			tmp.imp<-tmp.imp/length(oob)
+	#		mat.imp[names(tmp.imp),i]<-tmp.imp
+	#	}
+	#}
 	vim<-rowMeans(mat.imp)
 	prop<-prop[vec.primes]
 	primes<-getNames(vec.primes,colnames(log.out$data))
@@ -51,6 +64,8 @@ vim.logicFS<-function(log.out,useN=TRUE,prob.case=.5,addInfo=FALSE,addMatImp=TRU
 	if(!addMatImp)
 		mat.imp<-NULL
 	measure<-switch(type,"Single Tree","Quantitative Response","Multiple Tree")
+	if(type==1 && onlyRemove)
+		measure<-paste(measure,"\n (Only Removing)",sep="")
 	vim.out<-list(vim=vim,prop=prop,primes=primes,type=type,param=param,mat.imp=mat.imp,
 		measure=measure,useN=useN,threshold=NULL,mu=NULL)
 	class(vim.out)<-"logicFS"

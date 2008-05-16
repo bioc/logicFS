@@ -10,7 +10,10 @@ print.logicFS<-function(x,topX=5,show.prop=TRUE,coded=FALSE,digits=2,...){
 			cat("Number of Trees:      ",param$ntrees,"\n")
 		cat("Max. Number of Leaves:",param$nleaves,"\n\n")
 	}
-	cat("Importance Measure:",gsub("\n"," ",x$measure),"\n")
+	cat("Importance Measure:",gsub("\n","",x$measure),"\n")
+	if(x$type%in%c(1,3))
+		cat("Based On:",ifelse(x$useN,"Number","Proportion"),"of",#"Correctly Classified",
+			"OOB Observation","\n")
 	if(!is.null(x$mu))
 		cat("(Alternative Hypothesis: Importance is greater than ",x$mu,")\n",sep="")
 	cat("\n")

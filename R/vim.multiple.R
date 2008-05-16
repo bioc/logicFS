@@ -1,12 +1,18 @@
-vim.multiple<-function(mprimes,mat.eval,inbagg,cl,prob.case=0.5){
+vim.multiple<-function(mprimes,mat.eval,inbagg,cl,prob.case=0.5,useN=TRUE){
 	primes<-unique(unlist(mprimes))
 	n.trees<-length(mprimes)
 	n.primes<-length(primes)
 	oob<-which(!(1:nrow(mat.eval))%in%inbagg)
+	vec.out<-numeric(ncol(mat.eval))
+	names(vec.out)<-colnames(mat.eval)
 	if(n.primes==1){
-		improve<-vim.multiple.oneprime(mat.eval[,primes],cl,oob,prob.case=prob.case)
-		names(improve)<-primes
-		return(improve)
+		vec.out[primes]<-vim.multiple.oneprime(mat.eval[,primes],cl,oob,
+			prob.case=prob.case)
+		if(!useN)
+			vec.out<-vec.out/length(oob)
+		return(vec.out)
+		#names(improve)<-primes
+		#return(improve)
 	}
 	mat.in<-cbind(1-diag(n.primes),1)
 	rownames(mat.in)<-primes		
@@ -25,8 +31,12 @@ vim.multiple<-function(mprimes,mat.eval,inbagg,cl,prob.case=0.5){
 		vec.improve[i]<-sum(preds==cl[oob])
 	}
 	vec.improve<-vec.improve[le.vec]-vec.improve
-	vec.improve<-vec.improve[-le.vec]
-	names(vec.improve)<-primes
-	vec.improve
+	#vec.improve<-vec.improve[-le.vec]
+	#names(vec.improve)<-primes
+	#vec.improve
+	vec.out[primes]<-vec.improve[-le.vec]
+	if(!useN)
+		vec.out<-vec.out/length(oob)
+	vec.out
 }
 

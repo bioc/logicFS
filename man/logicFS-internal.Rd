@@ -6,7 +6,8 @@
 \alias{getPerms}
 \alias{generateTruthTab}
 \alias{getPImps}
-\alias{vim.single}
+\alias{vim.singleBoth}
+\alias{vim.singleRemove}
 \alias{vim.multiple}
 \alias{getNames}
 \alias{predict.logregmodel}

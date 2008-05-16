@@ -5,8 +5,11 @@ function(object,useN=NULL,iter=NULL,prop=TRUE,standardize=FALSE,mu=0,addMatImp=F
 		stop("object must be an object of class logicBagg.")
 	if(!object$type%in%1:3)
 		stop("Only available for classification and linear and logistic regression.")
-	if(is.null(useN))
-		useN<-object$useN
+	if(is.null(useN)){
+		useN<-object$vim$useN
+		if(is.null(useN))
+			stop("useN needs to be specified when importance = FALSE in logic.bagging.")
+	}
 	if(object$type==1)
 		mat.improve<-compMatImpIndividual1(object,useN=useN,iter=iter,rand=rand)
 	else

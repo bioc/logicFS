@@ -1,15 +1,17 @@
 plot.logicFS<-function(x,topX=15,cex=.9,pch=16,col=1,show.prop=FALSE,force.topX=FALSE,coded=TRUE,
-		add.thres=TRUE,thres=NULL,include0=TRUE,add.v0=TRUE,v0.col="grey50",...){
+		add.thres=TRUE,thres=NULL,include0=TRUE,add.v0=TRUE,v0.col="grey50",main=NULL,...){
 	if(!show.prop){
 		vim<-x$vim
-		main<-paste(x$measure,"Measure")
+		if(is.null(main))
+			main<-paste(x$measure,"Measure")
 		xlab<-"Importance"
 	}
 	else{
 		vim<-x$prop
 		if(is.null(vim))
 			stop("Data for the Ad Hoc Measure are not available.")
-		main<-"Ad Hoc Measure"
+		if(is.null(main))
+			main<-"Ad Hoc Measure"
 		xlab<-"Proportion"
 	}
 	if(!coded)
