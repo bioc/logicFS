@@ -1,8 +1,9 @@
 vim.logicFS<-function(log.out,useN=TRUE,onlyRemove=FALSE,prob.case=.5,addInfo=FALSE,
 		addMatImp=TRUE){
 	type<-log.out$type
-	if(!type%in%c(1:3))
-		stop("Currently only available for classification and linear and logistic regression.")
+	if(!type%in%c(1:3,9))
+		stop("Currently only available for classification and\n",
+			"linear and (multinomial) logistic regression.")
 	list.primes<-logic.pimp(log.out)
 	B<-length(list.primes)
 	if(type==1)
@@ -18,8 +19,14 @@ vim.logicFS<-function(log.out,useN=TRUE,onlyRemove=FALSE,prob.case=.5,addInfo=FA
 		ids<-which(!vec.primes%in%colnames(mat.eval))
 		mono<-vec.primes[ids]
 		vec.primes<-vec.primes[-ids]
+		rmMonoPI<-function(lpi,mono,type){
+			if(type==9)
+				lapply(lpi,function(x) x[!x%in%mono])
+			else
+				lpi[!lpi%in%mono]
+		}
 		for(i in 1:B)
-			list.primes[[i]]<-lapply(list.primes[[i]],function(x) x[!x%in%mono])
+			list.primes[[i]]<-lapply(list.primes[[i]],rmMonoPI,mono=mono,type=type)
 	}
 	cl<-log.out$cl
 	inbagg<-log.out$inbagg
@@ -37,25 +44,22 @@ vim.logicFS<-function(log.out,useN=TRUE,onlyRemove=FALSE,prob.case=.5,addInfo=FA
 	if(type==2){
 		list.primes<-check.listprimes(list.primes,log.out$ntrees,B)
 		for(i in 1:B)
-			mat.imp[,i]<-vim.lm(list.primes[[i]],mat.eval,inbagg[[i]],cl=cl)
+			mat.imp[,i]<-vim.lm(list.primes[[i]],mat.eval,inbagg[[i]],cl)
 	}
 	if(type==3){
 		list.primes<-check.listprimes(list.primes,log.out$ntrees,B)
 		for(i in 1:B)
-			mat.imp[,i]<-vim.multiple(list.primes[[i]],mat.eval,inbagg[[i]],cl=cl,
+			mat.imp[,i]<-vim.multiple(list.primes[[i]],mat.eval,inbagg[[i]],cl,
 				prob.case=prob.case,useN=useN)
 	}
-	#else{
-	#	list.primes<-check.listprimes(list.primes,log.out$ntrees,B)
-	#	vim.fun<-ifelse(type==2,"vim.lm","vim.multiple")
-	#	FUN<-match.fun(vim.fun)
-	#	for(i in 1:B){
-	#		tmp.imp<-FUN(list.primes[[i]],mat.eval,inbagg[[i]],cl=cl,prob.case=prob.case)
-	#		if(!useN)
-	#			tmp.imp<-tmp.imp/length(oob)
-	#		mat.imp[names(tmp.imp),i]<-tmp.imp
-	#	}
-	#}
+	if(type==9){
+		n.reg<-length(levels(cl))-1
+		list.primes<-lapply(list.primes,check.listprimes,ntrees=log.out$ntrees,B=n.reg)
+		lmodel<-log.out$logreg.model
+		for(i in 1:B)
+			mat.imp[,i]<-vim.MLR(lmodel[[i]],list.primes[[i]],mat.eval,log.out$data,
+				cl,inbagg[[i]],useN=useN)$vec.out
+	}
 	vim<-rowMeans(mat.imp)
 	prop<-prop[vec.primes]
 	primes<-getNames(vec.primes,colnames(log.out$data))
@@ -63,7 +67,10 @@ vim.logicFS<-function(log.out,useN=TRUE,onlyRemove=FALSE,prob.case=.5,addInfo=FA
 		else NULL
 	if(!addMatImp)
 		mat.imp<-NULL
-	measure<-switch(type,"Single Tree","Quantitative Response","Multiple Tree")
+	if(type==9)
+		measure<-"Multiple Tree"
+	else
+		measure<-switch(type,"Single Tree","Quantitative Response","Multiple Tree")
 	if(type==1 && onlyRemove)
 		measure<-paste(measure,"\n (Only Removing)",sep="")
 	vim.out<-list(vim=vim,prop=prop,primes=primes,type=type,param=param,mat.imp=mat.imp,

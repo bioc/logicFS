@@ -3,8 +3,9 @@ function(object,useN=NULL,iter=NULL,prop=TRUE,standardize=FALSE,mu=0,addMatImp=F
 		prob.case=0.5,rand=NA){
 	if(!is(object,"logicBagg"))
 		stop("object must be an object of class logicBagg.")
-	if(!object$type%in%1:3)
-		stop("Only available for classification and linear and logistic regression.")
+	if(!object$type%in%c(1:3,9))
+		stop("Only available for classification and linear and\n",
+			"(multinomial) logistic regression.")
 	if(is.null(useN)){
 		useN<-object$vim$useN
 		if(is.null(useN))
@@ -23,7 +24,7 @@ function(object,useN=NULL,iter=NULL,prop=TRUE,standardize=FALSE,mu=0,addMatImp=F
 		vim<-rowMeans(mat.improve)
 	names(vim)<-varnames
 	if(prop){
-		mat.prop<-getVarInTree(object$logreg.model,ncol(data))
+		mat.prop<-getVarInTree(object$logreg.model,ncol(data),type=object$type)
 		prop<-rowMeans(mat.prop)
 		names(prop)<-varnames
 	}

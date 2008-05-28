@@ -11,8 +11,6 @@ vim.multiple<-function(mprimes,mat.eval,inbagg,cl,prob.case=0.5,useN=TRUE){
 		if(!useN)
 			vec.out<-vec.out/length(oob)
 		return(vec.out)
-		#names(improve)<-primes
-		#return(improve)
 	}
 	mat.in<-cbind(1-diag(n.primes),1)
 	rownames(mat.in)<-primes		
@@ -31,9 +29,6 @@ vim.multiple<-function(mprimes,mat.eval,inbagg,cl,prob.case=0.5,useN=TRUE){
 		vec.improve[i]<-sum(preds==cl[oob])
 	}
 	vec.improve<-vec.improve[le.vec]-vec.improve
-	#vec.improve<-vec.improve[-le.vec]
-	#names(vec.improve)<-primes
-	#vec.improve
 	vec.out[primes]<-vec.improve[-le.vec]
 	if(!useN)
 		vec.out<-vec.out/length(oob)

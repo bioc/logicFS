@@ -1,6 +1,7 @@
 predict.logregmodel<-function(object,newbin,type,...){
-	if(!type%in%1:3)
-		stop("Currently only available for classification and linear and logistic regression.")
+	if(!type%in%c(1:3,9))
+		stop("Currently only available for classification and linear and\n",
+			"(multinomial) logistic regression.")
 	mat.model<-cbind(1,eval.logreg(object,newbin))
 	pred<-mat.model%*%object$coef
 	if(type==1)

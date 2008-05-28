@@ -56,6 +56,11 @@
 \alias{predictMLB}
 \alias{oobMLR}
 \alias{compMatProbMLR}
+\alias{vim.MLR}
+\alias{pimpMLR}
+\alias{vim.MLR}
+\alias{getMatPrime}
+\alias{getNewProbsMLR}
 
 \title{Internal logicFS functions}
 \description{Internal logicFS functions.}

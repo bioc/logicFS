@@ -34,11 +34,6 @@ function(x,y,B=100,useN=TRUE,ntrees=1,nleaves=8,glm.if.1tree=FALSE,replace=TRUE,
 		else{
 			FUN<-mlogreg
 			type<-9
-			if(importance){
-				importance<-FALSE
-				warning("Currently no importance measure available for a",
-					"multinomial logic regression.")
-			}
 		}
 	}
 	if(is.numeric(y)){

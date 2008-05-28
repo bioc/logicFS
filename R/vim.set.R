@@ -3,8 +3,9 @@ function(object,set=NULL,useN=NULL,iter=NULL,standardize=FALSE,mu=0,addMatImp=FA
 		prob.case=0.5,rand=NA){
 	if(!is(object,"logicBagg"))
 		stop("object must be an object of class logicBagg.")
-	if(!object$type%in%1:3)
-		stop("Only available for classification and linear and logistic regression.")
+	if(!object$type%in%c(1:3,9))
+		stop("Only available for classification and linear and\n",
+			"(multinomial) logistic regression.")
 	cn<-colnames(object$data)
 	n.var<-ncol(object$data)
 	set<-checkSet(set,n.var,cn)

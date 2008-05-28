@@ -5,9 +5,10 @@
 \alias{print.logicBagg}
 \title{Bagged Logic Regression}
 \description{
-  A Bagging version of logic regression. Currently available for the 
+  A bagging and subsampling version of logic regression. Currently available for the 
   classification, the linear regression, and the logistic regression approach 
-  of \code{logreg}. 
+  of \code{logreg}. Additionally, an approach based on multinomial logistic regressions as
+  implemented in \code{mlogreg} can be used if the response is categorical.
 }
 \usage{
 \method{logic.bagging}{formula}(formula, data, recdom = TRUE, ...)
@@ -22,12 +23,14 @@
 \arguments{
   \item{formula}{an object of class \code{formula} describing the model that should be
      fitted.}
-  \item{data}{a data frame containing the variables in the model. Each column of \code{data}
-     must correspond to a binary variable (coded by 0 and 1) or a factor (for details on factors, see
-     \code{recdom}) except for the column comprising
-     the response, and each row to an observation. The response must be either binary (coded by
-     0 and 1) or continuous. If continuous, a linear model is fitted in each of the \code{B} iterations of
-     \code{logic.bagging}. Otherwise, depending on \code{ntrees} (and \code{glm.if.1tree})
+  \item{data}{a data frame containing the variables in the model. Each row of \code{data}
+     must correspond to an observation, and each column to a binary variable (coded by 0 and 1) 
+     or a factor (for details, see \code{recdom}) except for the column comprising
+     the response. The response must be either binary (coded by
+     0 and 1), categorical or continuous. If continuous, a linear model is fitted in each of the \code{B} iterations of
+     \code{logic.bagging}. If categorical, the column of \code{data} specifying the response must
+     be a factor. In this case, multinomial logic regressions are performed as implemented in \code{\link{mlogreg}}.
+     Otherwise, depending on \code{ntrees} (and \code{glm.if.1tree})
      the classification or the logistic regression approach of logic regression is used.}
   \item{recdom}{a logical value or vector of length \code{ncol(data)} comprising whether a SNP should
      be transformed into two binary dummy variables coding for a recessive and a dominant effect.
@@ -43,10 +46,12 @@
      and 3 (homozygous variant).}
   \item{x}{a matrix consisting of 0's and 1's. Each column must correspond
      to a binary variable and each row to an observation.}
-  \item{y}{a numeric vector that either contains the class labels (coded by 0 and 1)
-     of the observations if the classification or logistic regression approach of logic
-     regression should be used, or the values of a continuous response if the linear
-     regression approach should be used.}
+  \item{y}{a numeric vector or a factor specifying the values of a response for all the observations 
+     represented in \code{x}. If a numeric vector, then \code{y} either contains 
+     the class labels (coded by 0 and 1) or the values of a continuous response depending
+     on whether the classification or logistic regression approach of logic
+     regression, or the linear regression approach, respectively, should be used. If the response
+     is categorical, then \code{y} must be a factor naming the class labels of the observations.}
   \item{B}{an integer specifying the number of iterations.}
   \item{useN}{logical specifying if the number of correctly classified out-of-bag observations should
      be used in the computation of the importance measure. If \code{FALSE}, the proportion of
@@ -59,7 +64,11 @@
      approach of logic regression will be used (see \code{glm.if.1tree}.)
      
      For a continuous response: A linear regression model with \code{ntrees} trees
-     is fitted in each of the \code{B} iterations.}
+     is fitted in each of the \code{B} iterations.
+     
+     For a categorical response: \eqn{n.lev-1} logic regression models with \code{ntrees} trees
+     are fitted, where \eqn{n.lev} is the number of levels of the response (for details, see
+     \code{\link{mlogreg}}).}
   \item{nleaves}{a numeric value specifying the maximum number of leaves used
      in all trees combined. See the help page of the function \code{logreg} of
      the package \code{LogicReg} for details.}
@@ -67,7 +76,7 @@
      the logistic regression approach of logic regression is used instead of
      the classification approach. Ignored if \code{ntrees} is not 1 or the response is not binary.}
   \item{replace}{should sampling of the cases be done with replacement? If 
-     \code{TRUE}, a Bootstrap sample of size \code{length(cl)} is drawn
+     \code{TRUE}, a bootstrap sample of size \code{length(cl)} is drawn
      from the \code{length(cl)} observations in each of the \code{B} iterations. If
      \code{FALSE}, \code{ceiling(sub.frac * length(cl))} of the observations
      are drawn without replacement in each iteration.}
