@@ -12,10 +12,11 @@ function(formula,data,recdom=TRUE,...){
 `logicFS.default` <-
 function(x,y,B=100,useN=TRUE,ntrees=1,nleaves=8,glm.if.1tree=FALSE,
 		replace=TRUE,sub.frac=0.632,anneal.control=logreg.anneal.control(),
-		onlyRemove=FALSE,prob.case=0.5,addMatImp=TRUE,rand=NULL,...){
+		onlyRemove=FALSE,prob.case=0.5,addMatImp=TRUE,fast=FALSE,rand=NULL,...){
 	log.out<-logic.bagging(x,y,B=B,ntrees=ntrees,nleaves=nleaves,importance=FALSE,
 		glm.if.1tree=glm.if.1tree,replace=replace,sub.frac=sub.frac,
-		anneal.control=anneal.control,oob=FALSE,prob.case=prob.case,rand=rand)
+		anneal.control=anneal.control,oob=FALSE,prob.case=prob.case,
+		fast=fast,rand=rand)
 	vim.out<-vim.logicFS(log.out,useN=useN,onlyRemove=onlyRemove,prob.case=prob.case,
 		addInfo=TRUE,addMatImp=addMatImp)
 	vim.out

@@ -8,7 +8,7 @@ function(n,contrasts=TRUE){
 	}
 	tmp<-contr.treatment(n,contrasts=TRUE) 
 	tmp[3,1]<-1 
-	colnames(tmp)<-c("R","D")
+	colnames(tmp)<-c("D","R")
 	tmp
 }
 

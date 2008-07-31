@@ -3,9 +3,13 @@ print.mlogreg <- function(x,digits=3,...){
 	levs<-levels(x$cl)
 	ntrees<-x$ntrees
 	nleaves<-x$nleaves
-	cat("Multinomial Logic Regression\n\n", "Max. Number of Trees:  ",if(nleaves>9) " ",
-		ntrees,"\n", "Max. Number of Leaves: ",nleaves, "\n", "Number of Levels: ",
-		length(models)+1,"\n","Reference Level:  ",levs[1],"\n", sep="")
+	cat("Multinomial Logic Regression\n\n",
+		"Search Algorithm: ", ifelse(x$fast,"Stepwise Greedy Selection",
+		"Simulated Annealing"),"\n",
+		"Max. Number of Trees:  ",if(nleaves>9) " ",ntrees,"\n", 
+		"Max. Number of Leaves: ",nleaves, "\n", 
+		"Number of Levels: ",length(models)+1,"\n",
+		"Reference Level:  ",levs[1],"\n", sep="")
 	for(i in 1:length(models)){
 		tmp<-models[[i]]
 		trees<-sapply(tmp$tree,getTree)

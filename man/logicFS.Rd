@@ -15,7 +15,7 @@
 \method{logicFS}{default}(x, y, B = 100, useN = TRUE, ntrees = 1, nleaves = 8, 
   glm.if.1tree = FALSE, replace = TRUE, sub.frac = 0.632, 
   anneal.control = logreg.anneal.control(), onlyRemove = FALSE,
-  prob.case = 0.5, addMatImp = TRUE, rand = NULL, ...)
+  prob.case = 0.5, addMatImp = TRUE, fast = FALSE, rand = NULL, ...)
 }
 
 \arguments{
@@ -99,6 +99,8 @@
      set to \code{TRUE}, if standardized importances should be computed using 
      \code{\link{vim.norm}}, or if permutation based importances should be computed 
      using \code{\link{vim.perm}}.} 
+  \item{fast}{should a greedy search (as implemented in \code{logreg}) be used instead of simulated
+     annealing?}
   \item{rand}{numeric value. If specified, the random number generator will be
      set into a reproducible state.}
   \item{...}{for the \code{formula} method, optional parameters to be passed to the low level function

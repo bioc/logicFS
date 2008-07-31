@@ -62,6 +62,10 @@
 \alias{getMatPrime}
 \alias{getNewProbsMLR}
 
+\alias{vim.singleBoth}
+\alias{vim.singleRemove}
+
+
 \title{Internal logicFS functions}
 \description{Internal logicFS functions.}
 \details{

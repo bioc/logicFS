@@ -22,7 +22,7 @@ function(object,useN=NULL,iter=NULL,prop=TRUE,standardize=FALSE,mu=0,addMatImp=F
 		vim<-standardizeMatImp(mat.improve,mu=mu)
 	else
 		vim<-rowMeans(mat.improve)
-	names(vim)<-varnames
+	names(vim)<-rownames(mat.improve)<-varnames
 	if(prop){
 		mat.prop<-getVarInTree(object$logreg.model,ncol(data),type=object$type)
 		prop<-rowMeans(mat.prop)

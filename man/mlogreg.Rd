@@ -15,7 +15,7 @@
 \method{mlogreg}{formula}(formula, data, recdom = TRUE, ...)
 
 \method{mlogreg}{default}(x, y, ntrees = 1, nleaves = 8, anneal.control = logreg.anneal.control(), 
-    rand = NA, ...)
+    select = 1, rand = NA, ...)
 }
 
 \arguments{
@@ -49,7 +49,9 @@
      in all trees combined. See the help page of the function \code{logreg} in the \code{LogicReg}
      package for details.}
   \item{anneal.control}{a list containing the parameters for simulated annealing.
-     For details, see the help page of \code{logreg.anneal.control} in the \code{LogicReg} package}
+     For details, see the help page of \code{logreg.anneal.control} in the \code{LogicReg} package.}
+  \item{select}{numeric value. Either 0 for a stepwise greedy selection (corresponds to \code{select = 6}
+     in \code{logreg}) or 1 for simulated annealing.}
   \item{rand}{numeric value. If specified, the random number generator will be
      set into a reproducible state.}
   \item{...}{for the \code{formula} method, optional parameters to be passed to the low level function
@@ -62,7 +64,8 @@
   \item{data}{a matrix containing the binary predictors,}
   \item{cl}{a vector comprising the class labels,}
   \item{ntrees}{a numeric value naming the maximum number of trees used in the logic regressions,}
-  \item{nleaves}{a numeric value comprising the maximum number of leaves used in the logic regressions.} 
+  \item{nleaves}{a numeric value comprising the maximum number of leaves used in the logic regressions,}
+  \item{fast}{a logical value specifying whether the faster search algorithm, i.e.\ the greedy search, has been used.} 
 }
 
 \references{

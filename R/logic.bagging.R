@@ -14,7 +14,7 @@ function(formula,data,recdom=TRUE,...){
 `logic.bagging.default` <-
 function(x,y,B=100,useN=TRUE,ntrees=1,nleaves=8,glm.if.1tree=FALSE,replace=TRUE,sub.frac=0.632,
 		anneal.control=logreg.anneal.control(),oob=TRUE,onlyRemove=FALSE,prob.case=0.5,
-		importance=TRUE,addMatImp=FALSE,rand=NULL,...){
+		importance=TRUE,addMatImp=FALSE,fast=FALSE,rand=NULL,...){
 	require(LogicReg) || stop("The package LogicReg is required.")
 	if(!is.matrix(x))
 		stop("x must be a matrix.")
@@ -34,10 +34,12 @@ function(x,y,B=100,useN=TRUE,ntrees=1,nleaves=8,glm.if.1tree=FALSE,replace=TRUE,
 		else{
 			FUN<-mlogreg
 			type<-9
+			select<-ifelse(fast,0,1)
 		}
 	}
 	if(is.numeric(y)){
 		FUN<-logreg
+		select<-ifelse(fast,6,1)
 		if(le.uni<2)
 			stop("The response is constant.")
 		if(le.uni==2){
@@ -72,12 +74,19 @@ function(x,y,B=100,useN=TRUE,ntrees=1,nleaves=8,glm.if.1tree=FALSE,replace=TRUE,
 		set.seed(rand)
 	for(i in 1:B){
 		bagg<-if(replace) sample(n,n,replace=TRUE)  else sample(n,n.sub)
-		list.trees[[i]]<-FUN(y[bagg],x[bagg,],type=type,select=1,
-			ntrees=ntrees,nleaves=nleaves,anneal.control=anneal.control)$model
+		tmp.out<-FUN(y[bagg],x[bagg,],type=type,select=select,
+			ntrees=ntrees,nleaves=nleaves,anneal.control=anneal.control)
+		if(!fast | type==9)
+			list.trees[[i]]<-tmp.out$model
+		else{
+			ids.min<-which.min(tmp.out$allscores[,1])
+			list.trees[[i]]<-tmp.out$alltrees[[ids.min]]
+		}
 		list.bagg[[i]]<-bagg
 	}
 	log.out<-list(logreg.model=list.trees,inbagg=list.bagg,data=x,type=type,
-		ntrees=ntrees,nleaves=nleaves,cl=y,oob.error=NULL,vim=NULL,sampling=sampling)
+		ntrees=ntrees,nleaves=nleaves,cl=y,oob.error=NULL,vim=NULL,sampling=sampling,
+		fast=fast)
 	class(log.out)<-"logicBagg"
 	if(oob)
 		log.out$oob.error<-logic.oob(log.out,prob.case=prob.case)

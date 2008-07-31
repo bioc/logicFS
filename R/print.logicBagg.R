@@ -7,6 +7,8 @@ print.logicBagg<-function(x,...){
 	cat("Sampling Method:      ",x$sampling,"\n")
 	cat("Logic Regression Type:",switch(type,"Classification","Linear Regression",
 		"Logistic Regression","Multinomial"),"\n")
+	cat("Search Algorithm:     ",ifelse(x$fast,"Stepwise Greedy Selection",
+		"Simulated Annealing"),"\n")
 	if(x$type%in%c(2,3,9))
 		cat("Number of Trees:      ",if(x$nleaves>=10) "",x$ntrees,"\n")
 	cat("Max. Number of Leaves:",x$nleaves,"\n")
