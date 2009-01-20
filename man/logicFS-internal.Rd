@@ -72,4 +72,5 @@
    These functions are not meant to be directly called by the user.
 }
 \author{Holger Schwender, \email{holger.schwender@udo.edu}}
-\keyword{internal}{logicFS-internal}
+\keyword{internal}
+
