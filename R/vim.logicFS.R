@@ -4,7 +4,11 @@ vim.logicFS<-function(log.out,useN=TRUE,onlyRemove=FALSE,prob.case=.5,addInfo=FA
 	if(!type%in%c(1:3,9))
 		stop("Currently only available for classification and\n",
 			"linear and (multinomial) logistic regression.")
+	if(type!=1)
+		onlyRemove <- TRUE
 	list.primes<-logic.pimp(log.out)
+	if(type!=1 | onlyRemove)
+		list.primes <- check4NullModels(list.primes)
 	B<-length(list.primes)
 	if(type==1)
 		vec.primes<-unlist(list.primes)
