@@ -1,7 +1,7 @@
 Package: logicFS
 Title: Identification of SNP Interactions
-Version: 1.13.4
-Date: 2009-02-23
+Version: 1.13.5
+Date: 2009-03-19
 Author: Holger Schwender
 Maintainer: Holger Schwender <holger.schw@gmx.de>
 Depends: LogicReg
@@ -10,4 +10,4 @@ Description: Identification of interactions between binary variables using Logic
   Regression. Can, e.g., be used to find interesting SNP interactions. Contains
   also a bagging version of logic regression for classification.
 License: LGPL version 2 or newer
-biocViews: SNPsAndGeneticVariability, FeatureSelection, Classification
+biocViews: SNP, FeatureSelection, Classification, Genetics
