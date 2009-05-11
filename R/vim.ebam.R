@@ -21,7 +21,7 @@ function(object,data=NULL,cl=NULL,nameEBAM=NULL,...){
 	vim$measure<-"EBAM Based"
 	vim$prop<-NULL
 	vim$mat.imp<-NULL
-	vim$type<-NULL
+	vim$type<-object$type
 	vim
 }
 

@@ -15,7 +15,7 @@ function(object,data=NULL,cl=NULL){
 	vim$mu<-NULL
 	vim$prop<-NULL
 	vim$mat.imp<-NULL
-	vim$type<-NULL
+	vim$type<-object$type
 	vim
 }
 
