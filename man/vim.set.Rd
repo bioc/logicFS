@@ -1,12 +1,16 @@
 \name{vim.set}
 \alias{vim.set}
+\alias{vim.snp}
 
-\title{VIM for Sets of Variables}
+\title{VIM for SNPs and Sets of Variables}
 \description{
-  Quantifies the importances of sets of variables contained in a logic bagging model.
+  Quantifies the importances of SNPs or sets of variables, respectively, contained in a logic bagging model.
 }
 
 \usage{
+  vim.snp(object, useN = NULL, iter = NULL, standardize = FALSE, 
+     mu = 0, addMatImp = FALSE, prob.case = 0.5, rand = NA)
+
   vim.set(object, set = NULL, useN = NULL, iter = NULL, standardize = FALSE, 
      mu = 0, addMatImp = FALSE, prob.case = 0.5, rand = NA)
 }
@@ -74,8 +78,8 @@ An object of class \code{logicFS} containing
 }
 
 \references{
-  Holger Schwender (2007).\ Measuring the Importances of Genotypes and Sets of Single Nucleotide
-  Polymorphisms.\ Technical Report, SFB 475, Department of Statistics, University of Dortmund.\ Appears soon.
+  Holger Schwender (2009).\ Testing SNPs and Sets of SNPs for Importance on the Prediction
+  in Association Studies.\ Appears soon.
 }
 
 \author{Holger Schwender, \email{holger.schwender@udo.edu}}

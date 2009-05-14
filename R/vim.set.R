@@ -1,3 +1,12 @@
+vim.snp <- function(object, useN=NULL, iter=NULL, standardize=FALSE, mu=0, addMatImp=FALSE,
+		prob.case=0.5, rand=NA){
+	out <- vim.set(object, useN=useN, iter=iter, standardize=standardize, mu=mu,
+		addMatImp=addMatImp, prob.case=prob.case, rand=rand)
+	out$measure <- gsub("Set", "SNP", out$measure)
+	out
+}
+
+
 `vim.set` <-
 function(object,set=NULL,useN=NULL,iter=NULL,standardize=FALSE,mu=0,addMatImp=FALSE,
 		prob.case=0.5,rand=NA){
