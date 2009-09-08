@@ -3,6 +3,7 @@ vim.snp <- function(object, useN=NULL, iter=NULL, standardize=FALSE, mu=0, addMa
 	out <- vim.set(object, useN=useN, iter=iter, standardize=standardize, mu=mu,
 		addMatImp=addMatImp, prob.case=prob.case, rand=rand)
 	out$measure <- gsub("Set", "SNP", out$measure)
+	out$name <- "SNP"
 	out
 }
 
@@ -15,6 +16,13 @@ function(object,set=NULL,useN=NULL,iter=NULL,standardize=FALSE,mu=0,addMatImp=FA
 	if(!object$type%in%c(1:3,9))
 		stop("Only available for classification and linear and\n",
 			"(multinomial) logistic regression.")
+	if(object$type==2){
+		cat("Note: Since version 1.15.8 log2(MSEP) instead of MSEP is used to quantify",
+			"\n", "the importance of the (sets of) SNPs for predicting a ",
+			"quantitative response.", "\n\n", sep="")
+		if(standardize)
+			warning("In the linear regression case, no standardization should be done.")
+	}
 	cn<-colnames(object$data)
 	n.var<-ncol(object$data)
 	set<-checkSet(set,n.var,cn)
@@ -33,12 +41,17 @@ function(object,set=NULL,useN=NULL,iter=NULL,standardize=FALSE,mu=0,addMatImp=FA
 	else
 		vim<-rowMeans(mat.improve)
 	names(vim)<-rownames(mat.improve)<-names(set)
-	measure<-paste(if(standardize) "Standardized\n", ifelse(is.null(iter),"Removing","Permutation"),
+	measure<-paste(if(standardize) "Standardized \n", ifelse(is.null(iter),"Removing","Permutation"),
 		"Based Set")
 	if(standardize)
 		threshold<-qt(1-0.05/nrow(mat.improve),ncol(mat.improve)-1)
-	else
-		threshold<-mu<-NULL
+	else{
+		if(object$type==2)
+			threshold <- qf(1-0.05/nrow(mat.improve), ncol(mat.improve),
+				ncol(mat.improve))
+		else
+			threshold <- mu <- NULL
+	}
 	if(!addMatImp)
 		mat.improve<-NULL
 	vim.out<-list(vim=vim,prop=NULL,primes=names(set),type=object$type,param=NULL,mat.imp=mat.improve,

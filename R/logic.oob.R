@@ -1,6 +1,8 @@
 logic.oob<-function(log.out,prob.case=0.5){
 	if(!is(log.out,"logicBagg"))
 		stop("log.out must be an object of class logicBagg.")
+	if(prob.case <= 0 | prob.case >= 1)
+		stop("prob.case must be between 0 and 1.")
 	data<-log.out$data
 	trees<-log.out$logreg.model
 	inbagg<-log.out$inbagg

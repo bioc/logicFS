@@ -46,6 +46,9 @@ vim.logicFS<-function(log.out,useN=TRUE,onlyRemove=FALSE,prob.case=.5,addInfo=FA
 		}
 	}
 	if(type==2){
+		cat("Note: Since version 1.15.8 log2(MSEP) instead of MSEP is used to quantify",
+			"\n", "the importance of the interactions for predicting a ",
+			"quantitative response.", "\n\n", sep="")
 		list.primes<-check.listprimes(list.primes,log.out$ntrees,B)
 		for(i in 1:B)
 			mat.imp[,i]<-vim.lm(list.primes[[i]],mat.eval,inbagg[[i]],cl)

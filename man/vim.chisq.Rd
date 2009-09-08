@@ -32,7 +32,7 @@ vim.chisq(object, data = NULL, cl = NULL)
 \details{
   Currently Pearson's ChiSquare statistic is computed without continuity correction.
   
-  Contrary to \code{\link{vim.logicFS}} (and \code{\link{vim.norm}} and \code{\link{vim.perm}}),
+  Contrary to \code{\link{vim.logicFS}} (and \code{\link{vim.norm}} and \code{\link{vim.signperm}}),
   \code{vim.chisq} does neither take the logic regression models into acount nor uses the out-of-bag
   observations for computing the importances of the identified interactions. It "just" tests each
   of the found interactions on the whole data set by calculating Pearson's ChiSquare statistic for

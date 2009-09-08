@@ -25,10 +25,7 @@ vim.lm<-function(mprimes,mat.eval,inbagg,cl){
 		preds<-predict(lm.out,mat.model[oob,])
 		vec.improve[i]<-mean((preds-cl[oob])^2)
 	}
-	vec.improve<-vec.improve-vec.improve[le.vec]
-	#vec.improve<-vec.improve[-le.vec]
-	#names(vec.improve)<-primes
-	#vec.improve
+	vec.improve <- log2(vec.improve) - log2(vec.improve[le.vec])
 	vec.out[primes]<-vec.improve[-le.vec]
 	vec.out
 }
@@ -40,7 +37,7 @@ vim.lm.oneprime<-function(oneprime,cl,oob){
 	lm.out<-lm(cl~.,data=dat[-oob,])
 	preds<-predict(lm.out,dat[oob,])
 	rss.prime<-mean((preds-cl[oob])^2)
-	rss.null-rss.prime
+	log2(rss.null) - log2(rss.prime)
 }
 
 

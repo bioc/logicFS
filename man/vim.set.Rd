@@ -46,7 +46,8 @@
     are permuted in the computation of the importance of this set. If \code{NULL} (default), the values
     of the variables are not permuted, but all variables belonging to the set are removed from the model}
   \item{standardize}{should a standardized version of the importance measure for a set of variables
-    be returned? For details, see \code{mu}.}
+    be returned? For details, see \code{mu}. In the linear regression case, \code{standardize = TRUE}
+    should be used.}
   \item{mu}{a non-negative numeric value. Ignored if \code{standardize = FALSE}. Otherwise, a t-statistic
     for testing the null hypothesis that the importance of the respective set is equal to \code{mu}
     is computed.}
@@ -56,13 +57,13 @@
      regression has been used in \code{logic.bagging}, then an observation will be classified as a case (or
      more exactly, as 1), if the class probability of this observation is larger than \code{prob.case}.
      Otherwise, \code{prob.case} is ignored.}
-  \item{rand}{an integer for setting the random number generator in a reproducible case.}
+  \item{rand}{an integer for setting the random number generator in a reproducible state.}
 }
 
 \value{
 An object of class \code{logicFS} containing
   \item{vim}{the importances of the sets of variables,}
-  \item{prop}{NULL,}
+  \item{prop}{\code{NULL},}
   \item{primes}{the names of the sets of variables,}
   \item{type}{the type of model (1: classification, 2:linear regression, 3: logistic regression),}
   \item{param}{further parameters (if \code{addInfo = TRUE} in the previous call of \code{logic.bagging}), 
@@ -87,7 +88,7 @@ An object of class \code{logicFS} containing
 
 \seealso{
    \code{\link{logic.bagging}}, \code{\link{logicFS}},
-   \code{\link{vim.logicFS}}, \code{\link{vim.set}}, \code{\link{vim.ebam}}, \code{\link{vim.chisq}}
+   \code{\link{vim.logicFS}}, \code{\link{vim.input}}, \code{\link{vim.ebam}}, \code{\link{vim.chisq}}
 }
 
 \keyword{logic}

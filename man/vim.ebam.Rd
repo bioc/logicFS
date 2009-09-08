@@ -41,7 +41,7 @@ vim.ebam(object, data = NULL, cl = NULL, nameEBAM = NULL, ...)
   The test statistic underlying this EBAM analysis is Pearson's ChiSquare statistic. Currently,
   the value of this statistic is computed without continuity correction.
     
-  Contrary to \code{\link{vim.logicFS}} (and \code{\link{vim.norm}} and \code{\link{vim.perm}}),
+  Contrary to \code{\link{vim.logicFS}} (and \code{\link{vim.norm}} and \code{\link{vim.signperm}}),
   \code{vim.ebam} does neither take the logic regression models into acount nor uses the out-of-bag
   observations for computing the importances of the identified interactions. It "just" tests each
   of the found interactions on the whole data set by calculating Pearson's ChiSquare statistic for

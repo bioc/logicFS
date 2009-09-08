@@ -98,7 +98,7 @@
      the importance is computed by the average over the \code{B} improvements.) Must be
      set to \code{TRUE}, if standardized importances should be computed using 
      \code{\link{vim.norm}}, or if permutation based importances should be computed 
-     using \code{\link{vim.perm}}.} 
+     using \code{\link{vim.signperm}}.} 
   \item{fast}{should a greedy search (as implemented in \code{logreg}) be used instead of simulated
      annealing?}
   \item{rand}{numeric value. If specified, the random number generator will be

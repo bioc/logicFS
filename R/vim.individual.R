@@ -1,4 +1,8 @@
-`vim.individual` <-
+vim.individual <- function(...)
+	cat("vim.individual has been renamed to vim.input. So please use vim.input instead.\n")
+
+
+`vim.input` <-
 function(object,useN=NULL,iter=NULL,prop=TRUE,standardize=FALSE,mu=0,addMatImp=FALSE,
 		prob.case=0.5,rand=NA){
 	if(!is(object,"logicBagg"))
@@ -6,6 +10,13 @@ function(object,useN=NULL,iter=NULL,prop=TRUE,standardize=FALSE,mu=0,addMatImp=F
 	if(!object$type%in%c(1:3,9))
 		stop("Only available for classification and linear and\n",
 			"(multinomial) logistic regression.")
+	if(object$type==2){
+		cat("Note: Since version 1.15.8 log2(MSEP) instead of MSEP is used to quantify",
+			"\n", "the importance of the variables for predicting a ",
+			"quantitative response.", "\n\n", sep="")
+		if(standardize)
+			warning("In the linear regression case, no standardization should be done.")
+	}
 	if(is.null(useN)){
 		useN<-object$vim$useN
 		if(is.null(useN))
@@ -30,12 +41,17 @@ function(object,useN=NULL,iter=NULL,prop=TRUE,standardize=FALSE,mu=0,addMatImp=F
 	}
 	else
 		prop<-NULL
-	measure<-paste(if(standardize) "Standardized\n", ifelse(is.null(iter),"Removing",
+	measure<-paste(if(standardize) "Standardized \n", ifelse(is.null(iter),"Removing",
 		"Permutation")," Based Individual",sep="")
 	if(standardize)
 		threshold<-qt(1-0.05/nrow(mat.improve),ncol(mat.improve)-1)
-	else
-		threshold<-mu<-NULL
+	else{
+		if(object$type==2)
+			threshold <- qf(1-0.05/nrow(mat.improve), ncol(mat.improve), 
+				ncol(mat.improve))
+		else
+			mu <- threshold <- NULL
+	}
 	if(!addMatImp)
 		mat.improve<-NULL
 	vim.out<-list(vim=vim,prop=prop,primes=varnames,type=object$type,param=NULL,

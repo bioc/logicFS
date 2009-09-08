@@ -1,17 +1,18 @@
-\name{vim.individual}
+\name{vim.input}
 \alias{vim.individual}
+\alias{vim.input}
 
-\title{VIM for Individual Variables}
+\title{VIM for Inputs}
 
 \description{
-  Quantifies the importance of each individual variable occuring in at least one
+  Quantifies the importance of each input variable occuring in at least one
   of the logic regression models found in the application of \code{logic.bagging}.
 }
 
 \usage{
-vim.individual(object, useN = NULL, iter = NULL, prop = TRUE,
-   standardize = FALSE, mu = 0, addMatImp = FALSE, prob.case = 0.5,
-   rand = NA)
+vim.input(object, useN = NULL, iter = NULL, prop = TRUE,
+   standardize = FALSE, mu = 0, addMatImp = FALSE, 
+   prob.case = 0.5, rand = NA)
 }
 
 \arguments{
@@ -26,7 +27,8 @@ vim.individual(object, useN = NULL, iter = NULL, prop = TRUE,
   \item{prop}{should the proportion of logic regression models containing the respective variable
     also be computed?}
   \item{standardize}{should a standardized version of the individual variable importance measure
-    be returned? For details, see \code{mu}.}
+    be returned? For details, see \code{mu}. In the linear regression case, \code{standardize = FALSE}
+    should be used.}
   \item{mu}{a non-negative numeric value. Ignored if \code{standardize = FALSE}. Otherwise, a t-statistic
     for testing the null hypothesis that the importance of the respective variable is equal to \code{mu}
     is computed.}

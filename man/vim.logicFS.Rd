@@ -6,8 +6,8 @@
   Computes the value of the single or the multiple tree measure, respectively, for
   each prime implicant contained in a logic bagging model to specify the importance 
   of the prime implicant for classification, if the response is binary. If the response
-  is quantitative, the importance is specified by a measure based on the mean square
-  prediction error.
+  is quantitative, the importance is specified by a measure based on the log2-transformed 
+  mean square prediction error.
 }
 
 \usage{
@@ -40,7 +40,7 @@ vim.logicFS(log.out, useN = TRUE, onlyRemove = FALSE, prob.case = 0.5,
      the importance is computed by the average over the \code{B} improvements.) Must be
      set to \code{TRUE}, if standardized importances should be computed using 
      \code{\link{vim.norm}}, or if permutation based importances should be computed 
-     using \code{\link{vim.perm}}.} 
+     using \code{\link{vim.signperm}}.} 
 }
 
 \value{
@@ -69,7 +69,7 @@ An object of class \code{logicFS} containing
 
 \seealso{
    \code{\link{logic.bagging}}, \code{\link{logicFS}},
-   \code{\link{vim.norm}}, \code{\link{vim.perm}}
+   \code{\link{vim.norm}}, \code{\link{vim.signperm}}
 }
 
 \keyword{logic}

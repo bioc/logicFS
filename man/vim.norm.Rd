@@ -1,18 +1,18 @@
 \name{vim.norm}
 \alias{vim.norm}
-\alias{vim.perm}
+\alias{vim.signperm}
 
-\title{Standardized and Permutation Based Importance Measure}
+\title{Standardized and Sign-Permutation Based Importance Measure}
 
 \description{
-  Computes a standarized or a permutation based version of either the Single Tree Measure,
+  Computes a standarized or a sign-permutation based version of either the Single Tree Measure,
   the Quantitative Response Measure, or the Multiple Tree Measure.
 }
 
 \usage{
 vim.norm(object, mu = 0)
 
-vim.perm(object, mu = 0, n.perm = 10000, n.subset = 1000, 
+vim.signperm(object, mu = 0, n.perm = 10000, n.subset = 1000, 
   adjust = "bonferroni", rand = NA)
 }
 
@@ -22,7 +22,7 @@ vim.perm(object, mu = 0, n.perm = 10000, n.subset = 1000,
      with \code{importance = TRUE} and \code{addMatImp = TRUE}.}
   \item{mu}{a non-negative numeric value. Default is zero. However, \code{mu} should actually
      be set to a value larger than zero. See \code{Details}.}
-  \item{n.perm}{the number of (sign) permutations used in \code{vim.perm}.}
+  \item{n.perm}{the number of sign permutations used in \code{vim.signperm}.}
   \item{n.subset}{an integer specifying how many permutations should be considered at once.}
   \item{adjust}{character vector naming the method with which the raw permutation based
      p-values are adjusted for multiplicity. If \code{"qvalue"}, the function \code{qvalue.cal}
@@ -33,12 +33,16 @@ vim.perm(object, mu = 0, n.perm = 10000, n.subset = 1000,
   \item{rand}{an integer for setting the random number generator in a reproducible case.}
 }
 \details{
-  In both \code{vim.norm} and \code{vim.perm}, an one-sample t-statistic is computed for each
+  In both \code{vim.norm} and \code{vim.signperm}, an one-sample t-statistic is computed for each
   prime implicant, where the numerator is given by \eqn{VIM - }\code{mu} with VIM being the
   single or the multiple tree importance, and the denominator is the corresponding standard
   error computed by employing the \code{B} improvements of the considered prime implicant
-  in the \code{B} logic regression models. (Note that VIM is the mean over these
-  \code{B} improvements.)
+  in the \code{B} logic regression models, where VIM is the mean over these
+  \code{B} improvements. 
+  
+  Note that in the case of a quantitative response, such a standardization is not necessary.
+  Thus, \code{vim.norm} returns a warning when the response is quantitative, and \code{vim.signperm}
+  does not divide \eqn{VIM - }\code{mu} by its sample standard error. 
   
   As using \code{mu = 0} might lead to calling a prime implicant important, even though it actually
   shows only improvements of 1 or 0, \code{mu} should be set to a value larger than zero. 
@@ -49,13 +53,13 @@ vim.perm(object, mu = 0, n.perm = 10000, n.subset = 1000,
   In \code{vim.norm}, the value of this t-statistic is returned as the standardized importance
   of a prime implicant. The larger this value, the more important is the prime implicant. (This applies
   to all importance measures -- at least for those contained in this package.) Assuming normality,
-  a possible threshold for a prime implicant to be considered as important is the \eqn{1-0.05/m} quantile
-  of the t-distribution with \eqn{B-1} degrees of freedom, where \eqn{m} is the number of prime implicants.
+  a possible threshold for a prime implicant to be considered as important is the \eqn{1 - 0.05 / m} quantile
+  of the t-distribution with \eqn{B - 1} degrees of freedom, where \eqn{m} is the number of prime implicants.
   
-  In \code{vim.perm}, the sign permutation is used to determine \code{n.perm} permuted values of the
+  In \code{vim.signperm}, the sign permutation is used to determine \code{n.perm} permuted values of the
   one-sample t-statistic, and to compute the raw p-values for each of the prime implicants. Afterwards,
   these p-values are adjusted for multiple comparisons using the method specified by \code{adjust}.
-  The permutation based importance of a prime implicant is then given by \eqn{1-} these adjusted p-values. 
+  The permutation based importance of a prime implicant is then given by \eqn{1 -} these adjusted p-values. 
   Here, a possible threshold for calling a prime implicant important is 0.95.
 }
 

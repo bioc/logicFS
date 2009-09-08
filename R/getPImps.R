@@ -1,5 +1,5 @@
 getPImps<-function(ltree,type){
-	if(type!=1 && round(ltree$coef,8)==0)
+	if(type!=1 && (is.na(ltree$coef) || round(ltree$coef,8)==0))
 		return(NULL)
 	if(type==1 && all(ltree$trees$pick==0))
 		return(NULL)

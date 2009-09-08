@@ -4,8 +4,12 @@ check.mat.imp<-function(object,mu=0){
 	if(is(object,"logicBagg")){
 		object<-object$vim
 		if(is.null(object))
-			stop("No information on the importances are available in object.",call.=FALSE)
+			stop("No information on the importances are available in object.",
+				call.=FALSE)
 	}
+	if(object$type==2)
+		warning("In the linear regression case, no standarization is necessary.",
+			call.=FALSE)
 	mat.imp<-object$mat.imp
 	if(is.null(mat.imp)) 
 		stop("No information on the improvements are available in object.\n",
@@ -14,7 +18,8 @@ check.mat.imp<-function(object,mu=0){
 	if(mu<0)
 		stop("mu must be non-negative.",call.=FALSE)
 	if(mu==0)
-		warning("mu should actually be specified by a value larger than zero.",call.=FALSE)
+		warning("mu should actually be set to a value (slightly) larger than zero.",
+			call.=FALSE)
 	object$prop<-NULL
 	object$mat.imp<-NULL
 	return(list(mat.imp=mat.imp-mu, vim=object))
