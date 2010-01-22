@@ -27,7 +27,7 @@
 
 \references{
    Schwender, H. (2007).  Minimization of Boolean Expressions Using Matrix Algebra. 
-   Technical Report, SFB 475, Department of Statistics, University of Dortmund.
+   Technical Report, SFB 475, Department of Statistics, TU Dortmund University.
 }
 
 \author{Holger Schwender, \email{holger.schwender@udo.edu}}

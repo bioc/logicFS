@@ -12,15 +12,15 @@ Currently only available for the classification and the logistic regression appr
 }
 \usage{
   vim.permInput(object, n.perm = NULL, standardize = TRUE, 
-    rebuild = FALSE, prob.case = 0.5, useAll = FALSE, 
+    rebuild = FALSE, prob.case = 0.5, useAll = FALSE, version = 1, 
     adjust = "bonferroni", addMatPerm = FALSE, rand=NA)
 
   vim.permSNP(object, n.perm = NULL, standardize = TRUE,
-     rebuild = FALSE, prob.case = 0.5, useAll = FALSE,
+     rebuild = FALSE, prob.case = 0.5, useAll = FALSE, version = 1,
      adjust = "bonferroni", addMatPerm = FALSE, rand = NA)
 
   vim.permSet(object, set = NULL, n.perm = NULL, standardize = TRUE,
-     rebuild = FALSE, prob.case = 0.5, useAll = FALSE,
+     rebuild = FALSE, prob.case = 0.5, useAll = FALSE, version = 1,
      adjust = "bonferroni", addMatPerm = FALSE, rand = NA)
 }
 
@@ -78,6 +78,11 @@ Currently only available for the classification and the logistic regression appr
     values corresponding to the respective variable (or set of variables) are employed in
     the determination of the p-value of this variable (or set of variables).
 }
+\item{version}{either \code{1} or \code{2}. If \code{1}, then the importance measure is computed
+  by 1 - padj, where padj is the adjusted p-value. If \code{2}, the importance measure is determined
+  by -log10(padj), where a raw p-value equal to 0 is set to 1 / (10 * \code{n.perm}) to avoid
+  infinitive importances.
+}
   \item{adjust}{character vector naming the method with which the raw permutation based
     p-values are adjusted for multiplicity. If \code{"qvalue"}, the function \code{qvalue.cal}
     from the package \code{siggenes} is used to compute q-values. Otherwise,
@@ -113,8 +118,8 @@ An object of class \code{logicFS} containing
      values of the respective importance measure.} 
 }
 \references{
-   Schwender, H. and Ickstadt, K. (2009). Testing SNPs and Sets of SNPs for Importance on the Prediction in Association Studies.
-   To appear.
+  Schwender, H., Ruczinski, I., Ickstadt, K. (2009). Testing SNPs and SNP Interactions for Importance
+  on the Prediction in Association Studies. Submitted.
 }
 \author{
    Holger Schwender, \email{holger.schwender@udo.edu}

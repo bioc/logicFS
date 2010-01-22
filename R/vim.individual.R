@@ -3,13 +3,15 @@ vim.individual <- function(...)
 
 
 `vim.input` <-
-function(object,useN=NULL,iter=NULL,prop=TRUE,standardize=FALSE,mu=0,addMatImp=FALSE,
+function(object,useN=NULL,iter=NULL,prop=TRUE,standardize=NULL,mu=0,addMatImp=FALSE,
 		prob.case=0.5,rand=NA){
 	if(!is(object,"logicBagg"))
 		stop("object must be an object of class logicBagg.")
 	if(!object$type%in%c(1:3,9))
 		stop("Only available for classification and linear and\n",
 			"(multinomial) logistic regression.")
+	if(is.null(standardize))
+		standardize <- object$type != 2
 	if(object$type==2){
 		cat("Note: Since version 1.15.8 log2(MSEP) instead of MSEP is used to quantify",
 			"\n", "the importance of the variables for predicting a ",

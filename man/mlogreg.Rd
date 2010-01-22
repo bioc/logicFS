@@ -69,8 +69,8 @@
 }
 
 \references{
-  Holger Schwender (2007).\ Measuring the Importances of Genotypes and Sets of Single Nucleotide
-  Polymorphisms.\ Technical Report, SFB 475, Department of Statistics, University of Dortmund.\ Appears soon.
+  Holger Schwender, Ingo Ruczinski, Katja Ickstadt (2009). Testing SNPs and SNP Interactions for Importance
+  on the Prediction in Association Studies. Submitted.
 }
 
 \author{Holger Schwender, \email{holger.schwender@udo.edu}}

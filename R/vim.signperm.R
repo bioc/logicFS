@@ -7,12 +7,14 @@ vim.perm <- function(...){
 		sep="")
 }
 
-vim.signperm <- function(object, mu=0, n.perm=10000, n.subset=1000, adjust="bonferroni",
-		rand=NA){
+vim.signperm <- function(object, mu=0, n.perm=10000, n.subset=1000, version=1,
+		adjust="bonferroni", rand=NA){
 	require(genefilter)
 	out<-check.mat.imp(object,mu=mu)
 	mat.imp<-out$mat.imp
 	vim<-out$vim
+	if(!version %in% 1:2)
+		stop("version must be either 1 or 2.")
 	stat <- if(object$type==2) rowMeans(mat.imp)  else rowttests(mat.imp)$statistic
 	B<-ncol(mat.imp)
 	n.subs<-unique(c(seq(0,n.perm,n.subset),n.perm))
@@ -26,11 +28,13 @@ vim.signperm <- function(object, mu=0, n.perm=10000, n.subset=1000, adjust="bonf
 		larger<-larger+out
 	}
 	rawp<-larger/sum(n.subs)
+	if(version==2)
+		rawp[rawp==0] <- (10*n.perm)^-1
 	adjp <- adjustPval(rawp, adjust=adjust)
-	vim$vim<-1-adjp
+	vim$vim <- if(version==1) 1-adjp else -log10(adjp)
 	tmp<-if(adjust=="none") "Unadjusted"  else paste(toupper(adjust),"Adjusted\n")
 	vim$measure<-paste(tmp,"Sign Permutation Based")
-	vim$threshold<-0.95
+	vim$threshold <- ifelse(version==1, 0.95, -log10(0.05))
 	vim$mu<-mu
 	vim
 }

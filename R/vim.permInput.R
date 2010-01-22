@@ -1,6 +1,6 @@
 vim.permInput <- function(object, n.perm=NULL, standardize=TRUE, rebuild=FALSE,
-		prob.case=0.5, useAll=FALSE, adjust="bonferroni", addMatPerm=FALSE, 
-		rand=NA){
+		prob.case=0.5, useAll=FALSE, version=1, adjust="bonferroni", 
+		addMatPerm=FALSE, rand=NA){
 	if(!is(object, "logicBagg"))
 		stop("object must be an object of class logicBagg.")
 	type <- object$type
@@ -47,8 +47,12 @@ vim.permInput <- function(object, n.perm=NULL, standardize=TRUE, rebuild=FALSE,
 		for(i in 1:n.var)
 			pval[i] <- mean(mat.perm[i,1] <= mat.perm[,-1], na.rm=TRUE)
 	}
+	if(version==2)
+		pval[pval==0] <- (10*n.perm)^-1
 	pval <- adjustPval(pval, adjust=adjust)
-	vim <- 1-pval
+	vim <- if(version==1) 1-pval else -log10(pval)
+	#pval <- adjustPval(pval, adjust=adjust)
+	#vim <- 1-pval
 	names(vim) <- colnames(data)
 	measure <- if(adjust=="none") "Unadjusted" 
 		else paste(toupper(adjust), "Adjusted\n")
@@ -56,8 +60,9 @@ vim.permInput <- function(object, n.perm=NULL, standardize=TRUE, rebuild=FALSE,
 		"Input")
 	if(!addMatPerm)
 		mat.perm <- NULL
+	thres <- if(version==1) 0.95 else -log10(0.05)
 	out <- list(vim=vim, prop=NULL, primes=names(vim), type=type, param=NULL, 
-		mat.imp=NULL, measure=measure, threshold=0.95, mu=NULL, useN=TRUE,
+		mat.imp=NULL, measure=measure, threshold=thres, mu=NULL, useN=TRUE,
 		name="Variable", mat.perm=mat.perm)
 	class(out) <- "logicFS"
 	out

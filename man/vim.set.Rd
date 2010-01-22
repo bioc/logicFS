@@ -8,10 +8,10 @@
 }
 
 \usage{
-  vim.snp(object, useN = NULL, iter = NULL, standardize = FALSE, 
+  vim.snp(object, useN = NULL, iter = NULL, standardize = NULL, 
      mu = 0, addMatImp = FALSE, prob.case = 0.5, rand = NA)
 
-  vim.set(object, set = NULL, useN = NULL, iter = NULL, standardize = FALSE, 
+  vim.set(object, set = NULL, useN = NULL, iter = NULL, standardize = NULL, 
      mu = 0, addMatImp = FALSE, prob.case = 0.5, rand = NA)
 }
 
@@ -46,8 +46,8 @@
     are permuted in the computation of the importance of this set. If \code{NULL} (default), the values
     of the variables are not permuted, but all variables belonging to the set are removed from the model}
   \item{standardize}{should a standardized version of the importance measure for a set of variables
-    be returned? For details, see \code{mu}. In the linear regression case, \code{standardize = TRUE}
-    should be used.}
+    be returned? By default, \code{standardize = TRUE} is used in the classification and the (multinomial)
+    logistic regression case, and \code{standarize} is set to \code{FALSE} in the linear regression case. For details, see \code{mu}.}
   \item{mu}{a non-negative numeric value. Ignored if \code{standardize = FALSE}. Otherwise, a t-statistic
     for testing the null hypothesis that the importance of the respective set is equal to \code{mu}
     is computed.}
@@ -79,8 +79,8 @@ An object of class \code{logicFS} containing
 }
 
 \references{
-  Holger Schwender (2009).\ Testing SNPs and Sets of SNPs for Importance on the Prediction
-  in Association Studies.\ Appears soon.
+  Schwender, H., Ruczinski, I., Ickstadt, K. (2009). Testing SNPs and SNP Interactions for Importance
+  on the Prediction in Association Studies. Submitted.
 }
 
 \author{Holger Schwender, \email{holger.schwender@udo.edu}}

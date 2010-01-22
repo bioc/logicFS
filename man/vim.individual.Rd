@@ -11,7 +11,7 @@
 
 \usage{
 vim.input(object, useN = NULL, iter = NULL, prop = TRUE,
-   standardize = FALSE, mu = 0, addMatImp = FALSE, 
+   standardize = NULL, mu = 0, addMatImp = FALSE, 
    prob.case = 0.5, rand = NA)
 }
 
@@ -26,9 +26,9 @@ vim.input(object, useN = NULL, iter = NULL, prop = TRUE,
     of the variable are not permuted, but the variable is removed from the model.}
   \item{prop}{should the proportion of logic regression models containing the respective variable
     also be computed?}
-  \item{standardize}{should a standardized version of the individual variable importance measure
-    be returned? For details, see \code{mu}. In the linear regression case, \code{standardize = FALSE}
-    should be used.}
+  \item{standardize}{should a standardized version of the importance measure for a set of variables
+    be returned? By default, \code{standardize = TRUE} is used in the classification and the (multinomial)
+    logistic regression case, and \code{standarize} is set to \code{FALSE} in the linear regression case. For details, see \code{mu}.}
   \item{mu}{a non-negative numeric value. Ignored if \code{standardize = FALSE}. Otherwise, a t-statistic
     for testing the null hypothesis that the importance of the respective variable is equal to \code{mu}
     is computed.}
@@ -61,8 +61,8 @@ An object of class \code{logicFS} containing
 }
 
 \references{
-  Holger Schwender (2007).\ Measuring the Importances of Genotypes and Sets of Single Nucleotide
-  Polymorphisms.\ Technical Report, SFB 475, Department of Statistics, University of Dortmund.\ Appears soon.
+  Schwender, H., Ruczinski, I., Ickstadt, K. (2009). Testing SNPs and SNP Interactions for Importance
+  on the Prediction in Association Studies. Submitted.
 }
 
 \author{Holger Schwender, \email{holger.schwender@udo.edu}}

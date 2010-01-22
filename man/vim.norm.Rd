@@ -13,17 +13,21 @@
 vim.norm(object, mu = 0)
 
 vim.signperm(object, mu = 0, n.perm = 10000, n.subset = 1000, 
-  adjust = "bonferroni", rand = NA)
+  version = 1, adjust = "bonferroni", rand = NA)
 }
 
 \arguments{
   \item{object}{either the output of \code{\link{logicFS}} or \code{\link{vim.logicFS}}
      with \code{addMatImp = TRUE}, or the output of \code{\link{logic.bagging}}
      with \code{importance = TRUE} and \code{addMatImp = TRUE}.}
-  \item{mu}{a non-negative numeric value. Default is zero. However, \code{mu} should actually
-     be set to a value larger than zero. See \code{Details}.}
+  \item{mu}{a non-negative numeric value against which the importances are tested. See \code{Details}.}
   \item{n.perm}{the number of sign permutations used in \code{vim.signperm}.}
   \item{n.subset}{an integer specifying how many permutations should be considered at once.}
+  \item{version}{either \code{1} or \code{2}. If \code{1}, then the importance measure is computed
+  by 1 - padj, where padj is the adjusted p-value. If \code{2}, the importance measure is determined
+  by -log10(padj), where a raw p-value equal to 0 is set to 1 / (10 * \code{n.perm}) to avoid
+  infinitive importances.
+  }
   \item{adjust}{character vector naming the method with which the raw permutation based
      p-values are adjusted for multiplicity. If \code{"qvalue"}, the function \code{qvalue.cal}
      from the package \code{siggenes} is used to compute q-values. Otherwise, 
@@ -33,7 +37,7 @@ vim.signperm(object, mu = 0, n.perm = 10000, n.subset = 1000,
   \item{rand}{an integer for setting the random number generator in a reproducible case.}
 }
 \details{
-  In both \code{vim.norm} and \code{vim.signperm}, an one-sample t-statistic is computed for each
+  In both \code{vim.norm} and \code{vim.signperm}, a paired t-statistic is computed for each
   prime implicant, where the numerator is given by \eqn{VIM - }\code{mu} with VIM being the
   single or the multiple tree importance, and the denominator is the corresponding standard
   error computed by employing the \code{B} improvements of the considered prime implicant
@@ -44,8 +48,9 @@ vim.signperm(object, mu = 0, n.perm = 10000, n.subset = 1000,
   Thus, \code{vim.norm} returns a warning when the response is quantitative, and \code{vim.signperm}
   does not divide \eqn{VIM - }\code{mu} by its sample standard error. 
   
-  As using \code{mu = 0} might lead to calling a prime implicant important, even though it actually
-  shows only improvements of 1 or 0, \code{mu} should be set to a value larger than zero. 
+  Using \code{mu = 0} might lead to calling a prime implicant important, even though it actually
+  shows only improvements of 1 or 0. When considering the prime implicants, it might be therefore 
+  be helpful to set \code{mu} to a value slightly larger than zero. 
   %A rule of thumb might be to set \code{mu} to about one third of \code{diff}, where a prime implicant
   %should explain, i.e.\ be true for, at least \code{diff} more cases than controls to be considered
   %as important.

@@ -1,5 +1,5 @@
-vim.snp <- function(object, useN=NULL, iter=NULL, standardize=FALSE, mu=0, addMatImp=FALSE,
-		prob.case=0.5, rand=NA){
+vim.snp <- function(object, useN=NULL, iter=NULL, standardize=NULL, mu=0, 
+		addMatImp=FALSE, prob.case=0.5, rand=NA){
 	out <- vim.set(object, useN=useN, iter=iter, standardize=standardize, mu=mu,
 		addMatImp=addMatImp, prob.case=prob.case, rand=rand)
 	out$measure <- gsub("Set", "SNP", out$measure)
@@ -9,13 +9,15 @@ vim.snp <- function(object, useN=NULL, iter=NULL, standardize=FALSE, mu=0, addMa
 
 
 `vim.set` <-
-function(object,set=NULL,useN=NULL,iter=NULL,standardize=FALSE,mu=0,addMatImp=FALSE,
+function(object,set=NULL,useN=NULL,iter=NULL,standardize=NULL,mu=0,addMatImp=FALSE,
 		prob.case=0.5,rand=NA){
 	if(!is(object,"logicBagg"))
 		stop("object must be an object of class logicBagg.")
 	if(!object$type%in%c(1:3,9))
 		stop("Only available for classification and linear and\n",
 			"(multinomial) logistic regression.")
+	if(is.null(standardize))
+		standardize <- object$type != 2
 	if(object$type==2){
 		cat("Note: Since version 1.15.8 log2(MSEP) instead of MSEP is used to quantify",
 			"\n", "the importance of the (sets of) SNPs for predicting a ",
