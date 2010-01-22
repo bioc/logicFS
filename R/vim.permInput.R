@@ -3,6 +3,8 @@ vim.permInput <- function(object, n.perm=NULL, standardize=TRUE, rebuild=FALSE,
 		addMatPerm=FALSE, rand=NA){
 	if(!is(object, "logicBagg"))
 		stop("object must be an object of class logicBagg.")
+	if(!version %in% (1:2))
+		stop("version must be either 1 or 2.")
 	type <- object$type
 	if(!type %in% c(1,3))
 		stop("Currently only available for classification and logistic",
