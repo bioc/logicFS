@@ -1,7 +1,7 @@
 export(getMatEval, logic.bagging, logic.oob, logic.pimp, logicFS, make.snp.dummy,
 	minDNF, prime.implicants, vim.chisq, vim.ebam, vim.logicFS, vim.norm, 
 	vim.signperm, vim.individual, vim.set, contr.none, contr.snps, mlogreg, 
-	vim.singleBoth, vim.singleRemove, vim.snp, vim.input, vim.set, 
+	vim.singleBoth, vim.singleRemove, vim.snp, vim.input, vim.set, vim.approxPval, 
 	vim.permInput, vim.permSNP, vim.permSet)
 
 S3method(print, logicBagg)

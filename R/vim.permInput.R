@@ -111,6 +111,10 @@ compPermInput3Fast <- function(listTrees, whichVar, Nb, mat.cl, data, listOOB, n
 		newtree <- lapply(listTrees[[i]]$trees, getNewTree, whichVar, n.var)
 		idsIn <- !unlist(lapply(newtree, is.null))
 		listTrees[[i]]$trees <- newtree[idsIn]
+		if(any(!idsIn)){
+			listTrees[[i]]$coef <- listTrees[[i]]$coef[c(TRUE,idsIn)]
+			listTrees[[i]]$ntrees <- c(sum(idsIn), sum(idsIn))
+		}
 		preds <- as.vector(predict(listTrees[[i]], tmpDat, 3))
 		if(any(preds>1 | preds<0))
 			stop("Something went wrong. Please inform the author.")

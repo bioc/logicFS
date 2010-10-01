@@ -126,6 +126,10 @@ compPermSet3Fast <- function(listTrees, set, Nb, mat.cl, data, listOOB, n.var, B
 		}
 		else{
 			listTrees[[i]]$trees <- newtree[idsIn]
+			if(any(!idsIn)){
+				listTrees[[i]]$coef <- listTrees[[i]]$coef[c(TRUE, idsIn)]
+				listTrees[[i]]$ntrees <- c(sum(idsIn), sum(idsIn))
+			}
 			preds <- as.vector(predict(listTrees[[i]], newdata, 3))
 			if(any(preds>1 | preds<0))
 				stop("Something went wrong. Please inform the author.")
