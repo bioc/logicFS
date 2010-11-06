@@ -10,4 +10,4 @@ Description: Identification of interactions between binary variables using Logic
   Regression. Can, e.g., be used to find interesting SNP interactions. Contains
   also a bagging version of logic regression for classification.
 License: LGPL (>= 2)
-biocViews: SNP, FeatureSelection, Classification, Genetics
+biocViews: SNP, Classification, Genetics
