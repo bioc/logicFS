@@ -11,43 +11,21 @@
   implemented in \code{mlogreg} can be used if the response is categorical.
 }
 \usage{
-\method{logic.bagging}{formula}(formula, data, recdom = TRUE, ...)
-
 \method{logic.bagging}{default}(x, y, B = 100, useN = TRUE, ntrees = 1, nleaves = 8, 
   glm.if.1tree = FALSE, replace = TRUE, sub.frac = 0.632,
   anneal.control = logreg.anneal.control(), oob = TRUE, 
   onlyRemove = FALSE, prob.case = 0.5, importance = TRUE,
   addMatImp = FALSE, fast = FALSE, rand = NULL, ...)
+  
+\method{logic.bagging}{formula}(formula, data, recdom = TRUE, ...)
 }
 
 \arguments{
-  \item{formula}{an object of class \code{formula} describing the model that should be
-     fitted.}
-  \item{data}{a data frame containing the variables in the model. Each row of \code{data}
-     must correspond to an observation, and each column to a binary variable (coded by 0 and 1) 
-     or a factor (for details, see \code{recdom}) except for the column comprising
-     the response. The response must be either binary (coded by
-     0 and 1), categorical or continuous. If continuous, a linear model is fitted in each of the \code{B} iterations of
-     \code{logic.bagging}. If categorical, the column of \code{data} specifying the response must
-     be a factor. In this case, multinomial logic regressions are performed as implemented in \code{\link{mlogreg}}.
-     Otherwise, depending on \code{ntrees} (and \code{glm.if.1tree})
-     the classification or the logistic regression approach of logic regression is used.}
-  \item{recdom}{a logical value or vector of length \code{ncol(data)} comprising whether a SNP should
-     be transformed into two binary dummy variables coding for a recessive and a dominant effect.
-     If \code{TRUE} (logical value), then all factors (variables) with three levels will be coded by two dummy
-     variables as described in \code{\link{make.snp.dummy}}. Each level of each of the other factors 
-     (also factors specifying a SNP that shows only two genotypes) is coded by one indicator variable. 
-     If \code{FALSE} (logical value),
-     each level of each factor is coded by an indicator variable. If \code{recdom} is a logical vector,
-     all factors corresponding to an entry in \code{recdom} that is \code{TRUE} are assumed to be SNPs
-     and transformed into the two binary variables described above. Each variable that corresponds
-     to an entry of \code{recdom} that is \code{TRUE} (no matter whether \code{recdom} is a vector or a value)
-     must be coded by the integers 1 (coding for the homozygous reference genotype), 2 (heterozygous), 
-     and 3 (homozygous variant).}
   \item{x}{a matrix consisting of 0's and 1's. Each column must correspond
-     to a binary variable and each row to an observation.}
+     to a binary variable and each row to an observation. Missing values are not allowed.}
   \item{y}{a numeric vector or a factor specifying the values of a response for all the observations 
-     represented in \code{x}. If a numeric vector, then \code{y} either contains 
+     represented in \code{x}, where no missing values are allowed in \code{y}.
+     If a numeric vector, then \code{y} either contains 
      the class labels (coded by 0 and 1) or the values of a continuous response depending
      on whether the classification or logistic regression approach of logic
      regression, or the linear regression approach, respectively, should be used. If the response
@@ -108,6 +86,31 @@
      annealing?}
   \item{rand}{numeric value. If specified, the random number generator will be
      set into a reproducible state.}
+  \item{formula}{an object of class \code{formula} describing the model that should be
+     fitted.}
+  \item{data}{a data frame containing the variables in the model. Each row of \code{data}
+     must correspond to an observation, and each column to a binary variable (coded by 0 and 1) 
+     or a factor (for details, see \code{recdom}) except for the column comprising
+     the response, where no missing values are allowed in \code{data}. The response must be either binary (coded by
+     0 and 1), categorical or continuous. If continuous, a linear model is fitted in each of the \code{B} iterations of
+     \code{logicFS}. If categorical, the column of \code{data} specifying the response must
+     be a factor. In this case, multinomial logic regressions are performed as implemented in \code{\link{mlogreg}}.
+     Otherwise, depending on \code{ntrees} (and \code{glm.if.1tree})
+     the classification or the logistic regression approach of logic regression is used.}
+  \item{recdom}{a logical value or vector of length \code{ncol(data)} comprising whether a SNP should
+     be transformed into two binary dummy variables coding for a recessive and a dominant effect.
+     If \code{recdom} is \code{TRUE} (and a logical value), then all factors/variables with three levels will be coded by two dummy
+     variables as described in \code{\link{make.snp.dummy}}. Each level of each of the other factors 
+     (also factors specifying a SNP that shows only two genotypes) is coded by one indicator variable. 
+     If \code{recdom} is\code{FALSE} (and a logical value),
+     each level of each factor is coded by an indicator variable. If \code{recdom} is a logical vector,
+     all factors corresponding to an entry in \code{recdom} that is \code{TRUE} are assumed to be SNPs
+     and transformed into two binary variables as described above. All variables corresponding
+     to entries of \code{recdom} that are \code{TRUE} (no matter whether \code{recdom} is a vector or a value)
+     must be coded either by the integers 1 (coding for the homozygous reference genotype), 2 (heterozygous), 
+     and 3 (homozygous variant), or alternatively by the number of minor alleles, i.e. 0, 1, and 2, where
+     no mixing of the two coding schemes is allowed. Thus, it is not allowed that some SNPs are coded by
+     1, 2, and 3, and others are coded by 0, 1, and 2.}
   \item{...}{for the \code{formula} method, optional parameters to be passed to the low level function
     \code{logic.bagging.default}. Otherwise, ignored.}
 }

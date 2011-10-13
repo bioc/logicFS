@@ -26,11 +26,18 @@ function(formula,mf,cn,isFac,recdom=TRUE){
 	}
 	if(any(recdom)){
 		tmp.mat<-as.matrix(mf[,cnmf[recdom]])
-		if(any(!tmp.mat%in%1:3))
-			stop("Levels of SNP factors must be coded by 1, 2, and 3, where\n",
-				"1 codes for the homozygous reference genotype,\n",
+		r <- as.numeric(range(tmp.mat))
+		if(r[2]-r[1]==1)
+			stop("None of the SNPs for which recdom=TRUE show more than two genotypes.")
+		if(any(r!=c(0,2)) & any(r!=c(1,3)))
+			stop("Levels of all SNP factors must be either coded by\n\n",
+				"1 for the homozygous reference genotype,\n",
 				"2 for the heterozygous genotype, and\n",
-				"3 for the homozygous variant genotype.",call.=FALSE)
+				"3 for the homozygous variant genotype,\n\n",
+				"or by\n\n",
+				"0 for the homozygous reference genotype,\n",
+				"1 for the heterozygous genotype, and\n",
+				"2 for the homozygous variant genotype.", call.=FALSE)
 	}	
 	contrasts<-makeContrastList(cnmf[isFac],recdom[isFac])
 	x<-model.matrix(formula,mf,contrasts.arg=contrasts)

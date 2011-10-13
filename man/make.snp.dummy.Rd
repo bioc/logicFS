@@ -8,9 +8,12 @@
   make.snp.dummy(data)
 }
 \arguments{
-  \item{data}{a matrix containing only 1's, 2's and 3's (see details). 
-     Each column of \code{data} corresponds to a SNP and each row to 
-     an observation.}
+  \item{data}{a matrix in which each column corresponds to a SNP and each row to an observation.
+     The genotypes of all SNPs must be either coded by 1 (for the homozygous reference genotype),
+     2 (heterozygous), and 3 (homozygous variant) or by 0, 1, 2. It is not allowed that some SNPs following the 1, 2, 3
+     coding scheme and some SNPs the 0, 1, 2 coding. Missing values are allowed, but please note that 
+     neither \code{\link{logic.bagging}} nor \code{\link{logicFS}} can handle missing values so that
+     the missing values need to be imputed (preferably before an application of \code{make.snp.dummy}.}
 }
 
 \value{
@@ -21,7 +24,9 @@
 \details{
   \code{make.snp.dummy} assumes that the homozygous dominant genotype 
   is coded by 1, the heterozygous genotype by 2, and the homozygous
-  recessive genotype by 3. For each SNP, 2 dummy variables are generated:
+  recessive genotype by 3. Alternatively, the three genotypes can be coded
+  by the number of minor alleles, i.e. by 0, 1, and 2. 
+  For each SNP, two dummy variables are generated:
   \describe{
      \item{SNP.1}{At least one of the bases explaining the SNP are of
         the recessive type.}
