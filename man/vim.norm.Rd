@@ -83,9 +83,10 @@ An object of class \code{logicFS} containing
 }
 
 \references{
-   Schwender, H. (2007). Statistical Analysis of Genotype and Gene Expression Data.
-   \emph{Dissertation}, Department of Statistics, University of Dortmund, Dortmund, Germany.
+  Schwender, H., Ruczinski, I., Ickstadt, K. (2011). Testing SNPs and Sets of SNPs for Importance in Association Studies. 
+  \emph{Biostatistics}, 12, 18-32.
 }
+
 \author{Holger Schwender, \email{holger.schwender@udo.edu}}
 
 

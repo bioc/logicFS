@@ -79,8 +79,8 @@ An object of class \code{logicFS} containing
 }
 
 \references{
-  Schwender, H., Ruczinski, I., Ickstadt, K. (2009). Testing SNPs and SNP Interactions for Importance
-  on the Prediction in Association Studies. Submitted.
+  Schwender, H., Ruczinski, I., Ickstadt, K. (2011). Testing SNPs and Sets of SNPs for Importance in Association Studies. 
+  \emph{Biostatistics}, 12, 18-32.
 }
 
 \author{Holger Schwender, \email{holger.schwender@udo.edu}}

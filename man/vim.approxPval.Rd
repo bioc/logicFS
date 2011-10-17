@@ -35,8 +35,8 @@ An object of class \code{logicFS} containing the same object as \code{object} ex
   \item{threshold}{0.95 if \code{version = 1}, and -log10(0.05) if \code{version = 2}.}
 }
 \references{
-  Schwender, H., Ruczinski, I., Ickstadt, K. (2009). Testing SNPs and SNP Interactions for Importance
-  on the Prediction in Association Studies. Submitted.
+  Schwender, H., Ruczinski, I., Ickstadt, K. (2011). Testing SNPs and Sets of SNPs for Importance in Association Studies. 
+  \emph{Biostatistics}, 12, 18-32.
 }
 \author{
    Holger Schwender, \email{holger.schwender@udo.edu}
