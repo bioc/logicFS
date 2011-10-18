@@ -16,6 +16,7 @@
 \alias{check.mat.imp}
 \alias{compLarger}
 \alias{checkDataCl}
+\alias{check4NullModels}
 
 \alias{checkNewTree}
 \alias{checkSet}
@@ -73,4 +74,3 @@
 }
 \author{Holger Schwender, \email{holger.schwender@udo.edu}}
 \keyword{internal}
-
