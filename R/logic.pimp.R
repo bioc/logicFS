@@ -1,7 +1,6 @@
 logic.pimp<-function(log.out){
-	if(!is(log.out,"logicBagg") & !is(log.out, "trioBagg"))
-		stop("log.out or object must be an object of class logicBagg or ",
-			"trioBagg, respectively.")
+	if(!is(log.out,"logicBagg"))
+		stop("log.out must be an object of class logicBagg.")
 	lmodel<-log.out$logreg.model
 	if(log.out$type==9){
 		n.reg<-length(lmodel[[1]])

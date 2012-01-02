@@ -1,15 +1,13 @@
 export(getMatEval, logic.bagging, logic.oob, logic.pimp, logicFS, make.snp.dummy,
-	minDNF, prime.implicants, vim.chisq, vim.ebam, vim.logicFS, vim.norm, 
+	vim.chisq, vim.ebam, vim.logicFS, vim.norm, 
 	vim.signperm, vim.individual, vim.set, contr.none, contr.snps, mlogreg, 
 	vim.singleBoth, vim.singleRemove, vim.snp, vim.input, vim.set, vim.approxPval, 
 	vim.permInput, vim.permSNP, vim.permSet,
-	getXy, check4NullModels)
+	getXy)
 
 S3method(print, logicBagg)
 S3method(print, logicFS)
 S3method(predict, logregmodel)
-S3method(print, minDNF)
-S3method(print, primeImp)
 S3method(plot, logicFS)
 S3method(plot, logicBagg)
 S3method(predict, logicBagg)
