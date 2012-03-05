@@ -30,7 +30,7 @@ logic.oob<-function(log.out,prob.case=0.5){
 	else{	
 		pred[votes>n.in/2]<-1
 		if(any(votes==n.in/2))
-			pred[votes==n.in/2]<-sample(0:1,sum(votes==n.in/2),rep=TRUE)
+			pred[votes==n.in/2]<-sample(0:1,sum(votes==n.in/2),replace=TRUE)
 		oob.err<-mean(pred!=log.out$cl,na.rm=TRUE)
 	}
 	oob.err

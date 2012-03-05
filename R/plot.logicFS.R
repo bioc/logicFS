@@ -20,7 +20,7 @@ plot.logicFS<-function(x,topX=15,cex=.9,pch=16,col=1,show.prop=FALSE,force.topX=
 	topX<-min(topX,length(vim))
 	vim<-if(force.topX) vim[1:topX] else vim[vim>=vim[topX]]
 	rangex<-if(!show.prop) range(if(include0) 0,vim) else c(0,1)
-	dotchart(rev(vim),main=main,xlab=xlab,pch=pch,col=col,cex=cex,xlim=rangex)
+	dotchart(rev(vim),main=main,xlab=xlab,pch=pch,color=col,cex=cex,xlim=rangex)
 	if(!show.prop & add.v0 & rangex[1]<=0)
 		abline(v=0,lty="dotted",col=v0.col)
 	if(add.thres){
