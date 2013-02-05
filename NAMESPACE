@@ -3,7 +3,7 @@ export(getMatEval, logic.bagging, logic.oob, logic.pimp, logicFS, make.snp.dummy
 	vim.signperm, vim.individual, vim.set, contr.none, contr.snps, mlogreg, 
 	vim.singleBoth, vim.singleRemove, vim.snp, vim.input, vim.set, vim.approxPval, 
 	vim.permInput, vim.permSNP, vim.permSet,
-	getXy)
+	getXy, triologreg)
 
 S3method(print, logicBagg)
 S3method(print, logicFS)
