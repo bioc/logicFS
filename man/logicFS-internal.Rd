@@ -5,6 +5,7 @@
 \alias{contr.none}
 \alias{contr.snps}
 \alias{getXy}
+\alias{triologreg}
 
 \title{Internal logicFS functions}
 \description{Internal logicFS functions.}
