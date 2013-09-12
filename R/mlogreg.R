@@ -21,7 +21,6 @@ mlogreg.factor<-function(x,y,type=NA,...){
 `mlogreg.default` <-
 function(x,y,ntrees=1,nleaves=8,anneal.control=logreg.anneal.control(),select=1,
 		rand=NA,...){
-	require(LogicReg)
 	if(!is.matrix(x))
 		stop("x must be a matrix.")
 	if(any(is.na(x)))

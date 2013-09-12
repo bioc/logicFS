@@ -1,5 +1,5 @@
 `vim.ebam` <-
-function(object,data=NULL,cl=NULL,nameEBAM=NULL,...){
+function(object,data=NULL,cl=NULL,storeEBAM=FALSE,...){
 	if(!object$type%in%c(1,3))
 		stop("Only available for the classification and the logistic regression case.")
 	require(siggenes,quietly=TRUE)
@@ -9,8 +9,6 @@ function(object,data=NULL,cl=NULL,nameEBAM=NULL,...){
 	mat.eval<-t(mat.eval)
 	rownames(mat.eval)<-names(vim$vim)
 	ebam.out<-ebam(mat.eval+1,check.out$cl+1,method=cat.ebam,...)
-	if(!is.null(nameEBAM))
-		assign(nameEBAM,ebam.out,envir=.GlobalEnv)
 	vim$vim<-ebam.out@posterior
 	mat.fdr<-ebam.out@mat.fdr
 	if(nrow(mat.fdr)>1)
@@ -22,6 +20,8 @@ function(object,data=NULL,cl=NULL,nameEBAM=NULL,...){
 	vim$prop<-NULL
 	vim$mat.imp<-NULL
 	vim$type<-object$type
+	if(storeEBAM)
+		vim$ebam <- ebam.out
 	vim
 }
 

@@ -8,9 +8,10 @@ getMatEval<-function(data,vec.primes,check=TRUE){
 		if(any(!tmp%in%colnames(data)))
 			stop("Some of the variables used in vec.primes are not in data.")
 	}
-	attach(data,warn.conflicts=FALSE)
-	mat.eval<-sapply(vec.primes,function(x) eval(parse(text=x)))
-	detach(data)
+	#attach(data,warn.conflicts=FALSE)
+	#mat.eval<-sapply(vec.primes,function(x) eval(parse(text=x)))
+	#detach(data)
+	mat.eval <- with(data, sapply(vec.primes, function(x) eval(parse(text=x))))
 	cs<-colSums(mat.eval)
 	if(any(cs%in%c(0,nrow(mat.eval)))){
 		ids<-which(cs%in%c(0,nrow(mat.eval)))

@@ -8,7 +8,7 @@
   and the logistic regression approach of logic regression.
 }
 \usage{
-vim.ebam(object, data = NULL, cl = NULL, nameEBAM = NULL, ...)
+vim.ebam(object, data = NULL, cl = NULL, storeEBAM = FALSE, ...)
 }
 
 \arguments{
@@ -27,8 +27,8 @@ vim.ebam(object, data = NULL, cl = NULL, nameEBAM = NULL, ...)
   \item{cl}{a numeric vector of 0's and 1's specifying the class labels of the observations in \code{data}.
      Must be specified either if \code{object} is an object of class \code{logicFS}, or if \code{data}
      is specified.}
-  \item{nameEBAM}{a character string. If specified, then the output of the EBAM analysis is stored under
-     this name in the global environment.}
+  \item{storeEBAM}{logical specifying whether the output of the EBAM analysis should be stored in the 
+	   output of \code{vim.ebam}.}
   \item{\dots}{further arguments of \code{ebam} and \code{cat.ebam}. For details, see the help files
      of these functions from the package \code{siggenes}.}
 }
@@ -61,7 +61,8 @@ An object of class \code{logicFS} containing
   \item{measure}{"EBAM Based",}
   \item{threshold}{the value of \code{delta} used in the EBAM analysis (see help files for \code{ebam}); 
     by default: 0.9,}
-  \item{mu}{NULL.}
+  \item{mu}{NULL,}
+	\item{ebam}{an object of class \code{EBAM} (only available if \code{storeEBAM = TRUE}).}
 }
 
 \references{

@@ -15,7 +15,6 @@ function(formula,data,recdom=TRUE,...){
 function(x,y,B=100,useN=TRUE,ntrees=1,nleaves=8,glm.if.1tree=FALSE,replace=TRUE,sub.frac=0.632,
 		anneal.control=logreg.anneal.control(),oob=TRUE,onlyRemove=FALSE,prob.case=0.5,
 		importance=TRUE,addMatImp=FALSE,fast=FALSE,rand=NULL,...){
-	#require(LogicReg) || stop("The package LogicReg is required.")
 	if(!is.matrix(x))
 		stop("x must be a matrix.")
 	if(any(is.na(x)))
