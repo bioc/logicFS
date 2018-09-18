@@ -39,7 +39,7 @@ An object of class \code{logicFS} containing the same object as \code{object} ex
   \emph{Biostatistics}, 12, 18-32.
 }
 \author{
-   Holger Schwender, \email{holger.schwender@udo.edu}
+   Holger Schwender, \email{holger.schwender@hhu.de}
 }
 
 \seealso{

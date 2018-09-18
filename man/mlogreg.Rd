@@ -73,7 +73,7 @@
   \emph{Biostatistics}, 12, 18-32.
 }
 
-\author{Holger Schwender, \email{holger.schwender@udo.edu}}
+\author{Holger Schwender, \email{holger.schwender@hhu.de}}
 
 \seealso{\code{\link{predict.mlogreg}}, \code{\link{logic.bagging}}, \code{\link{logicFS}}}
 

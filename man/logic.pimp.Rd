@@ -26,7 +26,7 @@ logic.pimp(log.out)
   prime implicants and not a minimum number of them.
 }
   
-\author{Holger Schwender, \email{holger.schwender@udo.edu}}
+\author{Holger Schwender, \email{holger.schwender@hhu.de}}
 
 
 \seealso{

@@ -40,7 +40,7 @@
   the predicted value of the response for all observations in the test data set is returned.
 }
    
-\author{Holger Schwender, \email{holger.schwender@udo.edu}}
+\author{Holger Schwender, \email{holger.schwender@hhu.de}}
 
 \seealso{
    \code{\link{logic.bagging}}

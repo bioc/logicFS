@@ -56,7 +56,7 @@
   \item{...}{Ignored.}
 }
 
-\author{Holger Schwender, \email{holger.schwender@udo.edu}}
+\author{Holger Schwender, \email{holger.schwender@hhu.de}}
 
 \seealso{
    \code{\link{logicFS}}, \code{\link{logic.bagging}}

@@ -9,10 +9,14 @@
 
 \usage{
   vim.snp(object, useN = NULL, iter = NULL, standardize = NULL, 
-     mu = 0, addMatImp = FALSE, prob.case = 0.5, rand = NA)
+     mu = 0, addMatImp = FALSE, prob.case = 0.5, 
+     score = c("DPO", "Conc", "Brier", "PL"), ensemble = FALSE, 
+     rand = NULL)
 
   vim.set(object, set = NULL, useN = NULL, iter = NULL, standardize = NULL, 
-     mu = 0, addMatImp = FALSE, prob.case = 0.5, rand = NA)
+     mu = 0, addMatImp = FALSE, prob.case = 0.5, 
+     score = c("DPO", "Conc", "Brier", "PL"), ensemble = FALSE,
+     rand = NULL)
 }
 
 \arguments{
@@ -57,6 +61,8 @@
      regression has been used in \code{logic.bagging}, then an observation will be classified as a case (or
      more exactly, as 1), if the class probability of this observation is larger than \code{prob.case}.
      Otherwise, \code{prob.case} is ignored.}
+	\item{score}{a character string naming the score that should be used in the computation of the importance measure for a survival time analysis. By default, the distance between predicted outcomes (\code{survival = "DPO"}) proposed by Tietz et al.\ (2018) is used in the determination of the importance of the variables. Alternatively, Harrell's C-Index (\code{"Conc"}), the Brier score (\code{"Brier"}), or the predictive partial log-likelihood (\code{"PL"}) can be used.}
+	\item{ensemble}{in the case of a survival outcome, should \code{ensemble} importance measures (as, e.g., in \code{randomSurvivalSRC} be used? If \code{FALSE}, importance measures analogous to the ones in the logicFS analysis of other outcomes are used (see Tietz et al., 2018).}	
   \item{rand}{an integer for setting the random number generator in a reproducible state.}
 }
 
@@ -79,12 +85,15 @@ An object of class \code{logicFS} containing
 }
 
 \references{
-  Schwender, H., Ruczinski, I., Ickstadt, K. (2011). Testing SNPs and Sets of SNPs for Importance in Association Studies. 
-  \emph{Biostatistics}, 12, 18-32.
+   Schwender, H., Ruczinski, I., Ickstadt, K. (2011). Testing SNPs and Sets of SNPs 
+   for Importance in Association Studies. \emph{Biostatistics}, 12, 18-32.
+	
+	 Tietz, T., Selinski, S., Golka, K., Hengstler, J.G., Gripp, S., Ickstadt, K.,
+	 Ruczinski, I., Schwender, H. (2018). Identification of Interactions of
+	 Binary Variables Associated with Survival Time Using survivalFS. Submitted.
 }
-
-\author{Holger Schwender, \email{holger.schwender@udo.edu}}
-
+   
+\author{Holger Schwender, \email{holger.schwender@hhu.de}; Tobias Tietz, \email{tobias.tietz@hhu.de}}
 
 \seealso{
    \code{\link{logic.bagging}}, \code{\link{logicFS}},

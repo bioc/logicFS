@@ -54,7 +54,7 @@ An object of class \code{logicFS} containing
   \item{mu}{NULL.}
 }
 
-\author{Holger Schwender, \email{holger.schwender@udo.edu}}
+\author{Holger Schwender, \email{holger.schwender@hhu.de}}
 
 \seealso{
    \code{\link{logic.bagging}}, \code{\link{logicFS}},

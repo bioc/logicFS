@@ -2,12 +2,12 @@
 function(object,data=NULL,cl=NULL){
 	if(!object$type%in%c(1,3))
 		stop("Only available for the classification and the logistic regression case.")
-	require(siggenes,quietly=TRUE)
+	# requireNamespace("siggenes", quietly=TRUE)
 	check.out<-checkDataCl(object,data=data,cl=cl)
 	vim<-check.out$vim
 	mat.eval<-getMatEval(check.out$data,vim$primes)
 	mat.eval<-t(mat.eval)
-	stat<-chisqClass(mat.eval+1,check.out$cl+1,2)
+	stat<-siggenes::chisqClass(mat.eval+1,check.out$cl+1,2)
 	names(stat)<-names(vim$vim)
 	vim$vim<-stat
 	vim$measure<-"ChiSquare Based"

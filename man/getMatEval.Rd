@@ -25,6 +25,6 @@ getMatEval(data, vec.primes, check = TRUE)
   in the same order as in \code{data}, and each column to one of the prime implicants.
 }
 
-\author{Holger Schwender, \email{holger.schwender@udo.edu}}
+\author{Holger Schwender, \email{holger.schwender@hhu.de}}
 
 \keyword{utilities}

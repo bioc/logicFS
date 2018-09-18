@@ -70,7 +70,7 @@ An object of class \code{logicFS} containing
   Single Nucleotide Polymorphisms. \emph{BMC Bioinformatics}, 9:144.
 }
 
-\author{Holger Schwender, \email{holger.schwender@udo.edu}}
+\author{Holger Schwender, \email{holger.schwender@hhu.de}}
 
 \seealso{
    \code{\link{logic.bagging}}, \code{\link{logicFS}},

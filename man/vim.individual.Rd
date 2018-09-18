@@ -65,7 +65,7 @@ An object of class \code{logicFS} containing
   \emph{Biostatistics}, 12, 18-32.
 }
 
-\author{Holger Schwender, \email{holger.schwender@udo.edu}}
+\author{Holger Schwender, \email{holger.schwender@hhu.de}}
 
 
 \seealso{

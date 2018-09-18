@@ -31,7 +31,7 @@
   class probabilities (if \code{type = "prob"}).
 }
    
-\author{Holger Schwender, \email{holger.schwender@udo.edu}}
+\author{Holger Schwender, \email{holger.schwender@hhu.de}}
 
 \seealso{
    \code{\link{mlogreg}}

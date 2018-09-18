@@ -9,13 +9,13 @@ vim.perm <- function(...){
 
 vim.signperm <- function(object, mu=0, n.perm=10000, n.subset=1000, version=1,
 		adjust="bonferroni", rand=NA){
-	require(genefilter)
+	# requireNamespace("genefilter", quietly=TRUE)
 	out<-check.mat.imp(object,mu=mu)
 	mat.imp<-out$mat.imp
 	vim<-out$vim
 	if(!version %in% 1:2)
 		stop("version must be either 1 or 2.")
-	stat <- if(object$type==2) rowMeans(mat.imp)  else rowttests(mat.imp)$statistic
+	stat <- if(object$type==2) rowMeans(mat.imp)  else genefilter::rowttests(mat.imp)$statistic
 	B<-ncol(mat.imp)
 	n.subs<-unique(c(seq(0,n.perm,n.subset),n.perm))
 	n.subs<-diff(n.subs)
@@ -41,9 +41,9 @@ vim.signperm <- function(object, mu=0, n.perm=10000, n.subset=1000, version=1,
 
 adjustPval <- function(rawp, adjust="bonferroni"){
 	if(adjust == "qvalue"){
-		require(siggenes)
-		pi0 <- pi0.est(rawp)$p0
-		adjp <- qvalue.cal(rawp, pi0)
+		# requireNamespace("siggenes", quietly=TRUE)
+		pi0 <- siggenes::pi0.est(rawp)$p0
+		adjp <- siggenes::qvalue.cal(rawp, pi0)
 	}
 	else
 		adjp <- p.adjust(rawp, method=adjust)

@@ -1,9 +1,9 @@
 vim.norm<-function(object,mu=0){
-	require(genefilter)
+	# requireNamespace("genefilter", quietly=TRUE)
 	check.out<-check.mat.imp(object,mu=mu)
 	mat.imp<-check.out$mat.imp
 	vim<-check.out$vim
-	stat<-rowttests(mat.imp)$statistic
+	stat<-genefilter::rowttests(mat.imp)$statistic
 	names(stat)<-rownames(mat.imp)
 	vim$vim<-stat
 	vim$measure<-"Standardized"

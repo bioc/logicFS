@@ -25,7 +25,7 @@ logic.oob(log.out, prob.case = 0.5)
 }
 
   
-\author{Holger Schwender, \email{holger.schwender@udo.edu}}
+\author{Holger Schwender, \email{holger.schwender@hhu.de}}
 
 \seealso{
    \code{\link{logic.bagging}}

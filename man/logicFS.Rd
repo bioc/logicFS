@@ -2,6 +2,7 @@
 \alias{logicFS}
 \alias{logicFS.default}
 \alias{logicFS.formula}
+\alias{logicFS.logicBagg}
 \title{Feature Selection with Logic Regression}
 \description{
   Identification of interesting interactions between binary variables
@@ -13,21 +14,27 @@
 \method{logicFS}{default}(x, y, B = 100, useN = TRUE, ntrees = 1, nleaves = 8, 
   glm.if.1tree = FALSE, replace = TRUE, sub.frac = 0.632, 
   anneal.control = logreg.anneal.control(), onlyRemove = FALSE,
-  prob.case = 0.5, addMatImp = TRUE, fast = FALSE, rand = NULL, ...)
+  prob.case = 0.5, score = c("DPO", "Conc", "Brier", "PL"), 
+	addMatImp = TRUE, fast = FALSE, neighbor = NULL, 
+	adjusted = FALSE, ensemble = FALSE, rand = NULL, ...)
   
 \method{logicFS}{formula}(formula, data, recdom = TRUE, ...)
+
+\method{logicFS}{logicBagg}(x, neighbor = NULL, adjusted = FALSE, 
+  prob.case = 0.5, score = c("DPO", "Conc", "Brier", "PL"), 
+	ensemble = FALSE, addMatImp = TRUE, ...)
 }
 
 \arguments{
-  \item{x}{a matrix consisting of 0's and 1's. Each column must correspond
+  \item{x}{a matrix consisting of 0's and 1's. Alternatively, \code{x} can also be an object of class \code{logicBagg}, i.e. the output of \code{\link{logic.bagging}}. If a matrix, each column must correspond
      to a binary variable and each row to an observation. Missing values are not allowed.}
-  \item{y}{a numeric vector or a factor specifying the values of a response for all the observations 
-     represented in \code{x}, where missing values are not allowed in \code{y}. 
+  \item{y}{a numeric vector, a factor, or a vector of class \code{Surv} specifying the values of a response for all the observations 
+     represented in \code{x}, where no missing values are allowed in \code{y}.
      If a numeric vector, then \code{y} either contains 
      the class labels (coded by 0 and 1) or the values of a continuous response depending
      on whether the classification or logistic regression approach of logic
      regression, or the linear regression approach, respectively, should be used. If the response
-     is categorical, then \code{y} must be a factor naming the class labels of the observations.}
+     is categorical, then \code{y} must be a factor naming the class labels of the observations. If the response is a (right-censored survival time), then \code{y} must be vector of class \code{Surv} (generated, e.g., with the function \code{Surv} from the \code{R} package \code{survival}.}
   \item{B}{an integer specifying the number of iterations.}
   \item{useN}{logical specifying if the number of correctly classified out-of-bag observations should
      be used in the computation of the importance measure. If \code{FALSE}, the proportion of
@@ -52,9 +59,9 @@
      the logistic regression approach of logic regression is used instead of
      the classification approach. Ignored if \code{ntrees} is not 1, or the response is not binary.}
   \item{replace}{should sampling of the cases be done with replacement? If 
-     \code{TRUE}, a Bootstrap sample of size \code{length(cl)} is drawn
-     from the \code{length(cl)} observations in each of the \code{B} iterations. If
-     \code{FALSE}, \code{ceiling(sub.frac * length(cl))} of the observations
+     \code{TRUE}, a Bootstrap sample of size \code{length(y)} is drawn
+     from the \code{length(y)} observations in each of the \code{B} iterations. If
+     \code{FALSE}, \code{ceiling(sub.frac * length(y))} of the observations
      are drawn without replacement in each iteration.}
   \item{sub.frac}{a proportion specifying the fraction of the observations that
      are used in each iteration to build a classification rule if \code{replace = FALSE}.
@@ -71,6 +78,8 @@
      logistic regression, i.e.\ the predicted probability, for an observation is
      larger than \code{prob.case} this observations will be classified as case 
      (or 1).}
+	\item{score}{a character string naming the score that should be used in the computation of the importance measure for a survival time analysis. By default, the distance between predicted outcomes (\code{survival = "DPO"}) proposed by Tietz et al.\ (2018) is used in the determination of the importance of the variables. Alternatively, Harrell's C-Index (\code{"Conc"}), the Brier score (\code{"Brier"}), or the predictive partial log-likelihood (\code{"PL"}) can be used.}
+	
   \item{addMatImp}{should the matrix containing the improvements due to the prime implicants
      in each of the iterations be added to the output? (For each of the prime implicants,
      the importance is computed by the average over the \code{B} improvements.) Must be
@@ -79,6 +88,9 @@
      using \code{\link{vim.signperm}}.} 
   \item{fast}{should a greedy search (as implemented in \code{logreg}) be used instead of simulated
      annealing?}
+	\item{neighbor}{a list consisting of character vectors specifying SNPs that are in LD. If specified, all SNPs need to occur exactly one time in this list. If specified, the importance measures are adjusted for LD by considering the SNPs within a LD block as exchangable.}
+	\item{adjusted}{logical specifying whether the measures should be adjusted for noise. Often, the interaction actually associated with the response is not exactly found in some iterations of logic bagging, but an interaction is identified that either additionally contains one (or seldomly more) noise SNPs or does not contain one of SNPs forming the actually associated interaction. If \code{adjusted} is set to \code{TRUE}, the values of the importance measure is corrected for this behaviour.}
+	\item{ensemble}{in the case of a survival outcome, should \code{ensemble} importance measures (as, e.g., in \code{randomSurvivalSRC} be used? If \code{FALSE}, importance measures analogous to the ones in the logicFS analysis of other outcomes are used (see Tietz et al., 2018).}
   \item{rand}{numeric value. If specified, the random number generator will be
      set into a reproducible state.}
   \item{formula}{an object of class \code{formula} describing the model that should be
@@ -87,8 +99,7 @@
      must correspond to an observation, and each column to a binary variable (coded by 0 and 1) 
      or a factor (for details, see \code{recdom}) except for the column comprising
      the response, where no missing values are allowed in \code{data}. The response must be either binary (coded by
-     0 and 1), categorical or continuous. If continuous, a linear model is fitted in each of the \code{B} iterations of
-     \code{logicFS}. If categorical, the column of \code{data} specifying the response must
+     0 and 1), categorical, continuous, or a right-censored survival time. If a survival time, i.e. an object of class \code{Surv}, a Cox propotional hazard model is fitted in each of the \code{B} iterations of \code{logicFS}. If continuous, a linear model is fitted in each iterations. If categorical, the column of \code{data} specifying the response must
      be a factor. In this case, multinomial logic regressions are performed as implemented in \code{\link{mlogreg}}.
      Otherwise, depending on \code{ntrees} (and \code{glm.if.1tree})
      the classification or the logistic regression approach of logic regression is used.}
@@ -116,7 +127,7 @@ An object of class \code{logicFS} containing
   \item{vim}{the importance of the prime implicants,}
   \item{prop}{the proportion of logic regression models that contain the prime 
      implicants,}
-  \item{type}{the type of model (1: classification, 2: linear regression, 3: logistic regression),}
+  \item{type}{the type of model (1: classification, 2: linear regression, 3: logistic regression, 4: Cox regression),}
   \item{param}{further parameters (if \code{addInfo = TRUE}),}
   \item{mat.imp}{the matrix containing the improvements if \code{addMatImp = TRUE},
     otherwise, \code{NULL},}
@@ -132,9 +143,13 @@ An object of class \code{logicFS} containing
    
    Schwender, H., Ickstadt, K. (2007). Identification of SNP Interactions
    Using Logic Regression. \emph{Biostatistics}, 9(1), 187-198.
+	
+	 Tietz, T., Selinski, S., Golka, K., Hengstler, J.G., Gripp, S., Ickstadt, K.,
+	 Ruczinski, I., Schwender, H. (2018). Identification of Interactions of
+	 Binary Variables Associated with Survival Time Using survivalFS. Submitted.
 }
    
-\author{Holger Schwender, \email{holger.schwender@udo.edu}}
+\author{Holger Schwender, \email{holger.schwender@hhu.de}; Tobias Tietz, \email{tobias.tietz@hhu.de}}
 
 
 \seealso{

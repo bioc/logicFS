@@ -1,5 +1,5 @@
 `compMatImpSet1` <-
-function(object,set,useN=FALSE,iter=NULL,rand=NA){
+function(object,set,useN=FALSE,iter=NULL,rand=NULL){
 	inbagg<-object$inbagg
 	ltree<-object$logreg.model
 	data<-object$data
@@ -9,7 +9,7 @@ function(object,set,useN=FALSE,iter=NULL,rand=NA){
 	n.set<-length(set)
 	B<-length(ltree)
 	mat.improve<-matrix(0,n.set,B)
-	if(!is.null(iter) && !is.na(rand))
+	if(!is.null(iter) && !is.null(rand))
 		set.seed(rand)
 	for(i in 1:B){
 		oob<-which(!(1:n.obs)%in%inbagg[[i]])
