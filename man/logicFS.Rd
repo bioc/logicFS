@@ -38,7 +38,7 @@
   \item{B}{an integer specifying the number of iterations.}
   \item{useN}{logical specifying if the number of correctly classified out-of-bag observations should
      be used in the computation of the importance measure. If \code{FALSE}, the proportion of
-     correctly classified oob observations is used instead.}
+     correctly classified oob observations is used instead. Ignored in the survival case.}
   \item{ntrees}{an integer indicating how many trees should be used. 
   
      For a binary response: If \code{ntrees}
@@ -51,7 +51,11 @@
      
      For a categorical response: \eqn{n.lev-1} logic regression models with \code{ntrees} trees
      are fitted, where \eqn{n.lev} is the number of levels of the response (for details, see
-     \code{\link{mlogreg}}).}
+     \code{\link{mlogreg}}).
+
+     For a response of class \code{Surv}: A Cox proportional hazards regression model 
+     with \code{ntrees} trees is fitted in each of the \code{B} iterations.
+     }
   \item{nleaves}{a numeric value specifying the maximum number of leaves used
      in all trees combined. For details, see the help page of the function \code{logreg} of
      the package \code{LogicReg}.}
@@ -78,18 +82,19 @@
      logistic regression, i.e.\ the predicted probability, for an observation is
      larger than \code{prob.case} this observations will be classified as case 
      (or 1).}
-	\item{score}{a character string naming the score that should be used in the computation of the importance measure for a survival time analysis. By default, the distance between predicted outcomes (\code{survival = "DPO"}) proposed by Tietz et al.\ (2018) is used in the determination of the importance of the variables. Alternatively, Harrell's C-Index (\code{"Conc"}), the Brier score (\code{"Brier"}), or the predictive partial log-likelihood (\code{"PL"}) can be used.}
+	\item{score}{a character string naming the score that should be used in the computation of the importance measure for a survival time analysis. By default, the distance between predicted outcomes (\code{score = "DPO"}) proposed by Tietz et al.\ (2018) is used in the determination of the importance of the variables. Alternatively, Harrell's C-Index (\code{"Conc"}), the Brier score (\code{"Brier"}), or the predictive partial log-likelihood (\code{"PL"}) can be used.}
 	
   \item{addMatImp}{should the matrix containing the improvements due to the prime implicants
      in each of the iterations be added to the output? (For each of the prime implicants,
      the importance is computed by the average over the \code{B} improvements.) Must be
      set to \code{TRUE}, if standardized importances should be computed using 
      \code{\link{vim.norm}}, or if permutation based importances should be computed 
-     using \code{\link{vim.signperm}}.} 
+     using \code{\link{vim.signperm}}. If \code{ensemble = TRUE} and \code{addMatImp = TRUE} in the survival case, 
+     the respective score of the full model is added to the output instead of an improvement matrix. } 
   \item{fast}{should a greedy search (as implemented in \code{logreg}) be used instead of simulated
      annealing?}
 	\item{neighbor}{a list consisting of character vectors specifying SNPs that are in LD. If specified, all SNPs need to occur exactly one time in this list. If specified, the importance measures are adjusted for LD by considering the SNPs within a LD block as exchangable.}
-	\item{adjusted}{logical specifying whether the measures should be adjusted for noise. Often, the interaction actually associated with the response is not exactly found in some iterations of logic bagging, but an interaction is identified that either additionally contains one (or seldomly more) noise SNPs or does not contain one of SNPs forming the actually associated interaction. If \code{adjusted} is set to \code{TRUE}, the values of the importance measure is corrected for this behaviour.}
+	\item{adjusted}{logical specifying whether the measures should be adjusted for noise. Often, the interaction actually associated with the response is not exactly found in some iterations of logic bagging, but an interaction is identified that additionally contains one (or seldomly more) noise SNPs. If \code{adjusted} is set to \code{TRUE}, the values of the importance measure is corrected for this behaviour.}
 	\item{ensemble}{in the case of a survival outcome, should \code{ensemble} importance measures (as, e.g., in \code{randomSurvivalSRC} be used? If \code{FALSE}, importance measures analogous to the ones in the logicFS analysis of other outcomes are used (see Tietz et al., 2018).}
   \item{rand}{numeric value. If specified, the random number generator will be
      set into a reproducible state.}
@@ -125,13 +130,12 @@
 An object of class \code{logicFS} containing
   \item{primes}{the prime implicants,}
   \item{vim}{the importance of the prime implicants,}
-  \item{prop}{the proportion of logic regression models that contain the prime 
-     implicants,}
+  \item{prop}{the proportion of logic regression models containing the prime implicants (or the neighbors of the prime implicants, if \code{neighbor != NULL}; or the extended primes of the prime implicants, if \code{adjusted = TRUE}; or the extended primes of the neighbors of the prime implicants, if \code{neighbor != NULL} and \code{adjusted = TRUE}),}
   \item{type}{the type of model (1: classification, 2: linear regression, 3: logistic regression, 4: Cox regression),}
   \item{param}{further parameters (if \code{addInfo = TRUE}),}
-  \item{mat.imp}{the matrix containing the improvements if \code{addMatImp = TRUE},
-    otherwise, \code{NULL},}
+  \item{mat.imp}{either the matrix containing the improvements if \code{addMatImp = TRUE} and \code{ensemble = FALSE}, or the respective score of the full model if \code{addMatImp = TRUE} and \code{ensemble = TRUE}, or \code{NULL} if \code{addMatImp = FALSE},}
   \item{measure}{the name of the used importance measure,}
+  \item{neighbor}{\code{neighbor},} 
   \item{useN}{the value of \code{useN},}
   \item{threshold}{NULL,}
   \item{mu}{NULL.}

@@ -1,27 +1,27 @@
-getProp <-
-function(vec.primes, list.primes, neighbor, set, mat.eval, adjusted)
+getProp <- function(list.primes, vec.primes, mat.eval, set, neighbor, adjusted)
 {
-  prop <- numeric(length(vec.primes))
-  for(j in 1:length(vec.primes)){
-    out <- numeric(length(list.primes))
-    prime <- vec.primes[j]
-    tmp.nb.primes <- unlist(getNeighbor(prime, neighbor = neighbor, 
-                                        set = set, mat.eval = mat.eval))
-    p <- strsplit(c(prime, tmp.nb.primes), " & ")
-    fxyz <- function(x, y, z)
-    {
-      x <- strsplit(x, " & ")
-      if(z)
-        any(sapply(y, function(g) any(sapply(x, function(a, b) ifelse(all(b %in% a), 
-                                                                      TRUE, FALSE), b = g))))
-      else any(sapply(y, function(g) any(sapply(x, function(a, b) 
-        ifelse(all(b %in% a) & (length(b) == length(a)), TRUE, FALSE), b = g))))
+  B <- length(list.primes)
+  le.primes <- length(vec.primes)
+  prop <- numeric(le.primes)
+  names(prop) <- vec.primes
+  for (h in 1:le.primes){
+    prime <- vec.primes[h]
+    if (!is.null(neighbor)){
+      setneighbor <- getNeighbor(prime, neighbor, set, vec.primes)
+      setneighbor <- c(prime, unlist(setneighbor))
+    } else{
+      setneighbor <- prime
     }
-    for(i in 1:length(list.primes)){
-      if(any(sapply(list.primes[[i]], fxyz, y = p, z = adjusted)))
-        out[i] <- 1
+    if (adjusted){
+      setextended <- unlist(lapply(setneighbor, getExtendedPrimes, 
+                                   vec.primes = vec.primes))
+    } else{
+      setextended <- NULL
     }
-    prop[j] <- sum(out) / length(list.primes)
+    setprime <- unique(c(setneighbor, setextended))
+    id.models <- which(unlist(lapply(list.primes, 
+                                     function (x, y = setprime){any(y %in% unlist(x))})))
+    prop[h] <- length(id.models) / B
   }
   prop
 }

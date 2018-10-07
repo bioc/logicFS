@@ -5,7 +5,7 @@ export(getMatEval, logic.bagging, logic.oob, logic.pimp, logicFS, make.snp.dummy
 	vim.permInput, vim.permSNP, vim.permSet,
 	getXy, survivalFS)
 
-importFrom("graphics", "abline", "dotchart", "plot")
+importFrom("graphics", "abline", "dotchart", "plot", "legend", "lines", "title")
 importFrom("methods", "is")
 importFrom("stats", "binomial", "contr.treatment", "delete.response",
 	"glm", "glm.fit", "lm", "lm.fit", "model.frame",
@@ -23,6 +23,9 @@ S3method(plot, logicBagg)
 S3method(predict, logicBagg)
 S3method(print, mlogreg)
 S3method(predict, mlogreg)
+
+S3method(plot, predict.survivalFS)
+S3method(print, predict.survivalFS)
 
 S3method(logic.bagging, default)
 S3method(logic.bagging, formula)

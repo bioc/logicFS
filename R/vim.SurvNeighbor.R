@@ -1,38 +1,68 @@
-vim.SurvNeighbor <-
-function (mprimes, mat.eval, inbagg, cl, neighbor, set, score)
+vim.SurvNeighbor <- function (mprimes, mat.eval, inbagg, 
+                              cl, neighbor, set, score)
 {
-  uni.death.times <- sort(unique(cl[, 1][cl[, 2] == 1]))
-  n.death <- length(uni.death.times)
-  vec.improve <- numeric(ncol(mat.eval))
+  # For b-th iteration
+  vec.improve <- numeric(ncol(mat.eval)) 
   oob <- which(!(1:nrow(mat.eval)) %in% inbagg)
+  if (score != "PL"){
+    uni.death.times <- sort(unique(cl[, 1][cl[, 2] == 1]))
+    n.death <- length(uni.death.times)
+  }
+  # 1. Find all primes P_a^b of the b-th logic regression model
   vec.mprimes <- unique(unlist(mprimes))
-  for(h in 1:length(vec.mprimes)){
-    prime <- vec.mprimes[h]
-    tmp.nb.primes <- unlist(getNeighbor(prime, neighbor = neighbor, 
-                                        set = set, mat.eval = mat.eval))
-    if(!is.null(tmp.nb.primes)){
-      for(j in 1:length(tmp.nb.primes)){
-        Nj <- unlist(getNeighbor(tmp.nb.primes[j], neighbor = neighbor, 
-                                 set = set, mat.eval = mat.eval))
-        tmp.mprimes <- lapply(mprimes, function(x, b = c(tmp.nb.primes[j], Nj)) x[!(x %in% b)])
-        mat.model <- mat.design <- matrix(unlist(lapply(tmp.mprimes, function(x, e = mat.eval) 
-          rowSums(e[, x, drop = FALSE]) > 0)), ncol = length(mprimes))
-        score.red <- getSurvivalScore(mat.model, inbagg, oob, cl, score, 
-                                       uni.death.times, n.death)
-         
-        id.change <- sapply(tmp.mprimes, length) != sapply(mprimes, length)
-        mat.model <- cbind(apply(mat.design[, id.change, drop = FALSE], 2, 
-                                 function(x, a = tmp.nb.primes[j]) rowSums(cbind(mat.eval[, a, drop = FALSE], x)) > 0),
-                           mat.design[, !id.change, drop = FALSE])
-        score.full <- getSurvivalScore(mat.model, inbagg, oob, cl, score, 
-                                        uni.death.times, n.death)
-        id.primes <- which(colnames(mat.eval) %in% tmp.nb.primes[j])
-        vec.improve[id.primes] <- -(score.full - score.red)
-      }
+  # 2. Identify neighbor interactions of primes found in 1.
+  neighborint <- getNeighbor(vec.mprimes, neighbor, set, colnames(mat.eval))
+  if (any(sapply(neighborint, is.null))){
+    mat.model <- matrix(unlist(lapply(mprimes, function (x, e = mat.eval) 
+      rowSums(e[, x, drop = FALSE]) > 0)), ncol = length(mprimes)) 
+    if (score == "PL"){
+      sfm <- getCoxScore(cl, mat.model, inbagg, oob)
+    } else {sfm <- getSurvivalScore(mat.model, inbagg, oob, cl, score, 
+                                    uni.death.times, n.death)
     }
   }
-  vec.improve
-  if(score != "Brier") 
+  if(any(vec.mprimes %in% unlist(neighborint)))
+    neighborint <- check.neighborint(neighborint)
+  # 3. For each set of P_a^b and its neighbor interactions 
+  for (h in 1:length(neighborint)){
+    # a) Remove P_a^b and its neighbor interactions from logic model
+    setneighbor <- c(names(neighborint)[h], unlist(neighborint[h]))
+    tmp.mprimes <- lapply(mprimes, function (x, b = setneighbor) x[!(x %in% b)])
+    # b) Calculate score of reduced model
+    mat.model <- matrix(unlist(lapply(tmp.mprimes, function (x, e = mat.eval) 
+      rowSums(e[, x, drop = FALSE]) > 0)), ncol = length(mprimes)) 
+    if (score == "PL"){
+      score.red <- getCoxScore(cl, mat.model, inbagg, oob)
+    } else {score.red <- getSurvivalScore(mat.model, inbagg, oob, cl, score, 
+                                          uni.death.times, n.death)
+    }
+    # c) Add each prime in setneighbor seperately to logic model and calculate score 
+    if (length(setneighbor) > 1){
+      id.change <- sapply(tmp.mprimes, length) != sapply(mprimes, length)
+      for (j in 1:length(setneighbor)){
+        new.mprimes <- tmp.mprimes
+        new.mprimes[id.change] <- lapply(tmp.mprimes[id.change], function (x) append(x, setneighbor[j]))
+        mat.model <- matrix(unlist(lapply(new.mprimes, function (x, e = mat.eval) 
+          rowSums(e[, x, drop = FALSE]) > 0)), ncol = length(mprimes))
+        if (score == "PL"){
+          score.full <- getCoxScore(cl, mat.model, inbagg, oob)
+        } else {score.full <- getSurvivalScore(mat.model, inbagg, oob, cl, score, 
+                                               uni.death.times, n.death)
+        }
+        # d) Calculate and save improvement
+        id.primes <- which(colnames(mat.eval) %in% setneighbor[j])
+        vec.improve[id.primes] <- score.red - score.full
+      }
+    } else {
+      # d) Calculate and save improvement
+      id.primes <- which(colnames(mat.eval) %in% setneighbor)
+      vec.improve[id.primes] <- score.red - sfm
+    }
+  }
+  if (score == "PL"){
+    vec.improve <- -2 * vec.improve
+  } else if (score != "Brier"){
     vec.improve <- -1 * vec.improve
+  }
   vec.improve
 }

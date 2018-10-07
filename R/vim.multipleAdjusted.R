@@ -1,49 +1,49 @@
-vim.multipleAdjusted <-
-function (mprimes, mat.eval, inbagg, cl, prob.case = 0.5, neighbor, set, useN = TRUE)
+vim.multipleAdjusted <- function (mprimes, mat.eval, inbagg, cl, prob.case = 0.5,
+                                  neighbor, set, useN = TRUE)
 {
+  # For b-th iteration
+  # 1. mprimes includes all primes P_a^b of the b-th logic regression model
   vec.improve <- numeric(ncol(mat.eval))
   oob <- which(!(1:nrow(mat.eval)) %in% inbagg)
   n.trees <- length(mprimes)
-
-  vec.adjusted.primes <- unique(unlist(lapply(mprimes, getAdjustedPrimes, 
-                                              mat.eval = mat.eval)))
-  if(!is.null(vec.adjusted.primes)){
-    for (i in 1:length(vec.adjusted.primes)){
-      tmp.prime <- vec.adjusted.primes[i]
-      if(!is.null(neighbor)){
-        tmp.neighbors <- unlist(getNeighbor(tmp.prime, neighbor, set, mat.eval))
-      } else{
-        tmp.neighbors <- NULL
-      }
-      red.primes <- lapply(mprimes, getRedPrimes, tmp.prime = tmp.prime, 
-                           tmp.neighbors = tmp.neighbors)
-      mat.design <- mat.model <- matrix(sapply(red.primes, function(x, e = mat.eval) 
-        rowSums(e[, x, drop = FALSE]) > 0), ncol = n.trees)
-      if (any(colSums(mat.design) == 0)) 
-        mat.design <- mat.design[, colSums(mat.design) > 0, drop = FALSE]
-      if(ncol(mat.design) == 0){
-        cl.train <- cl[-oob]
-        coef.null <- log(sum(cl.train == 1)/sum(cl.train == 0))
-        score.red <- ifelse(exp(coef.null) / (1- exp(coef.null)) > prob.case, 
-                            sum(cl[oob]), sum(1 - cl[oob])) 
-      } else{mat.design <- data.frame(cl = cl, mat.design)
-      glm.out <- glm(cl ~ ., data = mat.design[inbagg, ], family = "binomial")
-      preds <- predict(glm.out, mat.design[oob, ], type = "response") > 
-        prob.case
-      score.red <- sum(preds == cl[oob])
-      }
-      id.change <- !(sapply(red.primes, length) == sapply(mprimes, length))
-      mat.design <- cbind(apply(mat.model[, id.change, drop = FALSE], 2, 
-                       function(x, a = tmp.prime) rowSums(cbind(mat.eval[, a, drop = FALSE], x)) > 0),
-                       mat.model[, !id.change, drop = FALSE])
-      mat.design <- data.frame(cl = cl, mat.design)
-      glm.out <- glm(cl ~ ., data = mat.design[inbagg, ], family = "binomial")
-      preds <- predict(glm.out, mat.design[oob, ], type = "response") > 
-        prob.case
-      score.full.new <- sum(preds == cl[oob])
-      id.primes <- colnames(mat.eval) %in% tmp.prime
-      vec.improve[id.primes] <- score.full.new - score.red
-    }
+  primes <- unique(unlist(mprimes))
+  # 2. For each prime P_a found in 1., identify neighbors of P_a, composing primes
+  #    of P_a and neighbors of composing primes of P_a. imp.primes includes all 
+  #    primes, for wich an improvement is calculated in iteration b
+  comp.primes <- unique(getComposingPrimes(primes, colnames(mat.eval)))
+  neighborprimes <- unique(unlist(getNeighbor(primes, neighbor, set, 
+                                              colnames(mat.eval))))
+  neighborcomp.primes <- unique(unlist(getNeighbor(comp.primes, neighbor, 
+                                                   set, colnames(mat.eval))))
+  imp.primes <- unique(c(primes, neighborprimes, comp.primes, neighborcomp.primes))
+  # 3. For each prime i in imp.primes
+  for (i in 1:length(imp.primes)){
+    tmp.prime <- imp.primes[i]
+    # a) Identify neighbors of prime i, extended interactions of prime i 
+    #    and extended interactions of neighbor interactions of prime i,
+    #    that are part of the logic model.
+    neighbortmp.primes <- unique(unlist(getNeighbor(tmp.prime, neighbor, 
+                                                    set, primes)))
+    ext.tmp.primes <- getExtendedPrimes(tmp.prime, primes)
+    ext.neighbortmp.primes <- getExtendedPrimes(neighbortmp.primes, primes)
+    setprime <- unique(c(tmp.prime, ext.tmp.primes, neighbortmp.primes, 
+                         ext.neighbortmp.primes))
+    # b) Remove all primes in setprime from the logic model 
+    #    and calculate the score of the reduced model.
+    red.primes <- lapply(mprimes, function (x, b = setprime) x[!(x %in% b)])
+    mat.model <- matrix(unlist(lapply(red.primes, function (x, e = mat.eval) 
+      rowSums(e[, x, drop = FALSE]) > 0)), ncol = n.trees) 
+    score.red <- getMultipleScore(cl, mat.model, inbagg, oob, prob.case)
+    # c) Add prime i to the logic model and calculate the score of the new (full) model
+    id.change <- sapply(red.primes, length) != sapply(mprimes, length)
+    new.mprimes <- red.primes
+    new.mprimes[id.change] <- lapply(red.primes[id.change], function(x) append(x, tmp.prime))
+    mat.model <- matrix(unlist(lapply(new.mprimes, function(x, e = mat.eval) 
+      rowSums(e[, x, drop = FALSE]) > 0)), ncol = length(mprimes))
+    score.full <- getMultipleScore(cl, mat.model, inbagg, oob, prob.case)
+    # d) Calculate and save improvement
+    id.primes <- which(colnames(mat.eval) %in% tmp.prime)
+    vec.improve[id.primes] <- score.full - score.red
   }
   if (!useN) 
     vec.improve <- vec.improve/length(cl)

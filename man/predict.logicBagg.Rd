@@ -6,7 +6,7 @@
 }
 \usage{
 \method{predict}{logicBagg}(object, newData, prob.case = 0.5, 
-    type = c("class", "prob"), ...)
+    type = c("class", "prob"), score = c("DPO", "Conc", "Brier"), ...)
 }
 
 \arguments{
@@ -24,12 +24,13 @@
      the average of the predicted probabilities of the models (if the logistic
      regression approach of logic regression has been used), or the percentage of
      votes for class 1 (if the classification approach of logic regression has been used)
-     is larger than \code{prob.case}. Ignored if \code{type = "prob"} or the response is quantitative.}
+     is larger than \code{prob.case}. Ignored if \code{type = "prob"} or the response is either quantitative or an object of class \code{Surv}.}
   \item{type}{character vector indicating the type of output. If \code{"class"}, a numeric
      vector of zeros and ones containing the predicted classes of the observations (using the specification
      of \code{prob.case}) will be returned. If \code{"prob"}, the class probabilities or
      percentages of votes for class 1, respectively, for all observations are returned. Ignored
-     if the response is quantitative.}
+     if the response is quantitative or an object of class \code{Surv}.}
+  \item{score}{a character string naming the score that should be used to assess the performance of the prediction model in the survival case. By default, the distance between predicted outcomes (\code{score = "DPO"}) proposed by Tietz et al.\ (2018) is used in the assessment of the prediction performance. Alternatively, Harrell's C-Index (\code{"Conc"}), or the Brier score (\code{"Brier"}) can be used. Furthermore, \code{score} determines whether a prediction for the cumulative hazard function (\code{score = "DPO"} or \code{score = "Conc"}) or the survival function (\code{score = "Brier"}) of the new observations should be made. Ignored in all other than the survival case.}
   \item{...}{Ignored.}
 }
 
@@ -37,10 +38,12 @@
   A numeric vector containing the predicted classes (if \code{type = "class"}) or the
   class probabilities (if \code{type = "prob"}) of the new observations if the classification
   or the logistic regression approach of logic regression is used. If the response is quantitative,
-  the predicted value of the response for all observations in the test data set is returned.
+  the predicted value of the response for all observations in the test data set is returned. If the
+  response is of class \code{Surv}, an object of class \code{predict.survivalFS} with either an 
+  prediction for the cumulative hazard function or the survival function of the new observations is returned.
 }
    
-\author{Holger Schwender, \email{holger.schwender@hhu.de}}
+\author{Holger Schwender, \email{holger.schwender@hhu.de}, Tobias Tietz, \email{tobias.tietz@hhu.de}}
 
 \seealso{
    \code{\link{logic.bagging}}
