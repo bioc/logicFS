@@ -18,7 +18,7 @@ logicFS.default <- function(x,y,B=100,useN=TRUE,ntrees=1,nleaves=8,glm.if.1tree=
 		fast=fast,rand=rand)
 	vim.out<-vim.logicFS(log.out, neighbor = neighbor, adjusted = adjusted, useN=useN,
 		onlyRemove=onlyRemove,prob.case=prob.case,
-		addInfo=TRUE, score=score, addMatImp=addMatImp, rand=rand)
+		addInfo=TRUE, score=score, addMatImp=addMatImp)
 	vim.out
 }
 
