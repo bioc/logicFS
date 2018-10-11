@@ -7,6 +7,7 @@ getSurvivalScore <- function (mat.model, inbagg, oob, cl, score, uni.death.times
   model.ensemble <- getModelEnsemble(mat.design, mat.new, oldcl, 
                                      uni.death.times, n.death, score)
   mat.oob.eche <- model.ensemble$chf[model.ensemble$status, ]
+  newcl <- newcl[model.ensemble$status != 0]
   if (score == "Conc"){
     oob.eche <- rowSums(mat.oob.eche)
     preds <- getConc(oob.eche, newcl)
