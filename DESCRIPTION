@@ -1,6 +1,10 @@
 Package: logicFS
 Title: Identification of SNP Interactions
+<<<<<<< HEAD
 Version: 2.2.0
+=======
+Version: 2.7.0
+>>>>>>> upstream/master
 Date: 2018-10-28
 Author: Holger Schwender, Tobias Tietz
 Maintainer: Holger Schwender <holger.schw@gmx.de>
