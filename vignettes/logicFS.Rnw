@@ -92,7 +92,7 @@ heterozygous genotype by 2 and the homozygous variant type by 3, then the functi
 representation of the variables in \texttt{data.logicfs} can be obtained by
 
 <<>>=
-bin.snps<-make.snp.dummy(data.logicfs)
+bin.snps <- make.snp.dummy(data.logicfs)
 @
 
 
@@ -105,14 +105,15 @@ regression and thus the current version of \texttt{logic.fs} is based on
 simulated annealing, we set
 
 <<>>=
-my.anneal<-logreg.anneal.control(start=2, end=-2, iter=10000)
+my.anneal <- logreg.anneal.control(start = 2, end = -2, iter = 10000)
 @
 
 and the number \texttt{B} of considered logic regression models to 20
 to speed up the computation. The feature selection is then performed by
 
 <<>>=
-log.out<-logicFS(bin.snps, cl.logicfs, B=20, nleaves=10, rand=123, anneal.control=my.anneal)
+log.out <- logicFS(bin.snps, cl.logicfs, B = 20, nleaves = 10, 
+   rand = 1234, anneal.control = my.anneal)
 @
 
 where we allow that a maximum of \texttt{nleaves} $=10$ variables is in the
@@ -154,7 +155,7 @@ will not happen.
 \begin{figure}[!ht]
 \vspace{18pt} \small
 \centerline{
-\includegraphics[width=0.9\textwidth]{logicfs}}\vspace{-10pt}
+\includegraphics[width=0.9\textwidth]{logicFSnew}}\vspace{-10pt}
 \caption{Variable Importance Plot}
 \end{figure}
 
@@ -165,7 +166,8 @@ in the function \texttt{logic.bagging}. Similar to the analysis with
 \texttt{logic.fs} \texttt{logic.bagging} is applied to \texttt{bin.snps} by
 
 <<>>=
-bag.out<-logic.bagging(bin.snps, cl.logicfs, B=20, nleaves=10, rand=123, anneal.control=my.anneal)
+bag.out <- logic.bagging(bin.snps, cl.logicfs, B = 20, nleaves = 10, 
+   rand = 1234, anneal.control = my.anneal)
 bag.out
 @
 
@@ -183,14 +185,14 @@ by \texttt{plot(bag.out)}.
 The class of a new observation is predicted by majority voting and can be computed by
 
 <<>>=
-cl.preds<-predict(bag.out,bin.snps)
+cl.preds <- predict(bag.out, bin.snps)
 @
 
 where we here assume that \texttt{bin.snps} contains the new observations. The 
 misclassification rate is then computed by
 
 <<>>=
-mean(cl.preds!=cl.logicfs)
+mean(cl.preds != cl.logicfs)
 @
 
 Warning: There is currently no checking if the data set, \texttt{newbin}, containing
