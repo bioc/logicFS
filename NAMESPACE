@@ -14,7 +14,6 @@ importFrom("stats", "binomial", "contr.treatment", "delete.response",
 importFrom("survival", "Surv", "coxph", "survfit")
 importFrom("LogicReg", "eval.logreg", "logreg", "logreg.anneal.control") 
 importFrom("mcbiopi", "getPImps")
-importFrom("utils", "winMenuAddItem")
 
 S3method(print, logicBagg)
 S3method(print, logicFS)
